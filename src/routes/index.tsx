@@ -648,7 +648,7 @@ function Field({ name, label, type = "text", required }: { name: string; label: 
 /* ---------------- Footer ---------------- */
 function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/5 px-4 py-10 sm:px-6">
+    <footer className="section-shell-tight relative overflow-hidden border-t border-white/5">
       <svg className="pointer-events-none absolute inset-x-0 -top-8 w-full opacity-40" height="80" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden>
         <path d="M0,40 C300,80 900,0 1200,40 L1200,80 L0,80 Z" fill="url(#wave)" />
         <defs>
@@ -658,7 +658,7 @@ function Footer() {
           </linearGradient>
         </defs>
       </svg>
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
+      <div className="section-container relative flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="text-sm text-muted-foreground">
           © {new Date().getFullYear()} {PROFILE.name}. Crafted with care.
         </div>

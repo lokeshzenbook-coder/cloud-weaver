@@ -221,3 +221,8 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}

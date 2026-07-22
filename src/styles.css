@@ -146,6 +146,21 @@ html {
   color: transparent;
 }
 
+@utility text-highlight {
+  font-weight: 500;
+  color: var(--color-foreground);
+  background: linear-gradient(90deg,
+    color-mix(in oklab, var(--color-aurora-1) 20%, transparent) 0%,
+    color-mix(in oklab, var(--color-aurora-3) 12%, transparent) 50%,
+    color-mix(in oklab, var(--color-aurora-1) 20%, transparent) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  border-radius: 0.25rem;
+  padding-inline: 0.25rem;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 @utility grid-bg {
   background-image:
     linear-gradient(color-mix(in oklab, white 4%, transparent) 1px, transparent 1px),

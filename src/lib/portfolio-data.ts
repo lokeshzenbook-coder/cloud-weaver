@@ -18,7 +18,7 @@ export const PROFILE = {
   phone: "+91 9100948285",
   linkedin: "https://www.linkedin.com/in/grlokesh96",
   github: "https://github.com/grlokesh96",
-  years: "5+",
+  years: "6+",
 };
 
 export const ROLES = [

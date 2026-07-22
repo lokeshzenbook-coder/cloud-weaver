@@ -391,7 +391,7 @@ function Security({ onPickEvent, incident }: { onPickEvent: (e: SecEvent) => voi
   useEffect(() => {
     if (incident) {
       setEvents(prev => [
-        { severity: "critical", tool: "Falco", msg: `Incident: ${incident}`, pod: "payments-9f8c-x2", ns: "production", remediation: "Auto-remediation engaged — see incident timeline.", ts: "just now" },
+        { severity: "critical" as const, tool: "Falco", msg: `Incident: ${incident}`, pod: "payments-9f8c-x2", ns: "production", remediation: "Auto-remediation engaged — see incident timeline.", ts: "just now" },
         ...prev,
       ].slice(0, 8));
     }

@@ -18,7 +18,7 @@ import { Pipeline } from "@/components/portfolio/Pipeline";
 import { K8sOpsCenter } from "@/components/portfolio/K8sOpsCenter";
 
 import { Counter, Reveal, MagneticButton } from "@/components/portfolio/ui";
-import resume from "@/assets/resume.pdf.asset.json";
+import { RESUME_FILE_URL, RESUME_VIEWER_URL } from "@/lib/resume";
 
 
 
@@ -34,6 +34,13 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "G. R. Lokesh — Senior DevOps, DevSecOps & Platform Engineer" },
       {
         property: "og:description",
+        content: "AWS · Kubernetes · Terraform · GitOps · DevSecOps. Cloud-native platform engineer with 5+ years shipping secure, scalable infrastructure.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "G. R. Lokesh — Senior DevOps, DevSecOps & Platform Engineer" },
+      {
+        name: "twitter:description",
         content: "AWS · Kubernetes · Terraform · GitOps · DevSecOps. Cloud-native platform engineer with 5+ years shipping secure, scalable infrastructure.",
       },
     ],
@@ -143,7 +150,7 @@ function Hero() {
             <Reveal delay={0.28}>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
                 <MagneticButton
-                  href={resume.url}
+                  href={RESUME_FILE_URL}
                   className="bg-foreground text-background hover:bg-foreground/90"
                 >
                   <HiOutlineDownload /> Download Resume
@@ -204,7 +211,7 @@ function OpenToWork() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <a href={resume.url} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-foreground/10">
+                <a href={RESUME_VIEWER_URL} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-foreground/10">
                   <HiOutlineDownload /> Resume
                 </a>
                 <a href={`mailto:${PROFILE.email}`} className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-foreground/10">
@@ -518,10 +525,10 @@ function ResumeSection() {
                   Complete work history, tools, certifications and measurable outcomes — 2 pages, ATS-friendly PDF.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
-                  <a href={resume.url} download className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background hover:bg-foreground/90">
+                  <a href={RESUME_FILE_URL} download className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background hover:bg-foreground/90">
                     <HiOutlineDownload /> Download
                   </a>
-                  <a href={resume.url} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm hover:bg-foreground/10">
+                  <a href={RESUME_VIEWER_URL} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm hover:bg-foreground/10">
                     <HiOutlineExternalLink /> Preview
                   </a>
                 </div>
@@ -550,7 +557,7 @@ function Contact() {
     { icon: FaGithub, label: "GitHub", value: "grlokesh96", href: PROFILE.github },
     { icon: HiOutlinePhone, label: "Phone", value: PROFILE.phone, href: `tel:${PROFILE.phone.replace(/\s/g, "")}` },
     { icon: HiOutlineLocationMarker, label: "Location", value: PROFILE.location, href: "https://maps.google.com/?q=Hyderabad" },
-    { icon: HiOutlineDocumentText, label: "Resume", value: "Download PDF", href: resume.url },
+    { icon: HiOutlineDocumentText, label: "Resume", value: "View PDF", href: RESUME_VIEWER_URL },
   ];
 
   return (

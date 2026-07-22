@@ -217,7 +217,7 @@ export function Pipeline() {
     <section
       id="pipeline"
       aria-labelledby="pipeline-heading"
-      aria-describedby="pipeline-desc pipeline-shortcuts"
+      aria-describedby="pipeline-desc"
       className="relative px-4 py-24 sm:px-6"
     >
       {/* aurora backdrop */}
@@ -239,16 +239,6 @@ export function Pipeline() {
           </h2>
           <p id="pipeline-desc" className="mt-2 max-w-2xl text-sm text-muted-foreground">
             22 stages · 90+ production tools with official logos. Signed artifacts, policy-gated deploys, real-time observability. Hover any logo, click any stage.
-          </p>
-          <p id="pipeline-shortcuts" className="mt-1 text-xs text-muted-foreground/80">
-            <span className="sr-only">Keyboard shortcuts: </span>
-            <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">P</kbd> or
-            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">Space</kbd> play/pause ·
-            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">R</kbd> reset ·
-            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">D</kbd> density ·
-            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">← ↑ → ↓</kbd> move between stages ·
-            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">Enter</kbd> open details ·
-            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">Esc</kbd> close
           </p>
         </div>
 

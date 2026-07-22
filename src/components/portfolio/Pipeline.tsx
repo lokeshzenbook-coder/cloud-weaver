@@ -48,9 +48,12 @@ function LogoTile({ tool, size = 30 }: { tool: Tool; size?: number }) {
   );
 }
 
+type Density = "compact" | "comfortable";
+
 export function Pipeline() {
   const [filter, setFilter] = useState<(typeof PIPELINE_FILTERS)[number]>("All");
   const [active, setActive] = useState<PipelineStage | null>(null);
+  const [density, setDensity] = useState<Density>("compact");
   const [statuses, setStatuses] = useState<Record<string, Status>>(
     () => Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status]))
   );
@@ -59,6 +62,30 @@ export function Pipeline() {
   const timerRef = useRef<number | null>(null);
   const idxRef = useRef(0);
   const retryRef = useRef<Record<string, number>>({});
+
+  const d = density === "comfortable"
+    ? {
+        grid: "mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3",
+        card: "gap-3.5 p-5",
+        stageIconBox: "h-9 w-9",
+        stageIconInner: "h-4.5 w-4.5",
+        stageLabel: "text-[10px]",
+        stageTitle: "text-[15px]",
+        desc: "text-[13px] line-clamp-3",
+        logoSize: 34,
+        catText: "text-[10.5px] px-2 py-0.5",
+      }
+    : {
+        grid: "mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4",
+        card: "gap-2.5 p-3.5",
+        stageIconBox: "h-7 w-7",
+        stageIconInner: "h-3.5 w-3.5",
+        stageLabel: "text-[9px]",
+        stageTitle: "text-[13px]",
+        desc: "text-[11.5px] line-clamp-2",
+        logoSize: 28,
+        catText: "text-[9.5px] px-1.5 py-0.5",
+      };
 
   const matchesFilter = (s: PipelineStage) =>
     filter === "All" || s.categories.includes(filter as StageCategory);

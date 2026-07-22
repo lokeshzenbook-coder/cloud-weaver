@@ -11,7 +11,7 @@ import {
   PROFILE, ROLES, HERO_TECH, STATS, SKILLS, EXPERIENCE, PROJECTS,
   PROJECT_FILTERS, CERTIFICATIONS,
 } from "@/lib/portfolio-data";
-import { K8sViz } from "@/components/portfolio/K8sViz";
+
 import { K8sOpsCenter } from "@/components/portfolio/K8sOpsCenter";
 import { Nav } from "@/components/portfolio/Nav";
 import { Pipeline } from "@/components/portfolio/Pipeline";
@@ -156,7 +156,7 @@ function Hero() {
           </div>
 
           <Reveal delay={0.15}>
-            <K8sViz />
+            <div className="hidden lg:block" aria-hidden />
           </Reveal>
         </div>
 

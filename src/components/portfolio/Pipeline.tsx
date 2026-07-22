@@ -54,6 +54,7 @@ export function Pipeline() {
   const [filter, setFilter] = useState<(typeof PIPELINE_FILTERS)[number]>("All");
   const [active, setActive] = useState<PipelineStage | null>(null);
   const [density, setDensity] = useState<Density>("compact");
+  const [helmHighlight, setHelmHighlight] = useState(false);
   const [statuses, setStatuses] = useState<Record<string, Status>>(
     () => Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status]))
   );

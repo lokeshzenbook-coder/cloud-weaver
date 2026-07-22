@@ -209,8 +209,8 @@ function Panel({
   title, icon: Icon, right, children, className = "",
 }: { title: string; icon: IconType; right?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
-    <div className={`glass relative overflow-hidden rounded-2xl border border-white/10 ${className}`}>
-      <div className="flex items-center justify-between border-b border-white/5 px-4 py-2.5">
+    <div className={`glass relative overflow-hidden rounded-2xl border border-foreground/10 ${className}`}>
+      <div className="flex items-center justify-between border-b border-foreground/5 px-4 py-2.5">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
           <Icon className="text-primary" />
           <span>{title}</span>
@@ -240,7 +240,7 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
               <motion.button
                 onClick={() => onPick(n)}
                 whileHover={{ y: -3, scale: 1.03 }}
-                className="group relative w-[132px] rounded-xl border border-white/10 bg-white/[0.03] p-3 text-left transition-colors hover:border-white/30"
+                className="group relative w-[132px] rounded-xl border border-foreground/10 bg-foreground/[0.03] p-3 text-left transition-colors hover:border-foreground/30"
                 style={{ boxShadow: `inset 0 0 0 1px ${n.color}22` }}
               >
                 <div className="flex items-center justify-between">
@@ -257,7 +257,7 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
                 </div>
               </motion.button>
               {i < FLOW.length - 1 && (
-                <div className="relative mx-1 h-[2px] w-6 overflow-hidden bg-white/10">
+                <div className="relative mx-1 h-[2px] w-6 overflow-hidden bg-foreground/10">
                   <motion.div
                     className="absolute inset-y-0 w-2 rounded-full"
                     style={{ background: `linear-gradient(90deg, transparent, ${n.color}, transparent)` }}
@@ -292,9 +292,9 @@ function ClusterStats({ incident }: { incident: string | null }) {
     { label: "Est. Spend", value: "$842 /mo", color: "text-foreground" },
   ];
   return (
-    <div className="glass grid grid-cols-2 gap-3 rounded-2xl border border-white/10 p-3 sm:grid-cols-5 lg:grid-cols-10">
+    <div className="glass grid grid-cols-2 gap-3 rounded-2xl border border-foreground/10 p-3 sm:grid-cols-5 lg:grid-cols-10">
       {stats.map(s => (
-        <div key={s.label} className="rounded-lg bg-white/[0.02] px-2 py-1.5">
+        <div key={s.label} className="rounded-lg bg-foreground/[0.02] px-2 py-1.5">
           <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{s.label}</div>
           <div className={`mt-0.5 font-mono text-sm font-semibold ${s.color}`}>{s.value}</div>
         </div>
@@ -315,13 +315,13 @@ function TreeNode({ node, depth = 0, onPick, open, toggle }: {
   return (
     <div>
       <div
-        className="group flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-white/5"
+        className="group flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-foreground/5"
         style={{ paddingLeft: 8 + depth * 14 }}
       >
         {hasKids ? (
           <button
             onClick={() => toggle(node.id)}
-            className="flex h-4 w-4 items-center justify-center rounded text-muted-foreground hover:bg-white/10"
+            className="flex h-4 w-4 items-center justify-center rounded text-muted-foreground hover:bg-foreground/10"
             aria-label={isOpen ? "Collapse" : "Expand"}
           >
             <motion.span animate={{ rotate: isOpen ? 90 : 0 }} className="text-[10px]">▶</motion.span>
@@ -405,7 +405,7 @@ function Security({ onPickEvent, incident }: { onPickEvent: (e: SecEvent) => voi
     >
       <div className="mb-3 flex flex-wrap gap-1.5">
         {SEC_TOOLS.map(t => (
-          <div key={t.name} className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2 py-1 text-[10px]" style={{ color: t.color }}>
+          <div key={t.name} className="flex items-center gap-1.5 rounded-full border border-foreground/10 bg-foreground/[0.03] px-2 py-1 text-[10px]" style={{ color: t.color }}>
             <t.Icon size={11} /> <span className="text-muted-foreground">{t.name}</span>
           </div>
         ))}
@@ -425,7 +425,7 @@ function Security({ onPickEvent, incident }: { onPickEvent: (e: SecEvent) => voi
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 onClick={() => onPickEvent(e)}
-                className={`flex w-full items-center gap-2 rounded-lg border ${sev.ring} bg-white/[0.02] px-2.5 py-2 text-left text-xs hover:bg-white/[0.05]`}
+                className={`flex w-full items-center gap-2 rounded-lg border ${sev.ring} bg-foreground/[0.02] px-2.5 py-2 text-left text-xs hover:bg-foreground/[0.05]`}
               >
                 <sev.icon className={`shrink-0 ${sev.color}`} />
                 <span className="truncate font-medium text-foreground">{e.msg}</span>
@@ -482,7 +482,7 @@ function GitOps() {
           </span>
           <button
             onClick={() => setRunning(r => !r)}
-            className="ml-2 rounded-md border border-white/10 bg-white/[0.03] px-2 py-1 text-[10px] hover:bg-white/10"
+            className="ml-2 rounded-md border border-foreground/10 bg-foreground/[0.03] px-2 py-1 text-[10px] hover:bg-foreground/10"
           >
             {running ? <FaPause /> : <FaPlay />}
           </button>
@@ -498,7 +498,7 @@ function GitOps() {
             isFailed ? { ring: "border-rose-500/60", bg: "bg-rose-500/10", dot: "bg-rose-500" }
             : isActive ? { ring: "border-primary/60", bg: "bg-primary/10", dot: "bg-primary" }
             : isDone ? { ring: "border-emerald-400/40", bg: "bg-emerald-400/5", dot: "bg-emerald-400" }
-            : { ring: "border-white/10", bg: "bg-white/[0.02]", dot: "bg-white/20" };
+            : { ring: "border-foreground/10", bg: "bg-foreground/[0.02]", dot: "bg-foreground/20" };
           return (
             <motion.div
               key={s.id}
@@ -591,7 +591,7 @@ function Observability() {
           const vals = series[c.key];
           const last = vals[vals.length - 1];
           return (
-            <div key={c.key} className="rounded-lg border border-white/10 bg-white/[0.02] p-2.5">
+            <div key={c.key} className="rounded-lg border border-foreground/10 bg-foreground/[0.02] p-2.5">
               <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-muted-foreground">
                 <span>{c.label}</span>
                 <span className="font-mono text-foreground">{last}{c.unit}</span>
@@ -626,15 +626,15 @@ function Autoscaling() {
           />
         </div>
         <div className="grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-lg bg-white/[0.03] p-2">
+          <div className="rounded-lg bg-foreground/[0.03] p-2">
             <div className="text-[10px] uppercase text-muted-foreground">HPA Pods</div>
             <motion.div key={pods} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="font-mono text-lg text-emerald-400">{pods}</motion.div>
           </div>
-          <div className="rounded-lg bg-white/[0.03] p-2">
+          <div className="rounded-lg bg-foreground/[0.03] p-2">
             <div className="text-[10px] uppercase text-muted-foreground">Karpenter Nodes</div>
             <motion.div key={nodes} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="font-mono text-lg text-cyan-400">{nodes}</motion.div>
           </div>
-          <div className="rounded-lg bg-white/[0.03] p-2">
+          <div className="rounded-lg bg-foreground/[0.03] p-2">
             <div className="text-[10px] uppercase text-muted-foreground">Spot Ratio</div>
             <div className="font-mono text-lg text-amber-400">{Math.min(85, 30 + traffic / 2).toFixed(0)}%</div>
           </div>
@@ -676,23 +676,23 @@ function Cost() {
           <span className="text-xs text-muted-foreground">Monthly estimate</span>
           <span className="font-mono text-2xl font-semibold text-gradient">${total.toLocaleString()}</span>
         </div>
-        <div className="flex h-2 overflow-hidden rounded-full bg-white/5">
+        <div className="flex h-2 overflow-hidden rounded-full bg-foreground/5">
           {rows.map(r => (
             <div key={r.k} style={{ width: `${(r.v / total) * 100}%`, background: r.color }} />
           ))}
         </div>
         <div className="grid grid-cols-2 gap-1.5 pt-1 sm:grid-cols-3">
           {rows.map(r => (
-            <div key={r.k} className="flex items-center justify-between rounded-md bg-white/[0.02] px-2 py-1 text-[11px]">
+            <div key={r.k} className="flex items-center justify-between rounded-md bg-foreground/[0.02] px-2 py-1 text-[11px]">
               <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm" style={{ background: r.color }} />{r.k}</span>
               <span className="font-mono text-muted-foreground">${r.v}</span>
             </div>
           ))}
         </div>
         <div className="mt-1 grid grid-cols-3 gap-1.5 text-center text-[10px] text-muted-foreground">
-          <div className="rounded-md bg-white/[0.02] px-2 py-1">Spot 62%</div>
-          <div className="rounded-md bg-white/[0.02] px-2 py-1">Idle 4 pods</div>
-          <div className="rounded-md bg-white/[0.02] px-2 py-1">Rightsizing: 3 hints</div>
+          <div className="rounded-md bg-foreground/[0.02] px-2 py-1">Spot 62%</div>
+          <div className="rounded-md bg-foreground/[0.02] px-2 py-1">Idle 4 pods</div>
+          <div className="rounded-md bg-foreground/[0.02] px-2 py-1">Rightsizing: 3 hints</div>
         </div>
       </div>
     </Panel>
@@ -712,7 +712,7 @@ const INCIDENTS = [
 ];
 function IncidentBar({ incident, setIncident }: { incident: string | null; setIncident: (s: string | null) => void }) {
   return (
-    <div className="glass flex flex-wrap items-center gap-2 rounded-2xl border border-white/10 p-3">
+    <div className="glass flex flex-wrap items-center gap-2 rounded-2xl border border-foreground/10 p-3">
       <div className="flex items-center gap-2 pr-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
         <FaFire className="text-rose-400" /> Chaos Simulator
       </div>
@@ -724,7 +724,7 @@ function IncidentBar({ incident, setIncident }: { incident: string | null; setIn
               setIncident(i);
               setTimeout(() => setIncident(null), 5500);
             }}
-            className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] hover:border-rose-400/50 hover:text-rose-300"
+            className="rounded-full border border-foreground/10 bg-foreground/[0.03] px-2.5 py-1 text-[11px] hover:border-rose-400/50 hover:text-rose-300"
           >
             {i}
           </button>
@@ -764,7 +764,7 @@ function Drawer({ item, onClose }: { item: DrawerItem | null; onClose: () => voi
             onClick={onClose}
           />
           <motion.aside
-            className="glass fixed right-0 top-0 z-50 h-full w-full max-w-md overflow-y-auto border-l border-white/10 p-5"
+            className="glass fixed right-0 top-0 z-50 h-full w-full max-w-md overflow-y-auto border-l border-foreground/10 p-5"
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 26, stiffness: 220 }}
           >
@@ -777,7 +777,7 @@ function Drawer({ item, onClose }: { item: DrawerItem | null; onClose: () => voi
                   {item.kind === "sec" ? item.data.msg : item.data.label}
                 </h3>
               </div>
-              <button onClick={onClose} className="glass rounded-full p-2 hover:bg-white/10"><HiOutlineX /></button>
+              <button onClick={onClose} className="glass rounded-full p-2 hover:bg-foreground/10"><HiOutlineX /></button>
             </div>
 
             {item.kind === "flow" && (
@@ -870,7 +870,7 @@ kubectl -n ${item.data.ns} rollout status deploy/${item.data.label}`}</Code>
 }
 function Stat({ k, v }: { k: string; v: string }) {
   return (
-    <div className="rounded-lg bg-white/[0.03] px-2.5 py-2">
+    <div className="rounded-lg bg-foreground/[0.03] px-2.5 py-2">
       <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{k}</div>
       <div className="mt-0.5 truncate font-mono text-sm">{v}</div>
     </div>
@@ -886,7 +886,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 function Code({ children }: { children: string }) {
   return (
-    <pre className="mt-2 overflow-x-auto rounded-lg border border-white/10 bg-black/40 p-3 font-mono text-[11px] leading-relaxed text-emerald-300">
+    <pre className="mt-2 overflow-x-auto rounded-lg border border-foreground/10 bg-black/40 p-3 font-mono text-[11px] leading-relaxed text-emerald-300">
       <code>{children}</code>
     </pre>
   );
@@ -899,13 +899,13 @@ function Tabs({ tab, setTab }: { tab: string; setTab: (t: any) => void }) {
     { id: "events", label: "Events", Icon: FaBolt },
   ];
   return (
-    <div className="mb-3 flex gap-1 rounded-lg border border-white/10 bg-white/[0.02] p-1">
+    <div className="mb-3 flex gap-1 rounded-lg border border-foreground/10 bg-foreground/[0.02] p-1">
       {tabs.map(t => (
         <button
           key={t.id}
           onClick={() => setTab(t.id)}
           className={`flex flex-1 items-center justify-center gap-1 rounded-md px-2 py-1.5 text-xs transition-colors ${
-            tab === t.id ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground"
+            tab === t.id ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground"
           }`}
         >
           <t.Icon /> {t.label}

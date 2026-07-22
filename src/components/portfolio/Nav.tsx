@@ -39,7 +39,7 @@ export function Nav() {
                 <a
                   key={l.href}
                   href={l.href}
-                  className="rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
+                  className="rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
                 >
                   {l.label}
                 </a>
@@ -55,7 +55,7 @@ export function Nav() {
                 Resume
               </a>
               <button
-                className="rounded-full p-2 text-foreground/80 hover:bg-white/5 md:hidden"
+                className="rounded-full p-2 text-foreground/80 hover:bg-foreground/5 md:hidden"
                 onClick={() => setOpen(v => !v)}
                 aria-label="Toggle navigation"
                 aria-expanded={open}
@@ -79,7 +79,7 @@ export function Nav() {
                     key={l.href}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="rounded-lg px-4 py-2.5 text-sm text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                    className="rounded-lg px-4 py-2.5 text-sm text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
                   >
                     {l.label}
                   </a>

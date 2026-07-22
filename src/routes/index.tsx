@@ -338,7 +338,7 @@ function Skills() {
                 <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-[var(--color-aurora-1)]/20 to-[var(--color-aurora-2)]/20 blur-2xl transition-opacity group-hover:opacity-100 opacity-60" />
                 <div className="relative flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/5">
-                    <g.icon size={20} className="text-primary" />
+                    <g.icon size={20} className="text-primary" aria-hidden />
                   </div>
                   <h3 className="text-lg font-semibold">{g.title}</h3>
                 </div>

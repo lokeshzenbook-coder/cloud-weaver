@@ -198,17 +198,8 @@ export function K8sOpsCenter() {
           )}
         </AnimatePresence>
 
-        {/* Architecture explorer — horizontal scrollable layers */}
-        <ArchitectureExplorer
-          nodes={nodes}
-          visibleIds={visibleIds}
-          running={running}
-          onOpen={setActive}
-          canvasRef={canvasRef}
-          onMove={onMove}
-          onLeave={() => setSpot(null)}
-          spot={spot}
-        />
+
+
 
 
         {/* Worker nodes panel */}

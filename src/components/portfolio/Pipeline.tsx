@@ -231,7 +231,7 @@ export function Pipeline() {
         {announce}
       </div>
 
-      <div className="mx-auto max-w-7xl">
+      <div className="section-container">
         <div className="flex flex-col items-start gap-2">
           <span className="font-mono text-xs uppercase tracking-widest text-primary">/ DevSecOps Pipeline</span>
           <h2 id="pipeline-heading" className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">

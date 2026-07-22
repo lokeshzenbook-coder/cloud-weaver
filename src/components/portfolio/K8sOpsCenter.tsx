@@ -141,7 +141,7 @@ const SEC_TOOLS = [
   { name: "Secrets Manager", Icon: FaLock, color: "#DD344C" },
   { name: "Cosign", Icon: FaCheckCircle, color: "#22c55e" },
 ];
-const SEC_EVENT_POOL: Omit<SecEvent, "ts">[] = [
+const SEC_EVENT_POOL: SecEvent[] = [
   { severity: "info", tool: "Cosign", msg: "Image signature verified", pod: "payments-9f8c-x2", ns: "production", remediation: "No action — signature valid via keyless OIDC." },
   { severity: "warn", tool: "Falco", msg: "Unexpected shell in container", pod: "orders-77b-abc", ns: "production", remediation: "Terminate exec, review PodSecurityContext, restrict readOnlyRootFilesystem." },
   { severity: "high", tool: "Kyverno", msg: "Privileged container blocked", pod: "debug-tools-x", ns: "sandbox", remediation: "Remove securityContext.privileged: true and redeploy." },
@@ -159,7 +159,7 @@ const GITOPS_STAGES = [
   { id: "pr", label: "Pull Request", Icon: SiGithub, color: "#a78bfa" },
   { id: "gha", label: "GitHub Actions", Icon: SiGithubactions, color: "#2088FF" },
   { id: "test", label: "Unit Tests", Icon: FaCheckCircle, color: "#22c55e" },
-  { id: "sonar", label: "SonarQube", Icon: SiSonarqube, color: "#4E9BCD" },
+  { id: "sonar", label: "SonarQube", Icon: FaShieldAlt, color: "#4E9BCD" },
   { id: "semgrep", label: "Semgrep", Icon: FaSearch, color: "#1B7EC8" },
   { id: "gitleaks", label: "Gitleaks", Icon: FaKey, color: "#eab308" },
   { id: "build", label: "Docker Build", Icon: SiDocker, color: "#2496ED" },

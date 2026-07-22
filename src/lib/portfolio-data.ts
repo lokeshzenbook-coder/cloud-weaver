@@ -56,7 +56,7 @@ export const HERO_TECH: TechIcon[] = [
 ];
 
 export const STATS = [
-  { label: "Years Experience", value: 5, suffix: "+" },
+  { label: "Years Experience", value: 6, suffix: "+" },
   { label: "Microservices Shipped", value: 45, suffix: "+" },
   { label: "CI/CD Pipelines", value: 30, suffix: "+" },
   { label: "Deployments", value: 2500, suffix: "+" },

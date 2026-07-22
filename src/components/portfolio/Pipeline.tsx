@@ -197,6 +197,23 @@ export function Pipeline() {
             ))}
           </div>
           <div className="flex items-center gap-2">
+            {/* Density toggle */}
+            <div className="glass inline-flex items-center rounded-full p-0.5 text-[11px]" role="group" aria-label="Layout density">
+              {(["compact", "comfortable"] as Density[]).map(opt => (
+                <button
+                  key={opt}
+                  onClick={() => setDensity(opt)}
+                  aria-pressed={density === opt}
+                  className={`rounded-full px-3 py-1 font-medium capitalize transition-colors ${
+                    density === opt
+                      ? "bg-white/10 text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
             <div className="glass hidden items-center gap-2 rounded-full px-3 py-1.5 text-xs sm:flex">
               <span className="text-muted-foreground">Progress</span>
               <div className="h-1.5 w-32 overflow-hidden rounded-full bg-white/10">

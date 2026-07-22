@@ -265,11 +265,17 @@ export function Pipeline() {
 
         {/* Controls */}
         <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap gap-2">
+          <div
+            className="flex flex-wrap gap-2"
+            role="toolbar"
+            aria-label="Filter stages by category"
+          >
             {PIPELINE_FILTERS.map(f => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
+                aria-pressed={filter === f}
+                aria-label={`Filter: ${f}`}
                 className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
                   filter === f
                     ? "border-primary/60 bg-primary/10 text-foreground"
@@ -280,14 +286,15 @@ export function Pipeline() {
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" role="toolbar" aria-label="Pipeline simulator controls">
             {/* Density toggle */}
-            <div className="glass inline-flex items-center rounded-full p-0.5 text-[11px]" role="group" aria-label="Layout density">
+            <div className="glass inline-flex items-center rounded-full p-0.5 text-[11px]" role="group" aria-label="Layout density (shortcut: D)">
               {(["compact", "comfortable"] as Density[]).map(opt => (
                 <button
                   key={opt}
                   onClick={() => setDensity(opt)}
                   aria-pressed={density === opt}
+                  aria-label={`${opt} density`}
                   className={`rounded-full px-3 py-1 font-medium capitalize transition-colors ${
                     density === opt
                       ? "bg-white/10 text-foreground"
@@ -300,7 +307,14 @@ export function Pipeline() {
             </div>
             <div className="glass hidden items-center gap-2 rounded-full px-3 py-1.5 text-xs sm:flex">
               <span className="text-muted-foreground">Progress</span>
-              <div className="h-1.5 w-32 overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-1.5 w-32 overflow-hidden rounded-full bg-white/10"
+                role="progressbar"
+                aria-label="Pipeline completion"
+                aria-valuenow={progress}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
                 <motion.div
                   className="h-full bg-gradient-to-r from-[var(--color-aurora-1)] via-[var(--color-aurora-2)] to-[var(--color-aurora-3)]"
                   animate={{ width: `${progress}%` }}
@@ -310,40 +324,60 @@ export function Pipeline() {
               <span className="tabular-nums text-muted-foreground">{progress}%</span>
             </div>
             <motion.button
+              ref={startBtnRef}
               onClick={running ? pause : start}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
+              aria-label={running ? "Pause pipeline (shortcut: P or Space)" : "Start pipeline (shortcut: P or Space)"}
+              aria-keyshortcuts="P Space"
               className="inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-foreground px-5 text-sm font-medium text-background shadow-[0_0_0_0_rgba(255,255,255,0)] transition-shadow hover:shadow-[0_0_24px_-6px_rgba(255,255,255,0.35)] sm:w-[160px]"
             >
-              {running ? <><HiOutlinePause className="h-4 w-4" /> Pause</> : <><HiOutlinePlay className="h-4 w-4" /> Start Pipeline</>}
+              {running ? <><HiOutlinePause className="h-4 w-4" aria-hidden /> Pause</> : <><HiOutlinePlay className="h-4 w-4" aria-hidden /> Start Pipeline</>}
             </motion.button>
             <button
               onClick={reset}
+              aria-label="Reset pipeline (shortcut: R)"
+              aria-keyshortcuts="R"
               className="glass inline-flex h-11 items-center gap-1.5 rounded-xl px-3 text-xs hover:bg-white/10"
             >
-              <HiOutlineRefresh /> Reset
+              <HiOutlineRefresh aria-hidden /> Reset
             </button>
           </div>
         </div>
 
         {/* Pipeline grid — logo-first cards */}
-        <div className={d.grid}>
+        <div
+          ref={gridRef}
+          className={d.grid}
+          role="list"
+          aria-label="DevSecOps pipeline stages. Use arrow keys to move, Enter to open details."
+        >
           {PIPELINE_STAGES.map((stage, i) => {
             const status = statuses[stage.id];
             const dim = !matchesFilter(stage);
             const s = statusStyle[status];
             const StageIcon = stage.icon;
+            const toolList = stage.tools.map(t => t.name).join(", ");
+            const ariaLabel = `Stage ${i + 1} of ${PIPELINE_STAGES.length}: ${stage.name}. Status: ${s.label}${retried[stage.id] ? ", retried" : ""}. Tools: ${toolList}. ${stage.short} Press Enter for details.`;
             return (
               <motion.button
                 key={stage.id}
+                ref={el => { cardRefs.current[i] = el; }}
                 layout
                 onClick={() => setActive(stage)}
+                onFocus={() => setFocusIdx(i)}
+                onKeyDown={(e) => onCardKey(e, i)}
+                tabIndex={focusIdx === i ? 0 : -1}
+                role="listitem"
+                aria-label={ariaLabel}
+                aria-current={status === "running" ? "step" : undefined}
                 whileTap={{ scale: 0.98 }}
                 animate={{ opacity: dim ? 0.25 : 1, scale: dim ? 0.98 : 1 }}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.25 }}
-                className={`glass group relative flex flex-col overflow-hidden rounded-xl border text-left transition-shadow ${d.card} ${s.ring} ${s.glow}`}
+                className={`glass group relative flex flex-col overflow-hidden rounded-xl border text-left transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${d.card} ${s.ring} ${s.glow}`}
               >
+
                 {/* animated gradient border on running */}
                 {status === "running" && (
                   <motion.span

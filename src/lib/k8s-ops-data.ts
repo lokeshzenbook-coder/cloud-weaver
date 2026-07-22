@@ -1,11 +1,11 @@
 import type { IconType } from "react-icons";
 import {
-  SiCloudflare, SiAmazon, SiAwsorganizations, SiKubernetes, SiIstio, SiNginx,
-  SiTraefikproxy, SiOpenpolicyagent, SiHelm, SiArgo, SiTerraform, SiGithubactions,
+  SiCloudflare, SiKubernetes, SiIstio, SiNginx,
+  SiTraefikproxy, SiHelm, SiArgo, SiTerraform, SiGithubactions,
   SiPrometheus, SiGrafana, SiOpentelemetry, SiPostgresql, SiMongodb, SiRedis,
-  SiLetsencrypt, SiSonarqube, SiDocker, SiGit, SiGithub,
+  SiLetsencrypt, SiDocker, SiGit, SiGithub,
 } from "react-icons/si";
-import { FaAws, FaShieldAlt, FaLock, FaDatabase, FaCloud, FaCogs, FaServer, FaNetworkWired, FaKey, FaBell, FaChartLine } from "react-icons/fa";
+import { FaAws, FaShieldAlt, FaLock, FaDatabase, FaCloud, FaCogs, FaServer, FaNetworkWired, FaKey, FaBell, FaChartLine, FaBalanceScale, FaCheckCircle } from "react-icons/fa";
 
 export type LayerId = "edge" | "ingress" | "security" | "workloads" | "data" | "cloud" | "platform";
 

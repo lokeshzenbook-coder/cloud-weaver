@@ -3,9 +3,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { IconType } from "react-icons";
 import {
   SiKubernetes, SiDocker, SiHelm, SiArgo, SiPrometheus, SiGrafana,
-  SiIstio, SiNginx, SiGithub, SiGithubactions, SiSonarqube, SiRedis,
+  SiIstio, SiNginx, SiGithub, SiGithubactions, SiRedis,
   SiPostgresql, SiCloudflare, SiGrafana as SiLoki, SiOpentelemetry,
-  SiHashicorp, SiTerraform, SiJaeger, SiKubernetes as SiEks,
+  SiJaeger, SiKubernetes as SiEks,
 } from "react-icons/si";
 import { FaAws, FaShieldAlt, FaLock, FaKey, FaFire, FaGavel, FaSearch, FaBolt, FaChartLine, FaCubes, FaServer, FaNetworkWired, FaDatabase, FaMoneyBillWave, FaGithub as FaGh, FaCheckCircle, FaExclamationTriangle, FaTimesCircle, FaPlay, FaPause, FaRedo, FaArrowRight } from "react-icons/fa";
 import { HiOutlineX, HiOutlineChip, HiOutlineTerminal, HiOutlineDocumentText } from "react-icons/hi";

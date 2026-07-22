@@ -684,6 +684,7 @@ function Home() {
       <About />
       <Experience />
       <Skills />
+      <Pipeline />
       <Projects />
       <Certifications />
       <ResumeSection />
@@ -692,3 +693,4 @@ function Home() {
     </main>
   );
 }
+

@@ -185,13 +185,13 @@ export function Nav() {
               >
                 <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center text-sm text-muted-foreground">
                   <p>Your browser can't display the PDF inline.</p>
-                  <a
-                    href={resume.url}
-                    download="Lokesh_GR_Resume.pdf"
+                  <button
+                    type="button"
+                    onClick={downloadResume}
                     className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-medium text-background"
                   >
                     <HiDownload size={14} /> Download Resume
-                  </a>
+                  </button>
                 </div>
               </object>
             </div>

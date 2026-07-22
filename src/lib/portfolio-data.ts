@@ -206,7 +206,6 @@ export const NAV_LINKS = [
   { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
   { href: "#pipeline", label: "Pipeline" },
-  { href: "#ops-center", label: "Ops Center" },
   { href: "#projects", label: "Projects" },
   { href: "#certifications", label: "Certs" },
   { href: "#contact", label: "Contact" },

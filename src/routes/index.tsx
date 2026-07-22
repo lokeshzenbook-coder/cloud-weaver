@@ -17,6 +17,7 @@ import { Nav } from "@/components/portfolio/Nav";
 import { Pipeline } from "@/components/portfolio/Pipeline";
 import { Counter, Reveal, MagneticButton } from "@/components/portfolio/ui";
 import resume from "@/assets/resume.pdf.asset.json";
+import profilePhoto from "@/assets/G_R_Photo.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
@@ -236,8 +237,13 @@ function About() {
             <div className="glass ring-glow rounded-2xl p-6">
               <div className="relative mx-auto flex h-52 w-52 items-center justify-center rounded-full">
                 <div className="animated-border absolute inset-0 rounded-full" />
-                <div className="flex h-44 w-44 items-center justify-center rounded-full bg-gradient-to-br from-[var(--color-aurora-1)]/30 via-transparent to-[var(--color-aurora-2)]/30 text-5xl font-bold text-gradient">
-                  GL
+                <div className="relative h-44 w-44 overflow-hidden rounded-full bg-gradient-to-br from-[var(--color-aurora-1)]/30 via-transparent to-[var(--color-aurora-2)]/30 ring-1 ring-white/10">
+                  <img
+                    src={profilePhoto.url}
+                    alt={`${PROFILE.name} — ${PROFILE.title}`}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
               </div>
               <div className="mt-6 space-y-2 text-center">

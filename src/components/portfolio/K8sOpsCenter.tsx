@@ -239,119 +239,18 @@ export function K8sOpsCenter() {
           )}
         </AnimatePresence>
 
-        {/* Topology canvas */}
-        <div
-          ref={canvasRef}
-          onMouseMove={onMove}
-          onMouseLeave={() => setSpot(null)}
-          className="glass mt-6 relative overflow-x-auto overflow-y-hidden rounded-2xl border border-white/10 p-4"
-        >
-          {/* mouse spotlight */}
-          {spot && (
-            <div
-              className="pointer-events-none absolute inset-0 z-0 transition-opacity"
-              style={{
-                background: `radial-gradient(400px circle at ${spot.x}px ${spot.y}px, color-mix(in oklab, var(--color-aurora-1) 12%, transparent), transparent 60%)`,
-              }}
-            />
-          )}
+        {/* Architecture explorer — horizontal scrollable layers */}
+        <ArchitectureExplorer
+          nodes={nodes}
+          visibleIds={visibleIds}
+          running={running}
+          onOpen={setActive}
+          canvasRef={canvasRef}
+          onMove={onMove}
+          onLeave={() => setSpot(null)}
+          spot={spot}
+        />
 
-          <div className="relative" style={{ width, height }}>
-            {/* Column headers */}
-            {COLUMN_LABELS.map((c, i) => (
-              <div
-                key={c}
-                className="absolute top-0 -translate-y-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
-                style={{ left: CANVAS_PAD_X + i * COL_W }}
-              >
-                {String(i + 1).padStart(2, "0")} · {c}
-              </div>
-            ))}
-
-            {/* Edges + animated packets */}
-            <svg
-              width={width} height={height}
-              className="pointer-events-none absolute inset-0"
-              aria-hidden
-            >
-              <defs>
-                <linearGradient id="edge-grad" x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="0" stopColor="var(--color-aurora-1)" stopOpacity="0.05" />
-                  <stop offset="0.5" stopColor="var(--color-aurora-1)" stopOpacity="0.45" />
-                  <stop offset="1" stopColor="var(--color-aurora-2)" stopOpacity="0.05" />
-                </linearGradient>
-              </defs>
-              {K8S_EDGES.map(([from, to], i) => {
-                const a = K8S_NODES.find(n => n.id === from);
-                const b = K8S_NODES.find(n => n.id === to);
-                if (!a || !b) return null;
-                const pa = nodePos(a); const pb = nodePos(b);
-                const x1 = pa.x + 200, y1 = pa.y + 36;
-                const x2 = pb.x, y2 = pb.y + 36;
-                const cx = (x1 + x2) / 2;
-                const path = `M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`;
-                const dim = !(visibleIds.has(from) && visibleIds.has(to));
-                return (
-                  <g key={`${from}-${to}`} opacity={dim ? 0.15 : 1}>
-                    <path d={path} fill="none" stroke="url(#edge-grad)" strokeWidth={1.5} />
-                    {running && !dim && (
-                      <circle r={2.5} fill="var(--color-aurora-1)" filter="drop-shadow(0 0 6px var(--color-aurora-1))">
-                        <animateMotion dur={`${2 + (i % 4) * 0.7}s`} repeatCount="indefinite" path={path} />
-                      </circle>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
-
-            {/* Nodes */}
-            {K8S_NODES.map(n => {
-              const p = nodePos(n);
-              const dim = !visibleIds.has(n.id);
-              const Icon = n.icon;
-              return (
-                <motion.button
-                  key={n.id}
-                  type="button"
-                  onClick={() => setActive(n)}
-                  layout
-                  animate={{ opacity: dim ? 0.2 : 1 }}
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
-                  className={`glass absolute z-10 flex flex-col gap-1.5 rounded-xl border p-2.5 text-left transition-shadow hover:shadow-[0_10px_40px_-10px_color-mix(in_oklab,var(--color-brand)_50%,transparent)] ${statusRing[n.status]}`}
-                  style={{ left: p.x, top: p.y, width: 200 }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="grid h-7 w-7 place-items-center rounded-md bg-gradient-to-br from-white/10 to-white/[0.02]">
-                        <Icon className="h-3.5 w-3.5" style={{ color: n.color }} />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="truncate text-[12px] font-semibold leading-tight">{n.name}</div>
-                        <div className="truncate text-[10px] text-muted-foreground">{n.short}</div>
-                      </div>
-                    </div>
-                    <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${statusDot[n.status]}`} />
-                  </div>
-
-                  {(n.cpu > 0 || n.mem > 0) && (
-                    <div className="grid grid-cols-2 gap-1.5 pt-0.5">
-                      <MiniBar label="CPU" v={n.cpu} color="var(--color-aurora-1)" />
-                      <MiniBar label="MEM" v={n.mem} color="var(--color-aurora-2)" />
-                    </div>
-                  )}
-
-                  <div className="flex items-center justify-between text-[9px] text-muted-foreground">
-                    <span className="font-mono">{n.namespace ?? n.protocol ?? "—"}</span>
-                    <span className="font-mono">
-                      {n.replicas ? `×${n.replicas}` : n.latencyMs ? `${n.latencyMs}ms` : ""}
-                    </span>
-                  </div>
-                </motion.button>
-              );
-            })}
-          </div>
-        </div>
 
         {/* Worker nodes panel */}
         <div className="mt-8 grid gap-4 lg:grid-cols-[1.4fr_1fr]">

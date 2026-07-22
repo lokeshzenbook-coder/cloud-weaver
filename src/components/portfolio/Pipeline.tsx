@@ -60,9 +60,15 @@ export function Pipeline() {
   );
   const [retried, setRetried] = useState<Record<string, boolean>>({});
   const [running, setRunning] = useState(false);
+  const [focusIdx, setFocusIdx] = useState(0);
+  const [announce, setAnnounce] = useState("");
   const timerRef = useRef<number | null>(null);
   const idxRef = useRef(0);
   const retryRef = useRef<Record<string, number>>({});
+  const cardRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const startBtnRef = useRef<HTMLButtonElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+
 
   const d = density === "comfortable"
     ? {
@@ -127,6 +133,7 @@ export function Pipeline() {
   const start = () => {
     if (running) return;
     setRunning(true);
+    setAnnounce("Pipeline started");
     if (idxRef.current >= PIPELINE_STAGES.length) {
       idxRef.current = 0;
       retryRef.current = {};
@@ -135,40 +142,116 @@ export function Pipeline() {
     }
     tick();
   };
-  const pause = () => { setRunning(false); clearTimer(); };
+  const pause = () => { setRunning(false); clearTimer(); setAnnounce("Pipeline paused"); };
   const reset = () => {
     pause();
     idxRef.current = 0;
     retryRef.current = {};
     setRetried({});
     setStatuses(Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status])));
+    setAnnounce("Pipeline reset");
   };
 
   useEffect(() => () => clearTimer(), []);
+
+  // Keyboard shortcuts (page-scoped). Ignored while typing in inputs.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+      if (active && e.key === "Escape") { setActive(null); return; }
+      // Only handle shortcuts when the pipeline section is in view / focused subtree
+      const inSection = gridRef.current?.closest("section")?.contains(document.activeElement ?? gridRef.current);
+      if (!inSection) return;
+      const key = e.key.toLowerCase();
+      if (key === "p" || e.key === " ") {
+        e.preventDefault();
+        running ? pause() : start();
+      } else if (key === "r") {
+        e.preventDefault(); reset();
+      } else if (key === "d") {
+        e.preventDefault();
+        setDensity(v => (v === "compact" ? "comfortable" : "compact"));
+        setAnnounce(`Density ${density === "compact" ? "comfortable" : "compact"}`);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [running, active, density]);
+
+  const focusCard = (i: number) => {
+    const n = PIPELINE_STAGES.length;
+    const next = ((i % n) + n) % n;
+    setFocusIdx(next);
+    cardRefs.current[next]?.focus();
+  };
+
+  const cols = () => {
+    // Approximate columns per density/breakpoint; used for up/down navigation.
+    if (typeof window === "undefined") return density === "comfortable" ? 3 : 4;
+    const w = window.innerWidth;
+    if (density === "comfortable") return w >= 1280 ? 3 : w >= 640 ? 2 : 1;
+    return w >= 1536 ? 4 : w >= 1024 ? 3 : w >= 640 ? 2 : 1;
+  };
+
+  const onCardKey = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const n = PIPELINE_STAGES.length;
+    switch (e.key) {
+      case "ArrowRight": e.preventDefault(); focusCard(i + 1); break;
+      case "ArrowLeft":  e.preventDefault(); focusCard(i - 1); break;
+      case "ArrowDown":  e.preventDefault(); focusCard(Math.min(n - 1, i + cols())); break;
+      case "ArrowUp":    e.preventDefault(); focusCard(Math.max(0, i - cols())); break;
+      case "Home":       e.preventDefault(); focusCard(0); break;
+      case "End":        e.preventDefault(); focusCard(n - 1); break;
+    }
+  };
+
 
   const progress = useMemo(() => {
     const done = Object.values(statuses).filter(s => s === "success" || s === "failed").length;
     return Math.round((done / PIPELINE_STAGES.length) * 100);
   }, [statuses]);
 
+
   return (
-    <section id="pipeline" className="relative px-4 py-24 sm:px-6">
+    <section
+      id="pipeline"
+      aria-labelledby="pipeline-heading"
+      aria-describedby="pipeline-desc pipeline-shortcuts"
+      className="relative px-4 py-24 sm:px-6"
+    >
       {/* aurora backdrop */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-1/2 top-10 h-[420px] w-[900px] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
              style={{ background: "conic-gradient(from 90deg, var(--color-aurora-1), var(--color-aurora-2), var(--color-aurora-3), var(--color-aurora-1))" }} />
       </div>
 
+      {/* Screen-reader live region for simulator state */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {announce}
+      </div>
+
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-start gap-2">
           <span className="font-mono text-xs uppercase tracking-widest text-primary">/ DevSecOps Pipeline</span>
-          <h2 className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+          <h2 id="pipeline-heading" className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             An enterprise control plane — from commit to production.
           </h2>
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          <p id="pipeline-desc" className="mt-2 max-w-2xl text-sm text-muted-foreground">
             22 stages · 90+ production tools with official logos. Signed artifacts, policy-gated deploys, real-time observability. Hover any logo, click any stage.
           </p>
+          <p id="pipeline-shortcuts" className="mt-1 text-xs text-muted-foreground/80">
+            <span className="sr-only">Keyboard shortcuts: </span>
+            <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">P</kbd> or
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">Space</kbd> play/pause ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">R</kbd> reset ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">D</kbd> density ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">← ↑ → ↓</kbd> move between stages ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">Enter</kbd> open details ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">Esc</kbd> close
+          </p>
         </div>
+
 
         {/* Dashboard stats */}
         <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
@@ -182,11 +265,17 @@ export function Pipeline() {
 
         {/* Controls */}
         <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap gap-2">
+          <div
+            className="flex flex-wrap gap-2"
+            role="toolbar"
+            aria-label="Filter stages by category"
+          >
             {PIPELINE_FILTERS.map(f => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
+                aria-pressed={filter === f}
+                aria-label={`Filter: ${f}`}
                 className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
                   filter === f
                     ? "border-primary/60 bg-primary/10 text-foreground"
@@ -197,14 +286,15 @@ export function Pipeline() {
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" role="toolbar" aria-label="Pipeline simulator controls">
             {/* Density toggle */}
-            <div className="glass inline-flex items-center rounded-full p-0.5 text-[11px]" role="group" aria-label="Layout density">
+            <div className="glass inline-flex items-center rounded-full p-0.5 text-[11px]" role="group" aria-label="Layout density (shortcut: D)">
               {(["compact", "comfortable"] as Density[]).map(opt => (
                 <button
                   key={opt}
                   onClick={() => setDensity(opt)}
                   aria-pressed={density === opt}
+                  aria-label={`${opt} density`}
                   className={`rounded-full px-3 py-1 font-medium capitalize transition-colors ${
                     density === opt
                       ? "bg-white/10 text-foreground"
@@ -217,7 +307,14 @@ export function Pipeline() {
             </div>
             <div className="glass hidden items-center gap-2 rounded-full px-3 py-1.5 text-xs sm:flex">
               <span className="text-muted-foreground">Progress</span>
-              <div className="h-1.5 w-32 overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-1.5 w-32 overflow-hidden rounded-full bg-white/10"
+                role="progressbar"
+                aria-label="Pipeline completion"
+                aria-valuenow={progress}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
                 <motion.div
                   className="h-full bg-gradient-to-r from-[var(--color-aurora-1)] via-[var(--color-aurora-2)] to-[var(--color-aurora-3)]"
                   animate={{ width: `${progress}%` }}
@@ -227,40 +324,60 @@ export function Pipeline() {
               <span className="tabular-nums text-muted-foreground">{progress}%</span>
             </div>
             <motion.button
+              ref={startBtnRef}
               onClick={running ? pause : start}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
+              aria-label={running ? "Pause pipeline (shortcut: P or Space)" : "Start pipeline (shortcut: P or Space)"}
+              aria-keyshortcuts="P Space"
               className="inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-foreground px-5 text-sm font-medium text-background shadow-[0_0_0_0_rgba(255,255,255,0)] transition-shadow hover:shadow-[0_0_24px_-6px_rgba(255,255,255,0.35)] sm:w-[160px]"
             >
-              {running ? <><HiOutlinePause className="h-4 w-4" /> Pause</> : <><HiOutlinePlay className="h-4 w-4" /> Start Pipeline</>}
+              {running ? <><HiOutlinePause className="h-4 w-4" aria-hidden /> Pause</> : <><HiOutlinePlay className="h-4 w-4" aria-hidden /> Start Pipeline</>}
             </motion.button>
             <button
               onClick={reset}
+              aria-label="Reset pipeline (shortcut: R)"
+              aria-keyshortcuts="R"
               className="glass inline-flex h-11 items-center gap-1.5 rounded-xl px-3 text-xs hover:bg-white/10"
             >
-              <HiOutlineRefresh /> Reset
+              <HiOutlineRefresh aria-hidden /> Reset
             </button>
           </div>
         </div>
 
         {/* Pipeline grid — logo-first cards */}
-        <div className={d.grid}>
+        <div
+          ref={gridRef}
+          className={d.grid}
+          role="list"
+          aria-label="DevSecOps pipeline stages. Use arrow keys to move, Enter to open details."
+        >
           {PIPELINE_STAGES.map((stage, i) => {
             const status = statuses[stage.id];
             const dim = !matchesFilter(stage);
             const s = statusStyle[status];
             const StageIcon = stage.icon;
+            const toolList = stage.tools.map(t => t.name).join(", ");
+            const ariaLabel = `Stage ${i + 1} of ${PIPELINE_STAGES.length}: ${stage.name}. Status: ${s.label}${retried[stage.id] ? ", retried" : ""}. Tools: ${toolList}. ${stage.short} Press Enter for details.`;
             return (
               <motion.button
                 key={stage.id}
+                ref={el => { cardRefs.current[i] = el; }}
                 layout
                 onClick={() => setActive(stage)}
+                onFocus={() => setFocusIdx(i)}
+                onKeyDown={(e) => onCardKey(e, i)}
+                tabIndex={focusIdx === i ? 0 : -1}
+                role="listitem"
+                aria-label={ariaLabel}
+                aria-current={status === "running" ? "step" : undefined}
                 whileTap={{ scale: 0.98 }}
                 animate={{ opacity: dim ? 0.25 : 1, scale: dim ? 0.98 : 1 }}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.25 }}
-                className={`glass group relative flex flex-col overflow-hidden rounded-xl border text-left transition-shadow ${d.card} ${s.ring} ${s.glow}`}
+                className={`glass group relative flex flex-col overflow-hidden rounded-xl border text-left transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${d.card} ${s.ring} ${s.glow}`}
               >
+
                 {/* animated gradient border on running */}
                 {status === "running" && (
                   <motion.span
@@ -411,26 +528,38 @@ export function Pipeline() {
             <motion.aside
               initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 260, damping: 30 }}
-              className="glass-strong relative flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-white/10 p-6"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="pipeline-drawer-title"
+              aria-describedby="pipeline-drawer-desc"
+              tabIndex={-1}
+              ref={(el) => { el?.focus(); }}
+              className="glass-strong relative flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-white/10 p-6 focus:outline-none"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-white/10 to-white/[0.02]">
-                    <active.icon className="h-5 w-5 text-primary" />
+                    <active.icon className="h-5 w-5 text-primary" aria-hidden />
                   </div>
                   <div>
                     <div className="text-xs uppercase tracking-widest text-muted-foreground">
                       {active.categories.join(" · ")}
                     </div>
-                    <h3 className="text-lg font-semibold">{active.name}</h3>
+                    <h3 id="pipeline-drawer-title" className="text-lg font-semibold">{active.name}</h3>
                   </div>
                 </div>
-                <button onClick={() => setActive(null)} className="rounded-full p-1.5 hover:bg-white/10" aria-label="Close">
-                  <HiOutlineX />
+                <button
+                  onClick={() => setActive(null)}
+                  className="rounded-full p-1.5 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70"
+                  aria-label="Close details (Esc)"
+                  aria-keyshortcuts="Escape"
+                >
+                  <HiOutlineX aria-hidden />
                 </button>
               </div>
 
-              <p className="mt-5 text-sm text-muted-foreground">{active.description}</p>
+              <p id="pipeline-drawer-desc" className="mt-5 text-sm text-muted-foreground">{active.description}</p>
+
 
               <DrawerRow label="Input" value={active.input} />
               <DrawerRow label="Output" value={active.output} />

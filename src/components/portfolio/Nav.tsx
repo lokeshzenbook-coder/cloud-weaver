@@ -3,6 +3,8 @@ import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { HiMenu, HiX, HiDownload, HiExternalLink } from "react-icons/hi";
 import { NAV_LINKS, PROFILE } from "@/lib/portfolio-data";
 import resume from "@/assets/resume.pdf.asset.json";
+import resumePage1 from "@/assets/resume-page-1.jpg.asset.json";
+import resumePage2 from "@/assets/resume-page-2.jpg.asset.json";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -10,6 +12,7 @@ export function Nav() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 20 });
+  const resumePages = [resumePage1, resumePage2];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -198,23 +201,22 @@ export function Nav() {
                   </button>
                 </div>
               </div>
-              <object
-                data={resume.url}
-                type="application/pdf"
-                className="h-full w-full flex-1 bg-foreground/5"
-                aria-label="Resume PDF preview"
+              <div
+                className="flex-1 overflow-y-auto bg-foreground/5 p-3 sm:p-6"
+                aria-label="Resume image preview"
               >
-                <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center text-sm text-muted-foreground">
-                  <p>Your browser can't display the PDF inline.</p>
-                  <button
-                    type="button"
-                    onClick={downloadResume}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-medium text-background"
-                  >
-                    <HiDownload size={14} /> Download Resume
-                  </button>
+                <div className="mx-auto flex max-w-3xl flex-col gap-4">
+                  {resumePages.map((page, index) => (
+                    <img
+                      key={page.asset_id}
+                      src={page.url}
+                      alt={`Resume page ${index + 1} preview`}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      className="w-full rounded-lg border border-foreground/10 bg-background shadow-2xl"
+                    />
+                  ))}
                 </div>
-              </object>
+              </div>
             </div>
           </motion.div>
         )}

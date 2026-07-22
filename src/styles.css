@@ -216,39 +216,28 @@ html {
 }
 
 @utility text-highlight {
-  font-weight: 500;
-  color: var(--color-foreground);
-  background: linear-gradient(90deg,
-    color-mix(in oklab, var(--color-aurora-1) 20%, transparent) 0%,
-    color-mix(in oklab, var(--color-aurora-3) 12%, transparent) 50%,
-    color-mix(in oklab, var(--color-aurora-1) 20%, transparent) 100%);
-  background-size: 200% 100%;
-  background-position: 0% 0%;
+  font-weight: 600;
+  color: oklch(0.86 0.12 200);
+  background: transparent;
   border-radius: 0.25rem;
-  padding-inline: 0.25rem;
+  padding-inline: 0.15rem;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-  transition: background-position 0.4s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  transition: color 0.25s ease, background-color 0.25s ease;
   cursor: default;
 
   &:hover {
-    background-position: 100% 0%;
-    box-shadow:
-      0 0 0 1px color-mix(in oklab, var(--color-aurora-1) 50%, transparent),
-      0 0 20px -2px color-mix(in oklab, var(--color-aurora-1) 40%, transparent),
-      0 0 40px -8px color-mix(in oklab, var(--color-aurora-2) 35%, transparent);
-    transform: translateY(-1px);
+    color: oklch(0.92 0.14 180);
+    background-color: color-mix(in oklab, oklch(0.86 0.12 200) 10%, transparent);
   }
 
   &:focus-visible {
     outline: none;
-    background-position: 100% 0%;
-    box-shadow:
-      0 0 0 2px color-mix(in oklab, var(--color-aurora-1) 60%, transparent),
-      0 0 24px -2px color-mix(in oklab, var(--color-aurora-1) 50%, transparent),
-      0 0 48px -8px color-mix(in oklab, var(--color-aurora-2) 40%, transparent);
+    color: oklch(0.92 0.14 180);
+    background-color: color-mix(in oklab, oklch(0.86 0.12 200) 14%, transparent);
   }
 }
+
 
 @utility grid-bg {
   background-image:

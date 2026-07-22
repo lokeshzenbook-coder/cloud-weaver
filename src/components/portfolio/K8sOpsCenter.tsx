@@ -212,7 +212,7 @@ function Panel({
     <div className={`glass relative overflow-hidden rounded-2xl border border-foreground/10 ${className}`}>
       <div className="flex items-center justify-between border-b border-foreground/5 px-4 py-2.5">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          <Icon className="text-primary" />
+          <Icon className="text-primary" aria-hidden />
           <span>{title}</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">{right}</div>

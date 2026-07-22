@@ -685,6 +685,7 @@ function Home() {
       <About />
       <Experience />
       <Skills />
+      <K8sOpsCenter />
       <Pipeline />
       <Projects />
       <Certifications />

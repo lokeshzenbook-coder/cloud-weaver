@@ -258,7 +258,7 @@ export function Pipeline() {
                 animate={{ opacity: dim ? 0.25 : 1, scale: dim ? 0.98 : 1 }}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.25 }}
-                className={`glass group relative flex flex-col gap-2.5 overflow-hidden rounded-xl border p-3.5 text-left transition-shadow ${s.ring} ${s.glow}`}
+                className={`glass group relative flex flex-col overflow-hidden rounded-xl border text-left transition-shadow ${d.card} ${s.ring} ${s.glow}`}
               >
                 {/* animated gradient border on running */}
                 {status === "running" && (

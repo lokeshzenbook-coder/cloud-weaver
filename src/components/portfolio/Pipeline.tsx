@@ -243,7 +243,7 @@ export function Pipeline() {
         </div>
 
         {/* Pipeline grid — logo-first cards */}
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        <div className={d.grid}>
           {PIPELINE_STAGES.map((stage, i) => {
             const status = statuses[stage.id];
             const dim = !matchesFilter(stage);

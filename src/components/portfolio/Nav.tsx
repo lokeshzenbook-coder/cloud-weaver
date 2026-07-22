@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
-import { HiMenu, HiX } from "react-icons/hi";
+import { HiMenu, HiX, HiDownload, HiExternalLink } from "react-icons/hi";
 import { NAV_LINKS, PROFILE } from "@/lib/portfolio-data";
 import resume from "@/assets/resume.pdf.asset.json";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 20 });
 
@@ -16,6 +17,22 @@ export function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!previewOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setPreviewOpen(false);
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [previewOpen]);
+
+  const openPreview = () => {
+    setPreviewOpen(true);
+    setOpen(false);
+  };
 
   return (
     <>
@@ -46,14 +63,13 @@ export function Nav() {
               ))}
             </nav>
             <div className="flex items-center gap-2">
-              <a
-                href={resume.url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={openPreview}
                 className="hidden rounded-full bg-foreground px-4 py-1.5 text-sm font-medium text-background transition-transform hover:scale-[1.03] md:inline-flex"
               >
                 Resume
-              </a>
+              </button>
               <button
                 className="rounded-full p-2 text-foreground/80 hover:bg-foreground/5 md:hidden"
                 onClick={() => setOpen(v => !v)}
@@ -84,19 +100,84 @@ export function Nav() {
                     {l.label}
                   </a>
                 ))}
-                <a
-                  href={resume.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={openPreview}
                   className="mt-1 rounded-lg bg-foreground px-4 py-2.5 text-center text-sm font-medium text-background"
                 >
-                  Download Resume
-                </a>
+                  View Resume
+                </button>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </header>
+
+      <AnimatePresence>
+        {previewOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex flex-col bg-background/90 backdrop-blur-sm p-3 sm:p-6"
+            onClick={() => setPreviewOpen(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Resume preview"
+          >
+            <div
+              className="mx-auto flex w-full max-w-5xl flex-1 flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-background shadow-2xl"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between gap-2 border-b border-foreground/10 px-4 py-3">
+                <div className="text-sm font-medium">{resume.original_filename}</div>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={resume.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-foreground/15 px-3 py-1.5 text-xs font-medium text-foreground/80 hover:bg-foreground/5"
+                  >
+                    <HiExternalLink size={14} /> Open
+                  </a>
+                  <a
+                    href={resume.url}
+                    download="Lokesh_GR_Resume.pdf"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3 py-1.5 text-xs font-medium text-background hover:scale-[1.03] transition-transform"
+                  >
+                    <HiDownload size={14} /> Download
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewOpen(false)}
+                    aria-label="Close preview"
+                    className="rounded-full p-1.5 text-foreground/70 hover:bg-foreground/5"
+                  >
+                    <HiX size={18} />
+                  </button>
+                </div>
+              </div>
+              <object
+                data={resume.url}
+                type="application/pdf"
+                className="h-full w-full flex-1 bg-foreground/5"
+                aria-label="Resume PDF preview"
+              >
+                <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center text-sm text-muted-foreground">
+                  <p>Your browser can't display the PDF inline.</p>
+                  <a
+                    href={resume.url}
+                    download="Lokesh_GR_Resume.pdf"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-medium text-background"
+                  >
+                    <HiDownload size={14} /> Download Resume
+                  </a>
+                </div>
+              </object>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

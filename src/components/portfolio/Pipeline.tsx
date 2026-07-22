@@ -26,6 +26,7 @@ function LogoTile({ tool, size = 30 }: { tool: Tool; size?: number }) {
       whileHover={{ y: -2, scale: 1.08 }}
       transition={{ type: "spring", stiffness: 400, damping: 18 }}
       title={tool.name}
+      role="img"
       aria-label={tool.name}
       className="group/logo relative grid place-items-center rounded-lg border border-foreground/10 bg-foreground/[0.04] backdrop-blur-sm transition-colors hover:border-foreground/25"
       style={{ width: size, height: size }}
@@ -38,14 +39,12 @@ function LogoTile({ tool, size = 30 }: { tool: Tool; size?: number }) {
       {Icon ? (
         <Icon aria-hidden style={{ color: tool.color, width: size * 0.55, height: size * 0.55 }} />
       ) : (
-        <span
-          className="font-mono text-[9px] font-bold tracking-tight"
-          style={{ color: tool.color }}
-        >
+        <span className="font-mono text-[10px] font-bold tracking-tight text-foreground">
           {tool.mono ?? tool.name.slice(0, 2).toUpperCase()}
         </span>
       )}
     </motion.div>
+
   );
 }
 

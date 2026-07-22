@@ -193,12 +193,8 @@ export const PROJECT_FILTERS = [
 ];
 
 export const CERTIFICATIONS = [
-  { name: "AWS Certified", issuer: "Amazon Web Services", tag: "Cloud", accent: "#FF9900" },
   { name: "CKA — Kubernetes Administrator", issuer: "CNCF / Linux Foundation", tag: "Kubernetes", accent: "#326CE5" },
   { name: "CKS — Kubernetes Security", issuer: "CNCF / Linux Foundation", tag: "Security", accent: "#22c55e" },
-  { name: "Terraform Associate", issuer: "HashiCorp", tag: "IaC", accent: "#7B42BC" },
-  { name: "GitHub Actions", issuer: "GitHub", tag: "CI/CD", accent: "#f0f6fc" },
-  { name: "AWS Security Specialty", issuer: "Amazon Web Services", tag: "Coming Soon", accent: "#eab308" },
 ];
 
 export const NAV_LINKS = [

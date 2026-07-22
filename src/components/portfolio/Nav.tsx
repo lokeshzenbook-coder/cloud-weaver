@@ -34,6 +34,26 @@ export function Nav() {
     setOpen(false);
   };
 
+  const downloadResume = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(resume.url, { credentials: "omit" });
+      if (!res.ok) throw new Error(String(res.status));
+      const blob = await res.blob();
+      const pdfBlob = blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" });
+      const objectUrl = URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      a.download = "Lokesh_GR_Resume.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    } catch {
+      window.open(resume.url, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <>
       <motion.div

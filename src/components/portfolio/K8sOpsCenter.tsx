@@ -60,8 +60,6 @@ export function K8sOpsCenter() {
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const [spot, setSpot] = useState<{ x: number; y: number } | null>(null);
 
-  const width = CANVAS_PAD_X * 2 + COLUMN_LABELS.length * COL_W;
-  const height = CANVAS_PAD_Y * 2 + 16 * ROW_H;
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();

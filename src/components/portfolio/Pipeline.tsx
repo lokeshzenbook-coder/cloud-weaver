@@ -528,26 +528,38 @@ export function Pipeline() {
             <motion.aside
               initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 260, damping: 30 }}
-              className="glass-strong relative flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-white/10 p-6"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="pipeline-drawer-title"
+              aria-describedby="pipeline-drawer-desc"
+              tabIndex={-1}
+              ref={(el) => { el?.focus(); }}
+              className="glass-strong relative flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-white/10 p-6 focus:outline-none"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-white/10 to-white/[0.02]">
-                    <active.icon className="h-5 w-5 text-primary" />
+                    <active.icon className="h-5 w-5 text-primary" aria-hidden />
                   </div>
                   <div>
                     <div className="text-xs uppercase tracking-widest text-muted-foreground">
                       {active.categories.join(" · ")}
                     </div>
-                    <h3 className="text-lg font-semibold">{active.name}</h3>
+                    <h3 id="pipeline-drawer-title" className="text-lg font-semibold">{active.name}</h3>
                   </div>
                 </div>
-                <button onClick={() => setActive(null)} className="rounded-full p-1.5 hover:bg-white/10" aria-label="Close">
-                  <HiOutlineX />
+                <button
+                  onClick={() => setActive(null)}
+                  className="rounded-full p-1.5 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70"
+                  aria-label="Close details (Esc)"
+                  aria-keyshortcuts="Escape"
+                >
+                  <HiOutlineX aria-hidden />
                 </button>
               </div>
 
-              <p className="mt-5 text-sm text-muted-foreground">{active.description}</p>
+              <p id="pipeline-drawer-desc" className="mt-5 text-sm text-muted-foreground">{active.description}</p>
+
 
               <DrawerRow label="Input" value={active.input} />
               <DrawerRow label="Output" value={active.output} />

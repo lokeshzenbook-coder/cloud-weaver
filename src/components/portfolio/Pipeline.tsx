@@ -1,19 +1,20 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { HiOutlineX, HiOutlinePlay, HiOutlinePause, HiOutlineRefresh } from "react-icons/hi";
+import { HiOutlineX, HiOutlinePlay, HiOutlinePause, HiOutlineRefresh, HiCheck, HiX } from "react-icons/hi";
 import {
   PIPELINE_STAGES, PIPELINE_FILTERS, PIPELINE_STATS,
   type PipelineStage, type StageCategory,
 } from "@/lib/pipeline-data";
 
-type Status = "waiting" | "running" | "success" | "failed" | "skipped";
+type Status = "waiting" | "running" | "success" | "failed" | "retrying" | "skipped";
 
 const statusStyle: Record<Status, { ring: string; dot: string; label: string }> = {
-  waiting: { ring: "border-white/10",  dot: "bg-white/30",       label: "Idle" },
-  running: { ring: "border-cyan-400/60", dot: "bg-cyan-300 animate-pulse", label: "Running" },
-  success: { ring: "border-emerald-400/60", dot: "bg-emerald-400", label: "Passed" },
-  failed:  { ring: "border-rose-400/60", dot: "bg-rose-400", label: "Failed" },
-  skipped: { ring: "border-white/10 opacity-40", dot: "bg-white/20", label: "Skipped" },
+  waiting:  { ring: "border-white/10",  dot: "bg-white/30",       label: "Idle" },
+  running:  { ring: "border-cyan-400/60", dot: "bg-cyan-300 animate-pulse", label: "Running" },
+  success:  { ring: "border-emerald-400/60", dot: "bg-emerald-400", label: "Passed" },
+  failed:   { ring: "border-rose-400/70", dot: "bg-rose-400",      label: "Failed" },
+  retrying: { ring: "border-amber-400/70", dot: "bg-amber-300 animate-pulse", label: "Retrying" },
+  skipped:  { ring: "border-white/10 opacity-40", dot: "bg-white/20", label: "Skipped" },
 };
 
 export function Pipeline() {
@@ -22,9 +23,11 @@ export function Pipeline() {
   const [statuses, setStatuses] = useState<Record<string, Status>>(
     () => Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status]))
   );
+  const [retried, setRetried] = useState<Record<string, boolean>>({});
   const [running, setRunning] = useState(false);
   const timerRef = useRef<number | null>(null);
   const idxRef = useRef(0);
+  const retryRef = useRef<Record<string, number>>({});
 
   const matchesFilter = (s: PipelineStage) =>
     filter === "All" || s.categories.includes(filter as StageCategory);
@@ -36,21 +39,35 @@ export function Pipeline() {
     }
   };
 
+  const runStage = (i: number, isRetry = false) => {
+    const stage = PIPELINE_STAGES[i];
+    setStatuses(prev => ({ ...prev, [stage.id]: isRetry ? "retrying" : "running" }));
+    timerRef.current = window.setTimeout(() => {
+      const attempts = (retryRef.current[stage.id] ?? 0) + (isRetry ? 0 : 1);
+      retryRef.current[stage.id] = attempts;
+      // ~simulated failure on security stages; retry once, then likely pass
+      const baseFailRate = stage.categories.includes("Security") ? 0.35 : 0;
+      const willFail = Math.random() < (isRetry ? 0.15 : baseFailRate);
+      if (willFail && !isRetry) {
+        // fail, then retry
+        setStatuses(prev => ({ ...prev, [stage.id]: "failed" }));
+        setRetried(prev => ({ ...prev, [stage.id]: true }));
+        timerRef.current = window.setTimeout(() => runStage(i, true), 700);
+        return;
+      }
+      setStatuses(prev => ({ ...prev, [stage.id]: willFail ? "failed" : "success" }));
+      idxRef.current = i + 1;
+      timerRef.current = window.setTimeout(tick, 260);
+    }, isRetry ? 620 : 520);
+  };
+
   const tick = () => {
     const i = idxRef.current;
     if (i >= PIPELINE_STAGES.length) {
       setRunning(false);
       return;
     }
-    const stage = PIPELINE_STAGES[i];
-    setStatuses(prev => ({ ...prev, [stage.id]: "running" }));
-    timerRef.current = window.setTimeout(() => {
-      // ~8% simulated failure rate on security stages, otherwise success
-      const willFail = stage.categories.includes("Security") && Math.random() < 0.06;
-      setStatuses(prev => ({ ...prev, [stage.id]: willFail ? "failed" : "success" }));
-      idxRef.current = i + 1;
-      timerRef.current = window.setTimeout(tick, 260);
-    }, 520);
+    runStage(i, false);
   };
 
   const start = () => {
@@ -58,6 +75,8 @@ export function Pipeline() {
     setRunning(true);
     if (idxRef.current >= PIPELINE_STAGES.length) {
       idxRef.current = 0;
+      retryRef.current = {};
+      setRetried({});
       setStatuses(Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status])));
     }
     tick();
@@ -66,6 +85,8 @@ export function Pipeline() {
   const reset = () => {
     pause();
     idxRef.current = 0;
+    retryRef.current = {};
+    setRetried({});
     setStatuses(Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status])));
   };
 
@@ -170,6 +191,11 @@ export function Pipeline() {
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5">
+                    {retried[stage.id] && (
+                      <span className="rounded-full border border-amber-400/40 bg-amber-400/10 px-1.5 py-[1px] text-[9px] font-medium uppercase tracking-wider text-amber-300">
+                        Retry
+                      </span>
+                    )}
                     <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
                     <span className="text-[10px] text-muted-foreground">{s.label}</span>
                   </div>
@@ -203,12 +229,64 @@ export function Pipeline() {
                     transition={{ duration: 1.4, repeat: Infinity }}
                   />
                 )}
-                {status === "failed" && (
+                {status === "retrying" && (
                   <motion.div
-                    className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-rose-400/50"
-                    animate={{ x: [0, -3, 3, -2, 2, 0] }}
-                    transition={{ duration: 0.4 }}
+                    className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-amber-400/60"
+                    animate={{ boxShadow: [
+                      "0 0 0 0 rgba(251,191,36,0.35)",
+                      "0 0 24px 3px rgba(251,191,36,0.35)",
+                      "0 0 0 0 rgba(251,191,36,0.35)",
+                    ] }}
+                    transition={{ duration: 1, repeat: Infinity }}
                   />
+                )}
+                {status === "success" && (
+                  <>
+                    <motion.div
+                      key={`ok-${stage.id}`}
+                      className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-emerald-400/60"
+                      initial={{ boxShadow: "0 0 0 0 rgba(52,211,153,0)" }}
+                      animate={{ boxShadow: [
+                        "0 0 0 0 rgba(52,211,153,0.55)",
+                        "0 0 34px 6px rgba(52,211,153,0.28)",
+                        "0 0 0 0 rgba(52,211,153,0)",
+                      ] }}
+                      transition={{ duration: 1.2, times: [0, 0.4, 1] }}
+                    />
+                    <motion.div
+                      className="pointer-events-none absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full bg-emerald-500/90 text-background shadow-[0_0_18px_rgba(52,211,153,0.6)]"
+                      initial={{ scale: 0, rotate: -30, opacity: 0 }}
+                      animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 18 }}
+                    >
+                      <HiCheck className="h-3.5 w-3.5" strokeWidth={3} />
+                    </motion.div>
+                  </>
+                )}
+                {status === "failed" && (
+                  <>
+                    <motion.div
+                      key={`fail-${stage.id}`}
+                      className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-rose-400/70"
+                      animate={{
+                        x: [0, -4, 4, -3, 3, -2, 2, 0],
+                        boxShadow: [
+                          "0 0 0 0 rgba(244,63,94,0.5)",
+                          "0 0 30px 4px rgba(244,63,94,0.45)",
+                          "0 0 18px 2px rgba(244,63,94,0.35)",
+                        ],
+                      }}
+                      transition={{ duration: 0.55, ease: "easeInOut" }}
+                    />
+                    <motion.div
+                      className="pointer-events-none absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full bg-rose-500/90 text-background shadow-[0_0_18px_rgba(244,63,94,0.65)]"
+                      initial={{ scale: 0, rotate: 30, opacity: 0 }}
+                      animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 16 }}
+                    >
+                      <HiX className="h-3.5 w-3.5" strokeWidth={3} />
+                    </motion.div>
+                  </>
                 )}
               </motion.button>
             );

@@ -248,25 +248,36 @@ function About() {
                   />
                 </div>
               </div>
-              <div className="mt-6 space-y-2 text-center">
-                <div className="text-lg font-semibold">{PROFILE.name}</div>
-                <div className="text-sm text-muted-foreground">{PROFILE.title}</div>
-                <div className="text-xs text-muted-foreground">📍 {PROFILE.location}</div>
-              </div>
             </div>
           </Reveal>
 
           <div className="space-y-6">
             <Reveal>
               <p className="text-lg leading-relaxed text-muted-foreground">
-                Results-driven AWS DevOps Engineer with <span className="font-semibold text-foreground">{PROFILE.years} years</span> architecting cloud-native platforms, Kubernetes infrastructure, GitOps workflows and DevSecOps pipelines across production environments. I embed <span className="text-foreground">SonarQube, Trivy, Snyk & Checkov</span> across the SDLC, harden clusters with IAM/IRSA/OIDC/Vault, and drive observability with Prometheus, Grafana, Datadog & CloudWatch.
+                I'm an <span className="text-foreground font-medium">AWS DevOps Engineer</span>, <span className="text-foreground font-medium">DevSecOps Engineer</span>, and <span className="text-foreground font-medium">Platform Engineer</span> with <span className="text-foreground font-medium">6+ years</span> of experience designing secure, scalable, and automated cloud-native infrastructure. My work spans <span className="text-foreground font-medium">AWS Cloud</span>, <span className="text-foreground font-medium">Kubernetes</span>, <span className="text-foreground font-medium">Platform Engineering</span>, <span className="text-foreground font-medium">GitOps</span>, <span className="text-foreground font-medium">CI/CD automation</span>, <span className="text-foreground font-medium">Infrastructure as Code</span>, and <span className="text-foreground font-medium">DevSecOps</span>, helping organizations accelerate software delivery, improve platform reliability, and operate production environments with confidence.
               </p>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-lg leading-relaxed text-muted-foreground">
-                Track record of reducing deploy time by <span className="text-foreground">60%</span>, cutting cloud costs by <span className="text-foreground">30%</span>, improving MTTR by <span className="text-foreground">50%</span>, and sustaining <span className="text-foreground">99.9% uptime</span>.
+                I've designed and managed production workloads on <span className="text-foreground font-medium">AWS</span>, built end-to-end <span className="text-foreground font-medium">CI/CD</span> and <span className="text-foreground font-medium">GitOps</span> pipelines, automated infrastructure provisioning with <span className="text-foreground font-medium">Terraform</span> and <span className="text-foreground font-medium">Ansible</span>, and deployed cloud-native applications on <span className="text-foreground font-medium">Amazon EKS</span>. My focus is on creating resilient, highly available platforms that simplify operations and enable development teams to deliver software faster and more securely.
               </p>
             </Reveal>
+            <Reveal delay={0.2}>
+              <p className="text-lg leading-relaxed text-muted-foreground">
+                Security is embedded into every platform I build. I integrate <span className="text-foreground font-medium">DevSecOps</span> practices throughout the software delivery lifecycle by incorporating automated security scanning, policy enforcement, and compliance into CI/CD pipelines. I also implement <span className="text-foreground font-medium">Kubernetes security</span> best practices, including <span className="text-foreground font-medium">RBAC</span>, <span className="text-foreground font-medium">IRSA</span>, <span className="text-foreground font-medium">OIDC</span>, <span className="text-foreground font-medium">Network Policies</span>, <span className="text-foreground font-medium">Secrets Management</span>, and runtime security to build secure-by-design platforms.
+              </p>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <p className="text-lg leading-relaxed text-muted-foreground">
+                Beyond automation and deployment, I'm passionate about <span className="text-foreground font-medium">Platform Engineering</span> and <span className="text-foreground font-medium">Observability</span>. I build reliable, production-ready systems using <span className="text-foreground font-medium">Prometheus</span>, <span className="text-foreground font-medium">Grafana</span>, <span className="text-foreground font-medium">Amazon CloudWatch</span>, <span className="text-foreground font-medium">Datadog</span>, and <span className="text-foreground font-medium">OpenTelemetry</span>, enabling proactive monitoring, faster incident response, and improved platform performance.
+              </p>
+            </Reveal>
+            <Reveal delay={0.4}>
+              <p className="text-lg leading-relaxed text-muted-foreground">
+                I'm always exploring modern <span className="text-foreground font-medium">cloud-native technologies</span>, <span className="text-foreground font-medium">Kubernetes best practices</span>, <span className="text-foreground font-medium">GitOps workflows</span>, and <span className="text-foreground font-medium">DevSecOps strategies</span> to build platforms that are automated by default, secure by design, and engineered for scale. Most of my work has been on enterprise production systems, and I'm always happy to discuss the architecture, engineering decisions, and challenges behind the platforms I've built.
+              </p>
+            </Reveal>
+          </div>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {STATS.map((s, i) => (
                 <Reveal key={s.label} delay={0.05 * i}>

@@ -2,7 +2,7 @@ import type { IconType } from "react-icons";
 import {
   SiKubernetes, SiIstio, SiNginx, SiRedis, SiPostgresql, SiArgo, SiHelm,
   SiPrometheus, SiGrafana, SiGithub, SiGithubactions, SiOpenapiinitiative,
-  SiOpentelemetry, SiFluentbit, SiOpenpolicyagent, SiCloudflare,
+  SiOpentelemetry, SiFluentbit, SiCloudflare,
 } from "react-icons/si";
 import {
   FaAws, FaCloud, FaUsers, FaShieldAlt, FaLock, FaBell, FaDatabase,

@@ -214,23 +214,44 @@ export function Pipeline() {
 
 
   return (
-    <section id="pipeline" className="relative px-4 py-24 sm:px-6">
+    <section
+      id="pipeline"
+      aria-labelledby="pipeline-heading"
+      aria-describedby="pipeline-desc pipeline-shortcuts"
+      className="relative px-4 py-24 sm:px-6"
+    >
       {/* aurora backdrop */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-1/2 top-10 h-[420px] w-[900px] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
              style={{ background: "conic-gradient(from 90deg, var(--color-aurora-1), var(--color-aurora-2), var(--color-aurora-3), var(--color-aurora-1))" }} />
       </div>
 
+      {/* Screen-reader live region for simulator state */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {announce}
+      </div>
+
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-start gap-2">
           <span className="font-mono text-xs uppercase tracking-widest text-primary">/ DevSecOps Pipeline</span>
-          <h2 className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+          <h2 id="pipeline-heading" className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             An enterprise control plane — from commit to production.
           </h2>
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          <p id="pipeline-desc" className="mt-2 max-w-2xl text-sm text-muted-foreground">
             22 stages · 90+ production tools with official logos. Signed artifacts, policy-gated deploys, real-time observability. Hover any logo, click any stage.
           </p>
+          <p id="pipeline-shortcuts" className="mt-1 text-xs text-muted-foreground/80">
+            <span className="sr-only">Keyboard shortcuts: </span>
+            <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">P</kbd> or
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">Space</kbd> play/pause ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">R</kbd> reset ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">D</kbd> density ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">← ↑ → ↓</kbd> move between stages ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">Enter</kbd> open details ·
+            {" "}<kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">Esc</kbd> close
+          </p>
         </div>
+
 
         {/* Dashboard stats */}
         <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">

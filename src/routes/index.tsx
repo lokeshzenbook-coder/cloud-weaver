@@ -188,8 +188,8 @@ function Hero() {
 /* ---------------- Open to work banner ---------------- */
 function OpenToWork() {
   return (
-    <section id="work-banner" className="relative px-4 py-10 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="work-banner" className="section-shell-tight">
+      <div className="section-container">
         <Reveal>
           <div className="glass animated-border relative overflow-hidden rounded-2xl p-6 sm:p-8">
             <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
@@ -228,8 +228,8 @@ function OpenToWork() {
 /* ---------------- About / Stats ---------------- */
 function About() {
   return (
-    <section id="about" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="about" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="About" title="Platform engineer, obsessed with reliability." />
         </Reveal>
@@ -289,8 +289,8 @@ function About() {
 /* ---------------- Experience timeline ---------------- */
 function Experience() {
   return (
-    <section id="experience" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="experience" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Experience" title="Six years shipping cloud-native platforms." />
         </Reveal>
@@ -331,8 +331,8 @@ function Experience() {
 /* ---------------- Skills ---------------- */
 function Skills() {
   return (
-    <section id="skills" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="skills" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Skills" title="An opinionated, production-grade toolbelt." />
         </Reveal>
@@ -383,8 +383,8 @@ function Projects() {
   }, [filter, query]);
 
   return (
-    <section id="projects" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="projects" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Featured Projects" title="Cloud platforms in production." />
         </Reveal>
@@ -475,8 +475,8 @@ function Projects() {
 /* ---------------- Certifications ---------------- */
 function Certifications() {
   return (
-    <section id="certifications" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="certifications" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Certifications" title="Credentials & continuous learning." />
         </Reveal>
@@ -514,7 +514,7 @@ function Certifications() {
 /* ---------------- Resume section ---------------- */
 function ResumeSection() {
   return (
-    <section id="resume" className="relative px-4 py-24 sm:px-6">
+    <section id="resume" className="section-shell">
       <div className="mx-auto max-w-4xl">
         <Reveal>
           <div className="glass animated-border relative overflow-hidden rounded-3xl p-8 sm:p-10">
@@ -562,8 +562,8 @@ function Contact() {
   ];
 
   return (
-    <section id="contact" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="contact" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Contact" title="Let's build reliable platforms together." />
         </Reveal>

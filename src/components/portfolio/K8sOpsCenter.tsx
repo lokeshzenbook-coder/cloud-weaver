@@ -328,7 +328,7 @@ function TreeNode({ node, depth = 0, onPick, open, toggle }: {
           </button>
         ) : <span className="w-4" />}
         <div className="flex h-6 w-6 items-center justify-center rounded" style={{ background: `${node.color}18`, color: node.color }}>
-          <node.Icon size={13} />
+          <node.Icon size={13}  aria-hidden />
         </div>
         <button onClick={() => onPick(node)} className="flex-1 truncate text-left">
           <span className="font-medium">{node.label}</span>
@@ -406,7 +406,7 @@ function Security({ onPickEvent, incident }: { onPickEvent: (e: SecEvent) => voi
       <div className="mb-3 flex flex-wrap gap-1.5">
         {SEC_TOOLS.map(t => (
           <div key={t.name} className="flex items-center gap-1.5 rounded-full border border-foreground/10 bg-foreground/[0.03] px-2 py-1 text-[10px]" style={{ color: t.color }}>
-            <t.Icon size={11} /> <span className="text-muted-foreground">{t.name}</span>
+            <t.Icon size={11}  aria-hidden /> <span className="text-muted-foreground">{t.name}</span>
           </div>
         ))}
       </div>
@@ -427,7 +427,7 @@ function Security({ onPickEvent, incident }: { onPickEvent: (e: SecEvent) => voi
                 onClick={() => onPickEvent(e)}
                 className={`flex w-full items-center gap-2 rounded-lg border ${sev.ring} bg-foreground/[0.02] px-2.5 py-2 text-left text-xs hover:bg-foreground/[0.05]`}
               >
-                <sev.icon className={`shrink-0 ${sev.color}`} />
+                <sev.icon className={`shrink-0 ${sev.color}`}  aria-hidden />
                 <span className="truncate font-medium text-foreground">{e.msg}</span>
                 <span className="ml-auto shrink-0 text-[10px] text-muted-foreground">{e.tool} · {e.ns} · {e.ts}</span>
               </motion.button>
@@ -510,7 +510,7 @@ function GitOps() {
               transition={{ duration: 1, repeat: isActive ? Infinity : 0 }}
             >
               <div className="flex h-7 w-7 items-center justify-center rounded" style={{ color: s.color }}>
-                <s.Icon size={16} />
+                <s.Icon size={16}  aria-hidden />
               </div>
               <div className="w-full truncate text-center text-[10px] font-medium">{s.label}</div>
               <span className={`absolute -right-1 -top-1 h-2 w-2 rounded-full ${state.dot}`} />
@@ -584,7 +584,7 @@ function Observability() {
             { Icon: SiLoki, c: "#F46800" },
             { Icon: SiJaeger, c: "#66CFE3" },
             { Icon: SiOpentelemetry, c: "#F5A800" },
-          ].map((t, i) => <t.Icon key={i} style={{ color: t.c }} />)}
+          ].map((t, i) => <t.Icon key={i} style={{ color: t.c }}  aria-hidden />)}
         </div>
       }
     >
@@ -644,11 +644,11 @@ function Autoscaling() {
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-1 text-[10px] text-muted-foreground">
-          <span>Metrics Server</span><FaArrowRight />
-          <span>HPA</span><FaArrowRight />
-          <span>Pods↑</span><FaArrowRight />
-          <span>Karpenter</span><FaArrowRight />
-          <span>Nodes↑</span><FaArrowRight />
+          <span>Metrics Server</span><FaArrowRight  aria-hidden />
+          <span>HPA</span><FaArrowRight  aria-hidden />
+          <span>Pods↑</span><FaArrowRight  aria-hidden />
+          <span>Karpenter</span><FaArrowRight  aria-hidden />
+          <span>Nodes↑</span><FaArrowRight  aria-hidden />
           <span>Cluster Autoscaler</span>
         </div>
       </div>
@@ -718,7 +718,7 @@ function IncidentBar({ incident, setIncident }: { incident: string | null; setIn
   return (
     <div className="glass flex flex-wrap items-center gap-2 rounded-2xl border border-foreground/10 p-3">
       <div className="flex items-center gap-2 pr-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        <FaFire className="text-rose-400" /> Chaos Simulator
+        <FaFire className="text-rose-400"  aria-hidden /> Chaos Simulator
       </div>
       <div className="flex flex-wrap gap-1.5">
         {INCIDENTS.map(i => (
@@ -737,7 +737,7 @@ function IncidentBar({ incident, setIncident }: { incident: string | null; setIn
       <div className="ml-auto flex items-center gap-2 text-xs">
         {incident ? (
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-1.5 rounded-full bg-rose-500/15 px-2 py-1 text-rose-300">
-            <FaBolt /> Remediating: {incident}
+            <FaBolt  aria-hidden /> Remediating: {incident}
           </motion.span>
         ) : (
           <span className="flex items-center gap-1.5 text-emerald-400"><StatusDot status="healthy" /> Steady state</span>
@@ -781,7 +781,7 @@ function Drawer({ item, onClose }: { item: DrawerItem | null; onClose: () => voi
                   {item.kind === "sec" ? item.data.msg : item.data.label}
                 </h3>
               </div>
-              <button onClick={onClose} className="glass rounded-full p-2 hover:bg-foreground/10"><HiOutlineX /></button>
+              <button onClick={onClose} className="glass rounded-full p-2 hover:bg-foreground/10"><HiOutlineX  aria-hidden /></button>
             </div>
 
             {item.kind === "flow" && (
@@ -912,7 +912,7 @@ function Tabs({ tab, setTab }: { tab: string; setTab: (t: any) => void }) {
             tab === t.id ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          <t.Icon /> {t.label}
+          <t.Icon  aria-hidden /> {t.label}
         </button>
       ))}
     </div>

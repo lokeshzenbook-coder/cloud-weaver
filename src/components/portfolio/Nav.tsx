@@ -34,23 +34,39 @@ export function Nav() {
     setOpen(false);
   };
 
-  const downloadResume = async (e: React.MouseEvent) => {
-    e.preventDefault();
+  const RESUME_FILENAME = "Lokesh_GR_Resume.pdf";
+
+  const downloadResume = async (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    // Try blob download first (forces "Save As" even if server sends inline disposition)
     try {
-      const res = await fetch(resume.url, { credentials: "omit" });
+      const res = await fetch(resume.url, { credentials: "omit", cache: "no-store" });
       if (!res.ok) throw new Error(String(res.status));
       const blob = await res.blob();
       const pdfBlob = blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" });
       const objectUrl = URL.createObjectURL(pdfBlob);
       const a = document.createElement("a");
       a.href = objectUrl;
-      a.download = "Lokesh_GR_Resume.pdf";
+      a.download = RESUME_FILENAME;
+      a.rel = "noopener";
       document.body.appendChild(a);
       a.click();
       a.remove();
-      setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 2000);
+      return;
     } catch {
-      window.open(resume.url, "_blank", "noopener,noreferrer");
+      // Fallback: same-origin anchor with download attribute
+      try {
+        const a = document.createElement("a");
+        a.href = resume.url;
+        a.download = RESUME_FILENAME;
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } catch {
+        window.open(resume.url, "_blank", "noopener,noreferrer");
+      }
     }
   };
 

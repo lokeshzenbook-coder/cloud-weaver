@@ -19,7 +19,7 @@ import { K8sOpsCenter } from "@/components/portfolio/K8sOpsCenter";
 
 import { Counter, Reveal, MagneticButton } from "@/components/portfolio/ui";
 import resume from "@/assets/resume.pdf.asset.json";
-import profilePhoto from "@/assets/G_R_Photo.png.asset.json";
+
 
 
 export const Route = createFileRoute("/")({
@@ -234,24 +234,7 @@ function About() {
           <SectionHeading eyebrow="About" title="Platform engineer, obsessed with reliability." />
         </Reveal>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.4fr]">
-          <Reveal>
-            <div className="glass ring-glow rounded-2xl p-6">
-              <div className="relative mx-auto flex h-52 w-52 items-center justify-center rounded-full">
-                <div className="animated-border absolute inset-0 rounded-full" />
-                <div className="relative h-44 w-44 overflow-hidden rounded-full bg-gradient-to-br from-[var(--color-aurora-1)]/30 via-transparent to-[var(--color-aurora-2)]/30 ring-1 ring-white/10">
-                  <img
-                    src={profilePhoto.url}
-                    alt={`${PROFILE.name} — ${PROFILE.title}`}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="space-y-6">
+        <div className="mt-10 space-y-6">
             <Reveal>
               <p className="text-lg leading-relaxed text-muted-foreground">
                 I'm an <span className="text-foreground font-medium">AWS DevOps Engineer</span>, <span className="text-foreground font-medium">DevSecOps Engineer</span>, and <span className="text-foreground font-medium">Platform Engineer</span> with <span className="text-foreground font-medium">6+ years</span> of experience designing secure, scalable, and automated cloud-native infrastructure. My work spans <span className="text-foreground font-medium">AWS Cloud</span>, <span className="text-foreground font-medium">Kubernetes</span>, <span className="text-foreground font-medium">Platform Engineering</span>, <span className="text-foreground font-medium">GitOps</span>, <span className="text-foreground font-medium">CI/CD automation</span>, <span className="text-foreground font-medium">Infrastructure as Code</span>, and <span className="text-foreground font-medium">DevSecOps</span>, helping organizations accelerate software delivery, improve platform reliability, and operate production environments with confidence.
@@ -289,7 +272,6 @@ function About() {
                 </Reveal>
               ))}
             </div>
-          </div>
         </div>
       </div>
     </section>

@@ -279,14 +279,14 @@ export function Pipeline() {
                 {/* header */}
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex min-w-0 items-center gap-2">
-                    <div className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-gradient-to-br from-white/10 to-white/[0.02]">
-                      <StageIcon className="h-3.5 w-3.5 text-primary" />
+                    <div className={`grid ${d.stageIconBox} shrink-0 place-items-center rounded-md bg-gradient-to-br from-white/10 to-white/[0.02]`}>
+                      <StageIcon className={`${d.stageIconInner} text-primary`} />
                     </div>
                     <div className="min-w-0">
-                      <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+                      <span className={`font-mono ${d.stageLabel} uppercase tracking-widest text-muted-foreground`}>
                         Stage {String(i + 1).padStart(2, "0")}
                       </span>
-                      <div className="truncate text-[13px] font-semibold leading-tight">{stage.name}</div>
+                      <div className={`truncate ${d.stageTitle} font-semibold leading-tight`}>{stage.name}</div>
                     </div>
                   </div>
                   <div className="flex shrink-0 items-center gap-1">

@@ -191,6 +191,11 @@ export function Pipeline() {
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5">
+                    {retried[stage.id] && (
+                      <span className="rounded-full border border-amber-400/40 bg-amber-400/10 px-1.5 py-[1px] text-[9px] font-medium uppercase tracking-wider text-amber-300">
+                        Retry
+                      </span>
+                    )}
                     <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
                     <span className="text-[10px] text-muted-foreground">{s.label}</span>
                   </div>

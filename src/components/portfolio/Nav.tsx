@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { HiMenu, HiX, HiDownload, HiExternalLink } from "react-icons/hi";
 import { NAV_LINKS, PROFILE } from "@/lib/portfolio-data";
-import resume from "@/assets/resume.pdf.asset.json";
-import resumePage1 from "@/assets/resume-page-1.jpg.asset.json";
-import resumePage2 from "@/assets/resume-page-2.jpg.asset.json";
+import { ResumeViewer } from "@/components/portfolio/ResumeViewer";
+import { RESUME_FILENAME, RESUME_FILE_URL, RESUME_ORIGINAL_FILENAME, RESUME_VIEWER_URL } from "@/lib/resume";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -12,7 +11,6 @@ export function Nav() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 20 });
-  const resumePages = [resumePage1, resumePage2];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -37,14 +35,12 @@ export function Nav() {
     setOpen(false);
   };
 
-  const RESUME_FILENAME = "Lokesh_GR_Resume.pdf";
-
   const downloadResume = async (e?: React.MouseEvent) => {
     e?.preventDefault();
     // Same-origin anchor download — synchronous, no fetch, works in preview iframe.
     const anchorDownload = () => {
       const a = document.createElement("a");
-      a.href = resume.url;
+      a.href = RESUME_FILE_URL;
       a.download = RESUME_FILENAME;
       a.rel = "noopener";
       document.body.appendChild(a);
@@ -52,14 +48,14 @@ export function Nav() {
       a.remove();
     };
     // Fire it immediately so the click actually downloads something.
-    try { anchorDownload(); } catch { window.open(resume.url, "_blank", "noopener,noreferrer"); return; }
+    try { anchorDownload(); } catch { window.open(RESUME_FILE_URL, "_blank", "noopener,noreferrer"); return; }
 
     // Best-effort blob upgrade: if the browser previewed instead of downloading,
     // this forces a proper Save-As with the right filename. Times out fast so it never hangs.
     try {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 4000);
-      const res = await fetch(resume.url, { credentials: "omit", cache: "no-store", signal: controller.signal });
+      const res = await fetch(RESUME_FILE_URL, { credentials: "omit", cache: "no-store", signal: controller.signal });
       clearTimeout(timer);
       if (!res.ok) return;
       const blob = await res.blob();
@@ -174,10 +170,10 @@ export function Nav() {
               onClick={e => e.stopPropagation()}
             >
               <div className="flex items-center justify-between gap-2 border-b border-foreground/10 px-4 py-3">
-                <div className="text-sm font-medium">{resume.original_filename}</div>
+                <div className="text-sm font-medium">{RESUME_ORIGINAL_FILENAME}</div>
                 <div className="flex items-center gap-2">
                   <a
-                    href={resume.url}
+                    href={RESUME_VIEWER_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-full border border-foreground/15 px-3 py-1.5 text-xs font-medium text-foreground/80 hover:bg-foreground/5"
@@ -201,22 +197,13 @@ export function Nav() {
                   </button>
                 </div>
               </div>
-              <div
-                className="flex-1 overflow-y-auto bg-foreground/5 p-3 sm:p-6"
-                aria-label="Resume image preview"
-              >
-                <div className="mx-auto flex max-w-3xl flex-col gap-4">
-                  {resumePages.map((page, index) => (
-                    <img
-                      key={page.asset_id}
-                      src={page.url}
-                      alt={`Resume page ${index + 1} preview`}
-                      loading={index === 0 ? "eager" : "lazy"}
-                      className="w-full rounded-lg border border-foreground/10 bg-background shadow-2xl"
-                    />
-                  ))}
-                </div>
-              </div>
+              <ResumeViewer
+                fileUrl={RESUME_FILE_URL}
+                openUrl={RESUME_VIEWER_URL}
+                downloadFilename={RESUME_FILENAME}
+                onDownload={() => void downloadResume()}
+                className="flex-1"
+              />
             </div>
           </motion.div>
         )}

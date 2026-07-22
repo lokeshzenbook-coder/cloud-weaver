@@ -104,9 +104,14 @@ export function K8sOpsCenter() {
   }, [workers, nodes]);
 
   return (
-    <section id="k8s-ops" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-7xl">
-        <div>
+    <section id="k8s-ops" className="relative scroll-mt-24 px-4 py-24 sm:px-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
           <span className="font-mono text-xs uppercase tracking-widest text-primary">/ Kubernetes Operations Center</span>
           <h2 className="mt-2 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             Production K8s — from edge to control plane, live.
@@ -116,20 +121,33 @@ export function K8sOpsCenter() {
             22 services, 4 nodes, live metrics, incident simulation, and self-healing across a real
             production topology.
           </p>
-        </div>
+        </motion.div>
 
         {/* Cluster dashboard */}
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <motion.div
+          className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+        >
           <StatTile label="Cluster CPU" value={`${clusterMetrics.cpu}%`} bar={clusterMetrics.cpu} accent="var(--color-aurora-1)" />
           <StatTile label="Cluster Memory" value={`${clusterMetrics.mem}%`} bar={clusterMetrics.mem} accent="var(--color-aurora-2)" />
           <StatTile label="Nodes Ready" value={`${clusterMetrics.ready}/${clusterMetrics.total}`} accent="#34d399" />
           <StatTile label="Pods Running" value={`${clusterMetrics.pods}`} accent="#22d3ee" />
           <StatTile label="Critical Alerts" value={`${clusterMetrics.critical}`} accent={clusterMetrics.critical > 0 ? "#f87171" : "#34d399"} />
           <StatTile label="SLO Availability" value="99.94%" accent="#a78bfa" />
-        </div>
+        </motion.div>
+
 
         {/* Controls */}
-        <div className="mt-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <motion.div
+          className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.1 }}
+        >
           <div className="flex flex-wrap gap-1.5">
             {K8S_CATEGORIES.map(c => (
               <button
@@ -166,10 +184,16 @@ export function K8sOpsCenter() {
               <HiOutlineRefresh /> Reset
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Incident simulator */}
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <motion.div
+          className="flex flex-wrap items-center gap-2"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
+        >
           <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Simulate incident:</span>
           {INCIDENTS.map(i => (
             <button
@@ -180,13 +204,13 @@ export function K8sOpsCenter() {
               {i.label}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         <AnimatePresence>
           {banner && (
             <motion.div
               initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-              className={`mt-4 flex items-center gap-2 rounded-xl border px-4 py-2 text-xs ${
+              className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-xs ${
                 banner.startsWith("✓")
                   ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-200"
                   : "border-rose-400/40 bg-rose-500/10 text-rose-200"
@@ -199,7 +223,14 @@ export function K8sOpsCenter() {
         </AnimatePresence>
 
         {/* Worker nodes panel */}
-        <div className="mt-6 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+        <motion.div
+          className="grid gap-4 lg:grid-cols-[1.4fr_1fr]"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
+        >
+
 
           <div className="glass rounded-2xl border border-white/10 p-5">
             <div className="mb-3 flex items-center justify-between">
@@ -265,7 +296,8 @@ export function K8sOpsCenter() {
               <Legend color="bg-rose-400" label="Failed" />
             </div>
           </div>
-        </div>
+        </motion.div>
+
       </div>
 
       {/* Drawer */}

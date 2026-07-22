@@ -314,6 +314,12 @@ export function Pipeline() {
                     </div>
                   </div>
                   <div className="flex shrink-0 items-center gap-1">
+                    {isHelmStage && (
+                      <span className="inline-flex items-center gap-1 rounded-full border border-[#0F1689]/50 bg-[#0F1689]/15 px-1.5 py-[1px] text-[9px] font-medium uppercase tracking-wider text-[#6B7BFF]">
+                        <SiHelm className="h-2.5 w-2.5" />
+                        <span className="hidden sm:inline">Helm</span>
+                      </span>
+                    )}
                     {retried[stage.id] && (
                       <span className="rounded-full border border-amber-400/40 bg-amber-400/10 px-1.5 py-[1px] text-[9px] font-medium uppercase tracking-wider text-amber-300">
                         Retry

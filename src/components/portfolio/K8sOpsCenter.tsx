@@ -141,7 +141,13 @@ export function K8sOpsCenter() {
 
 
         {/* Controls */}
-        <div className="mt-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <motion.div
+          className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.1 }}
+        >
           <div className="flex flex-wrap gap-1.5">
             {K8S_CATEGORIES.map(c => (
               <button
@@ -178,10 +184,16 @@ export function K8sOpsCenter() {
               <HiOutlineRefresh /> Reset
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Incident simulator */}
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <motion.div
+          className="flex flex-wrap items-center gap-2"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
+        >
           <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Simulate incident:</span>
           {INCIDENTS.map(i => (
             <button
@@ -192,13 +204,13 @@ export function K8sOpsCenter() {
               {i.label}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         <AnimatePresence>
           {banner && (
             <motion.div
               initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-              className={`mt-4 flex items-center gap-2 rounded-xl border px-4 py-2 text-xs ${
+              className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-xs ${
                 banner.startsWith("✓")
                   ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-200"
                   : "border-rose-400/40 bg-rose-500/10 text-rose-200"
@@ -211,7 +223,14 @@ export function K8sOpsCenter() {
         </AnimatePresence>
 
         {/* Worker nodes panel */}
-        <div className="mt-6 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+        <motion.div
+          className="grid gap-4 lg:grid-cols-[1.4fr_1fr]"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
+        >
+
 
           <div className="glass rounded-2xl border border-white/10 p-5">
             <div className="mb-3 flex items-center justify-between">

@@ -82,16 +82,85 @@ html {
   }
   body {
     background-color: var(--color-background);
-    color: var(--color-foreground);
+    /* Body copy: soft ~88% white — never pure white, comfortable for reading */
+    color: color-mix(in oklab, var(--color-foreground) 88%, transparent);
     font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11", "kern";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
+  }
+  /* Headings: full theme foreground + tighter tracking for premium feel */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-foreground);
+    letter-spacing: -0.02em;
+    font-feature-settings: "ss01", "cv11", "kern";
+  }
+  h1 { letter-spacing: -0.035em; }
+  h2 { letter-spacing: -0.025em; }
+  /* Paragraphs default to the softened body tone; explicit text-* utilities still win */
+  p {
+    color: color-mix(in oklab, var(--color-foreground) 85%, transparent);
+    line-height: 1.65;
+  }
+  strong, b {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+  small {
+    color: var(--color-muted-foreground);
+  }
+  code, kbd, samp {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: color-mix(in oklab, var(--color-aurora-1) 85%, var(--color-foreground));
+    background: color-mix(in oklab, var(--color-aurora-2) 10%, transparent);
+    padding: 0.1em 0.35em;
+    border-radius: 0.3rem;
   }
   ::selection {
     background: color-mix(in oklab, var(--color-brand) 40%, transparent);
     color: var(--color-foreground);
   }
+}
+
+/* Animated underline for inline links (opt-in via .link-underline) */
+@utility link-underline {
+  position: relative;
+  color: var(--color-brand);
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background: linear-gradient(90deg,
+      var(--color-aurora-1),
+      var(--color-aurora-2));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  &:hover {
+    color: color-mix(in oklab, var(--color-aurora-1) 60%, var(--color-foreground));
+    text-shadow: 0 0 12px color-mix(in oklab, var(--color-aurora-1) 40%, transparent);
+  }
+  &:hover::after { transform: scaleX(1); }
+}
+
+/* Numeric / metric emphasis: bright accent + tabular figures */
+@utility text-metric {
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(120deg,
+    var(--color-aurora-1) 0%,
+    var(--color-foreground) 60%,
+    var(--color-aurora-2) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Aurora background */

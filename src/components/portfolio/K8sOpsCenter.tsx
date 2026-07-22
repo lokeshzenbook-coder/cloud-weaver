@@ -624,8 +624,10 @@ function Autoscaling() {
           <input
             type="range" min={0} max={100} value={traffic}
             onChange={e => setTraffic(+e.target.value)}
+            aria-label="Simulated traffic percentage"
             className="w-full accent-[color:var(--color-aurora-1)]"
           />
+
         </div>
         <div className="grid grid-cols-3 gap-2 text-center">
           <div className="rounded-lg bg-foreground/[0.03] p-2">

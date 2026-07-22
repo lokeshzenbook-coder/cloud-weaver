@@ -90,12 +90,8 @@ export function K8sOpsCenter() {
     setFilter("All");
   };
 
-  /* Spotlight tracker */
-  const onMove = (e: React.MouseEvent) => {
-    const r = canvasRef.current?.getBoundingClientRect();
-    if (!r) return;
-    setSpot({ x: e.clientX - r.left, y: e.clientY - r.top });
-  };
+
+
 
   /* Aggregate metrics */
   const clusterMetrics = useMemo(() => {

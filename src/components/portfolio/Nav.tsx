@@ -71,7 +71,7 @@ export function Nav() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              className="mx-auto mt-2 max-w-6xl px-4 md:hidden"
+              className="section-container mt-2 px-4 md:hidden"
             >
               <div className="glass-strong flex flex-col rounded-2xl p-2">
                 {NAV_LINKS.map(l => (

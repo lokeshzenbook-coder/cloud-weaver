@@ -141,7 +141,7 @@ const SEC_TOOLS = [
   { name: "Secrets Manager", Icon: FaLock, color: "#DD344C" },
   { name: "Cosign", Icon: FaCheckCircle, color: "#22c55e" },
 ];
-const SEC_EVENT_POOL: SecEvent[] = [
+const SEC_EVENT_POOL: Omit<SecEvent, "ts">[] = [
   { severity: "info", tool: "Cosign", msg: "Image signature verified", pod: "payments-9f8c-x2", ns: "production", remediation: "No action — signature valid via keyless OIDC." },
   { severity: "warn", tool: "Falco", msg: "Unexpected shell in container", pod: "orders-77b-abc", ns: "production", remediation: "Terminate exec, review PodSecurityContext, restrict readOnlyRootFilesystem." },
   { severity: "high", tool: "Kyverno", msg: "Privileged container blocked", pod: "debug-tools-x", ns: "sandbox", remediation: "Remove securityContext.privileged: true and redeploy." },

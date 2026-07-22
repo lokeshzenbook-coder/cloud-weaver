@@ -272,7 +272,6 @@ function About() {
                 </Reveal>
               ))}
             </div>
-          </div>
         </div>
       </div>
     </section>

@@ -278,7 +278,11 @@ export function Pipeline() {
                 animate={{ opacity: dim ? 0.25 : 1, scale: dim ? 0.98 : 1 }}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.25 }}
-                className={`glass group relative flex flex-col overflow-hidden rounded-xl border text-left transition-shadow ${d.card} ${s.ring} ${s.glow}`}
+                className={`glass group relative flex flex-col overflow-hidden rounded-xl border text-left transition-shadow ${d.card} ${s.ring} ${s.glow} ${
+                  helmHighlight && isHelmStage
+                    ? "border-[#0F1689]/60 shadow-[0_0_28px_-6px_rgba(15,22,137,0.55)]"
+                    : ""
+                }`}
               >
                 {/* animated gradient border on running */}
                 {status === "running" && (

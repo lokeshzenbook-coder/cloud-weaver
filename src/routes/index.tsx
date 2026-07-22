@@ -694,6 +694,8 @@ function Home() {
       <Experience />
       <Skills />
       <Pipeline />
+      <K8sOpsCenter />
+      
       
       <Projects />
 

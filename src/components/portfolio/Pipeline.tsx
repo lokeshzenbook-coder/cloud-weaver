@@ -268,6 +268,7 @@ export function Pipeline() {
             const dim = !matchesFilter(stage);
             const s = statusStyle[status];
             const StageIcon = stage.icon;
+            const isHelmStage = stageHasHelm(stage);
             return (
               <motion.button
                 key={stage.id}

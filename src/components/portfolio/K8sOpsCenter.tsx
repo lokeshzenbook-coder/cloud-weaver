@@ -34,20 +34,8 @@ export function K8sOpsCenter() {
   const [workers, setWorkers] = useState<WorkerNode[]>(INITIAL_WORKERS);
   const [running, setRunning] = useState(true);
   const [banner, setBanner] = useState<string | null>(null);
-  const canvasRef = useRef<HTMLDivElement | null>(null);
-  const [spot, setSpot] = useState<{ x: number; y: number } | null>(null);
 
 
-  const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return nodes.filter(n => {
-      const catOk = filter === "All" || n.categories.includes(filter as K8sCategory);
-      const qOk = !q || n.name.toLowerCase().includes(q) || n.short.toLowerCase().includes(q) ||
-        (n.namespace ?? "").toLowerCase().includes(q) || n.id.includes(q);
-      return catOk && qOk;
-    });
-  }, [nodes, filter, query]);
-  const visibleIds = useMemo(() => new Set(visible.map(v => v.id)), [visible]);
 
   /* Live metrics jitter */
   useEffect(() => {

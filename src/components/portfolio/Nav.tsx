@@ -160,13 +160,13 @@ export function Nav() {
                   >
                     <HiExternalLink size={14} /> Open
                   </a>
-                  <a
-                    href={resume.url}
-                    download="Lokesh_GR_Resume.pdf"
+                  <button
+                    type="button"
+                    onClick={downloadResume}
                     className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3 py-1.5 text-xs font-medium text-background hover:scale-[1.03] transition-transform"
                   >
                     <HiDownload size={14} /> Download
-                  </a>
+                  </button>
                   <button
                     type="button"
                     onClick={() => setPreviewOpen(false)}

@@ -482,10 +482,12 @@ function GitOps() {
           </span>
           <button
             onClick={() => setRunning(r => !r)}
+            aria-label={running ? "Pause GitOps sync" : "Resume GitOps sync"}
             className="ml-2 rounded-md border border-foreground/10 bg-foreground/[0.03] px-2 py-1 text-[10px] hover:bg-foreground/10"
           >
-            {running ? <FaPause /> : <FaPlay />}
+            {running ? <FaPause aria-hidden /> : <FaPlay aria-hidden />}
           </button>
+
         </>
       }
     >

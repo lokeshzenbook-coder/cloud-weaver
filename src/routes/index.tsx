@@ -277,7 +277,6 @@ function About() {
                 I'm always exploring modern <span className="text-foreground font-medium">cloud-native technologies</span>, <span className="text-foreground font-medium">Kubernetes best practices</span>, <span className="text-foreground font-medium">GitOps workflows</span>, and <span className="text-foreground font-medium">DevSecOps strategies</span> to build platforms that are automated by default, secure by design, and engineered for scale. Most of my work has been on enterprise production systems, and I'm always happy to discuss the architecture, engineering decisions, and challenges behind the platforms I've built.
               </p>
             </Reveal>
-          </div>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {STATS.map((s, i) => (
                 <Reveal key={s.label} delay={0.05 * i}>

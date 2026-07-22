@@ -205,6 +205,7 @@ export const NAV_LINKS = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
+  { href: "#k8s-ops", label: "K8s Ops" },
   { href: "#pipeline", label: "Pipeline" },
   { href: "#projects", label: "Projects" },
   { href: "#certifications", label: "Certs" },

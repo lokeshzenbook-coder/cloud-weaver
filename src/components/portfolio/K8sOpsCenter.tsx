@@ -4,7 +4,7 @@ import {
   HiOutlineX, HiOutlinePlay, HiOutlinePause, HiOutlineRefresh, HiSearch,
   HiOutlineExternalLink, HiOutlineExclamation, HiOutlineCheckCircle,
   HiOutlineGlobeAlt, HiOutlineLockClosed, HiOutlineCube, HiOutlineDatabase,
-  HiOutlineCloud, HiOutlineCog, HiOutlineChevronRight, HiOutlineLoginOut,
+  HiOutlineCloud, HiOutlineCog, HiOutlineChevronRight, HiOutlineLogout,
 } from "react-icons/hi";
 import {
   K8S_NODES, K8S_CATEGORIES, COLUMN_LABELS, INITIAL_WORKERS, INCIDENTS,

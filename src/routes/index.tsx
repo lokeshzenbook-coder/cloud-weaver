@@ -13,8 +13,10 @@ import {
 } from "@/lib/portfolio-data";
 import { K8sViz } from "@/components/portfolio/K8sViz";
 import { Nav } from "@/components/portfolio/Nav";
+import { Pipeline } from "@/components/portfolio/Pipeline";
 import { Counter, Reveal, MagneticButton } from "@/components/portfolio/ui";
 import resume from "@/assets/resume.pdf.asset.json";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({

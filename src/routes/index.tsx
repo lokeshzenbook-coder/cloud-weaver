@@ -687,6 +687,7 @@ function Home() {
   return (
     <main>
       <Nav />
+      <BottomNav />
       <Hero />
       <OpenToWork />
       <About />

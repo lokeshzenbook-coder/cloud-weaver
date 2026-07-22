@@ -91,6 +91,10 @@ export function Pipeline() {
   const matchesFilter = (s: PipelineStage) =>
     filter === "All" || s.categories.includes(filter as StageCategory);
 
+  const stageHasHelm = (s: PipelineStage) =>
+    s.tools.some(t => t.name.toLowerCase().includes("helm"));
+
+
   const clearTimer = () => {
     if (timerRef.current !== null) {
       window.clearTimeout(timerRef.current);

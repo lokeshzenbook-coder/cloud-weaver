@@ -51,7 +51,7 @@ export const HERO_TECH: TechIcon[] = [
   { name: "Ansible", Icon: SiAnsible, color: "#EE0000" },
   { name: "NGINX", Icon: SiNginx, color: "#009639" },
   { name: "Istio", Icon: SiIstio, color: "#466BB0" },
-  { name: "SonarQube", Icon: SiSonarqube, color: "#4E9BCD" },
+  { name: "SonarQube", Icon: FaShieldAlt, color: "#4E9BCD" },
   { name: "GitLab CI", Icon: SiGitlab, color: "#FC6D26" },
 ];
 

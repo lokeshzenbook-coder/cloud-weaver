@@ -116,7 +116,7 @@ function Hero() {
     <section id="top" className="aurora-bg relative min-h-screen overflow-hidden pt-28 pb-16 sm:pt-32">
       <div className="grid-bg absolute inset-0" aria-hidden />
       <TechCloud />
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="section-container relative px-4 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
           <div className="text-center lg:text-left">
             <Reveal>

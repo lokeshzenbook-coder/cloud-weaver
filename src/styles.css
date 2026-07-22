@@ -191,25 +191,27 @@ html {
 
 @utility animated-border {
   position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg,
+      var(--color-aurora-1),
+      var(--color-aurora-2),
+      var(--color-aurora-3),
+      var(--color-aurora-1));
+    background-size: 300% 100%;
+    animation: shimmer 6s linear infinite;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
 }
-@utility animated-border::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(120deg,
-    var(--color-aurora-1),
-    var(--color-aurora-2),
-    var(--color-aurora-3),
-    var(--color-aurora-1));
-  background-size: 300% 100%;
-  animation: shimmer 6s linear infinite;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  pointer-events: none;
-}
+
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

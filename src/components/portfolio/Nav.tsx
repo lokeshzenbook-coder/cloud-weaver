@@ -38,10 +38,27 @@ export function Nav() {
 
   const downloadResume = async (e?: React.MouseEvent) => {
     e?.preventDefault();
-    // Try blob download first (forces "Save As" even if server sends inline disposition)
+    // Same-origin anchor download — synchronous, no fetch, works in preview iframe.
+    const anchorDownload = () => {
+      const a = document.createElement("a");
+      a.href = resume.url;
+      a.download = RESUME_FILENAME;
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    };
+    // Fire it immediately so the click actually downloads something.
+    try { anchorDownload(); } catch { window.open(resume.url, "_blank", "noopener,noreferrer"); return; }
+
+    // Best-effort blob upgrade: if the browser previewed instead of downloading,
+    // this forces a proper Save-As with the right filename. Times out fast so it never hangs.
     try {
-      const res = await fetch(resume.url, { credentials: "omit", cache: "no-store" });
-      if (!res.ok) throw new Error(String(res.status));
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 4000);
+      const res = await fetch(resume.url, { credentials: "omit", cache: "no-store", signal: controller.signal });
+      clearTimeout(timer);
+      if (!res.ok) return;
       const blob = await res.blob();
       const pdfBlob = blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" });
       const objectUrl = URL.createObjectURL(pdfBlob);
@@ -53,20 +70,8 @@ export function Nav() {
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(objectUrl), 2000);
-      return;
     } catch {
-      // Fallback: same-origin anchor with download attribute
-      try {
-        const a = document.createElement("a");
-        a.href = resume.url;
-        a.download = RESUME_FILENAME;
-        a.rel = "noopener";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      } catch {
-        window.open(resume.url, "_blank", "noopener,noreferrer");
-      }
+      /* anchorDownload already fired; nothing else to do */
     }
   };
 

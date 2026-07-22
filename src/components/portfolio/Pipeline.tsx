@@ -229,12 +229,64 @@ export function Pipeline() {
                     transition={{ duration: 1.4, repeat: Infinity }}
                   />
                 )}
-                {status === "failed" && (
+                {status === "retrying" && (
                   <motion.div
-                    className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-rose-400/50"
-                    animate={{ x: [0, -3, 3, -2, 2, 0] }}
-                    transition={{ duration: 0.4 }}
+                    className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-amber-400/60"
+                    animate={{ boxShadow: [
+                      "0 0 0 0 rgba(251,191,36,0.35)",
+                      "0 0 24px 3px rgba(251,191,36,0.35)",
+                      "0 0 0 0 rgba(251,191,36,0.35)",
+                    ] }}
+                    transition={{ duration: 1, repeat: Infinity }}
                   />
+                )}
+                {status === "success" && (
+                  <>
+                    <motion.div
+                      key={`ok-${stage.id}`}
+                      className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-emerald-400/60"
+                      initial={{ boxShadow: "0 0 0 0 rgba(52,211,153,0)" }}
+                      animate={{ boxShadow: [
+                        "0 0 0 0 rgba(52,211,153,0.55)",
+                        "0 0 34px 6px rgba(52,211,153,0.28)",
+                        "0 0 0 0 rgba(52,211,153,0)",
+                      ] }}
+                      transition={{ duration: 1.2, times: [0, 0.4, 1] }}
+                    />
+                    <motion.div
+                      className="pointer-events-none absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full bg-emerald-500/90 text-background shadow-[0_0_18px_rgba(52,211,153,0.6)]"
+                      initial={{ scale: 0, rotate: -30, opacity: 0 }}
+                      animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 18 }}
+                    >
+                      <HiCheck className="h-3.5 w-3.5" strokeWidth={3} />
+                    </motion.div>
+                  </>
+                )}
+                {status === "failed" && (
+                  <>
+                    <motion.div
+                      key={`fail-${stage.id}`}
+                      className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-rose-400/70"
+                      animate={{
+                        x: [0, -4, 4, -3, 3, -2, 2, 0],
+                        boxShadow: [
+                          "0 0 0 0 rgba(244,63,94,0.5)",
+                          "0 0 30px 4px rgba(244,63,94,0.45)",
+                          "0 0 18px 2px rgba(244,63,94,0.35)",
+                        ],
+                      }}
+                      transition={{ duration: 0.55, ease: "easeInOut" }}
+                    />
+                    <motion.div
+                      className="pointer-events-none absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full bg-rose-500/90 text-background shadow-[0_0_18px_rgba(244,63,94,0.65)]"
+                      initial={{ scale: 0, rotate: 30, opacity: 0 }}
+                      animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 16 }}
+                    >
+                      <HiX className="h-3.5 w-3.5" strokeWidth={3} />
+                    </motion.div>
+                  </>
                 )}
               </motion.button>
             );

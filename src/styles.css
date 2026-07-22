@@ -159,6 +159,26 @@ html {
   padding-inline: 0.25rem;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+  transition: background-position 0.4s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  cursor: default;
+
+  &:hover {
+    background-position: 100% 0%;
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--color-aurora-1) 50%, transparent),
+      0 0 20px -2px color-mix(in oklab, var(--color-aurora-1) 40%, transparent),
+      0 0 40px -8px color-mix(in oklab, var(--color-aurora-2) 35%, transparent);
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    background-position: 100% 0%;
+    box-shadow:
+      0 0 0 2px color-mix(in oklab, var(--color-aurora-1) 60%, transparent),
+      0 0 24px -2px color-mix(in oklab, var(--color-aurora-1) 50%, transparent),
+      0 0 48px -8px color-mix(in oklab, var(--color-aurora-2) 40%, transparent);
+  }
 }
 
 @utility grid-bg {

@@ -390,7 +390,7 @@ spec:
   {
     id: "kyverno", name: "Kyverno + OPA", short: "Policy engine",
     description: "Kyverno for admission policies (image signing, resource limits), OPA Gatekeeper for cluster-wide constraints.",
-    icon: SiOpenpolicyagent, color: "#7D4698",
+    icon: FaShieldAlt, color: "#7D4698",
     categories: ["Security"], column: 6, row: 6,
     status: "healthy", cpu: 7, mem: 12, replicas: 3, namespace: "kyverno",
     docs: "https://kyverno.io/docs/",

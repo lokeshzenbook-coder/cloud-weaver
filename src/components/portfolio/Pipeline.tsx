@@ -18,27 +18,27 @@ const statusStyle: Record<Status, { ring: string; dot: string; label: string; gl
 };
 
 /** Official brand logo tile — SVG when available, monogram fallback with brand color. */
-function LogoTile({ tool, size = 40 }: { tool: Tool; size?: number }) {
+function LogoTile({ tool, size = 30 }: { tool: Tool; size?: number }) {
   const Icon = tool.icon;
   return (
     <motion.div
-      whileHover={{ y: -3, scale: 1.08 }}
+      whileHover={{ y: -2, scale: 1.08 }}
       transition={{ type: "spring", stiffness: 400, damping: 18 }}
       title={tool.name}
       aria-label={tool.name}
-      className="group/logo relative grid place-items-center rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-colors hover:border-white/25"
+      className="group/logo relative grid place-items-center rounded-lg border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-colors hover:border-white/25"
       style={{ width: size, height: size }}
     >
       {/* brand-color glow on hover */}
       <span
-        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover/logo:opacity-100"
-        style={{ boxShadow: `0 0 22px 2px ${tool.color}55, inset 0 0 0 1px ${tool.color}66` }}
+        className="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300 group-hover/logo:opacity-100"
+        style={{ boxShadow: `0 0 16px 2px ${tool.color}55, inset 0 0 0 1px ${tool.color}66` }}
       />
       {Icon ? (
         <Icon aria-hidden style={{ color: tool.color, width: size * 0.55, height: size * 0.55 }} />
       ) : (
         <span
-          className="font-mono text-[10px] font-bold tracking-tight"
+          className="font-mono text-[9px] font-bold tracking-tight"
           style={{ color: tool.color }}
         >
           {tool.mono ?? tool.name.slice(0, 2).toUpperCase()}

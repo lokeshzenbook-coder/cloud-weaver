@@ -296,7 +296,8 @@ export function K8sOpsCenter() {
               <Legend color="bg-rose-400" label="Failed" />
             </div>
           </div>
-        </div>
+        </motion.div>
+
       </div>
 
       {/* Drawer */}

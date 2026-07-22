@@ -476,7 +476,7 @@ function GitOps() {
       right={
         <>
           <span className="font-mono">rev {rev}</span>
-          <span className="mx-1 text-white/20">·</span>
+          <span className="mx-1 text-muted-foreground/50">·</span>
           <span className={failedAt !== null ? "text-rose-400" : "text-emerald-400"}>
             {failedAt !== null ? "Rollback" : "Syncing"}
           </span>

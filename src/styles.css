@@ -42,19 +42,19 @@
   --radius: 0.75rem;
   /* Deep space dark */
   --background: oklch(0.14 0.02 260);
-  --foreground: oklch(0.97 0.005 260);
+  --foreground: oklch(0.92 0.01 260);
   --card: oklch(0.18 0.02 260);
-  --card-foreground: oklch(0.97 0.005 260);
+  --card-foreground: oklch(0.92 0.01 260);
   --popover: oklch(0.18 0.02 260);
-  --popover-foreground: oklch(0.97 0.005 260);
+  --popover-foreground: oklch(0.92 0.01 260);
   --primary: oklch(0.75 0.18 190);
   --primary-foreground: oklch(0.15 0.02 260);
   --secondary: oklch(0.24 0.02 260);
-  --secondary-foreground: oklch(0.97 0.005 260);
+  --secondary-foreground: oklch(0.92 0.01 260);
   --muted: oklch(0.22 0.02 260);
-  --muted-foreground: oklch(0.68 0.02 260);
+  --muted-foreground: oklch(0.66 0.02 260);
   --accent: oklch(0.28 0.05 280);
-  --accent-foreground: oklch(0.97 0.005 260);
+  --accent-foreground: oklch(0.94 0.01 260);
   --destructive: oklch(0.65 0.22 25);
   --destructive-foreground: oklch(0.98 0.005 260);
   --border: oklch(1 0 0 / 8%);

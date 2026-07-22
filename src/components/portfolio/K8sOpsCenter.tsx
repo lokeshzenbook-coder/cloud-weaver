@@ -23,17 +23,7 @@ const LAYERS: { title: string; blurb: string; icon: typeof HiOutlineGlobeAlt; ac
 ];
 
 /* --------------- Layout constants --------------- */
-const COL_W = 220;
-const ROW_H = 96;
-const CANVAS_PAD_X = 24;
-const CANVAS_PAD_Y = 40;
 
-function nodePos(n: K8sNode) {
-  return {
-    x: CANVAS_PAD_X + n.column * COL_W,
-    y: CANVAS_PAD_Y + n.row * ROW_H,
-  };
-}
 
 const statusRing: Record<NodeStatus, string> = {
   healthy:  "border-emerald-400/40",

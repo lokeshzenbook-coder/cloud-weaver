@@ -10,12 +10,12 @@ import {
 type Status = "waiting" | "running" | "success" | "failed" | "retrying" | "skipped";
 
 const statusStyle: Record<Status, { ring: string; dot: string; label: string; glow: string }> = {
-  waiting:  { ring: "border-white/10",         dot: "bg-white/30",                    label: "Idle",     glow: "" },
+  waiting:  { ring: "border-foreground/10",         dot: "bg-foreground/30",                    label: "Idle",     glow: "" },
   running:  { ring: "border-cyan-400/60",      dot: "bg-cyan-300 animate-pulse",      label: "Running",  glow: "shadow-[0_0_40px_-8px_rgba(34,211,238,0.55)]" },
   success:  { ring: "border-emerald-400/60",   dot: "bg-emerald-400",                 label: "Passed",   glow: "shadow-[0_0_40px_-10px_rgba(52,211,153,0.55)]" },
   failed:   { ring: "border-rose-400/70",      dot: "bg-rose-400",                    label: "Failed",   glow: "shadow-[0_0_40px_-10px_rgba(244,63,94,0.55)]" },
   retrying: { ring: "border-amber-400/70",     dot: "bg-amber-300 animate-pulse",     label: "Retrying", glow: "shadow-[0_0_40px_-10px_rgba(251,191,36,0.55)]" },
-  skipped:  { ring: "border-white/10 opacity-40", dot: "bg-white/20",                 label: "Skipped",  glow: "" },
+  skipped:  { ring: "border-foreground/10 opacity-40", dot: "bg-foreground/20",                 label: "Skipped",  glow: "" },
 };
 
 /** Official brand logo tile — SVG when available, monogram fallback with brand color. */
@@ -27,7 +27,7 @@ function LogoTile({ tool, size = 30 }: { tool: Tool; size?: number }) {
       transition={{ type: "spring", stiffness: 400, damping: 18 }}
       title={tool.name}
       aria-label={tool.name}
-      className="group/logo relative grid place-items-center rounded-lg border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-colors hover:border-white/25"
+      className="group/logo relative grid place-items-center rounded-lg border border-foreground/10 bg-foreground/[0.04] backdrop-blur-sm transition-colors hover:border-foreground/25"
       style={{ width: size, height: size }}
     >
       {/* brand-color glow on hover */}
@@ -269,7 +269,7 @@ export function Pipeline() {
                 className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
                   filter === f
                     ? "border-primary/60 bg-primary/10 text-foreground"
-                    : "border-white/10 text-muted-foreground hover:border-white/20 hover:text-foreground"
+                    : "border-foreground/10 text-muted-foreground hover:border-foreground/20 hover:text-foreground"
                 }`}
               >
                 {f}
@@ -287,7 +287,7 @@ export function Pipeline() {
                   aria-label={`${opt} density`}
                   className={`rounded-full px-3 py-1 font-medium capitalize transition-colors ${
                     density === opt
-                      ? "bg-white/10 text-foreground"
+                      ? "bg-foreground/10 text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -298,7 +298,7 @@ export function Pipeline() {
             <div className="glass hidden items-center gap-2 rounded-full px-3 py-1.5 text-xs sm:flex">
               <span className="text-muted-foreground">Progress</span>
               <div
-                className="h-1.5 w-32 overflow-hidden rounded-full bg-white/10"
+                className="h-1.5 w-32 overflow-hidden rounded-full bg-foreground/10"
                 role="progressbar"
                 aria-label="Pipeline completion"
                 aria-valuenow={progress}
@@ -328,7 +328,7 @@ export function Pipeline() {
               onClick={reset}
               aria-label="Reset pipeline (shortcut: R)"
               aria-keyshortcuts="R"
-              className="glass inline-flex h-11 items-center gap-1.5 rounded-xl px-3 text-xs hover:bg-white/10"
+              className="glass inline-flex h-11 items-center gap-1.5 rounded-xl px-3 text-xs hover:bg-foreground/10"
             >
               <HiOutlineRefresh aria-hidden /> Reset
             </button>
@@ -420,7 +420,7 @@ export function Pipeline() {
                 {/* categories */}
                 <div className="mt-auto flex flex-wrap gap-1 pt-2.5">
                   {stage.categories.map(c => (
-                    <span key={c} className={`rounded-md border border-white/10 bg-white/5 ${d.catText} text-muted-foreground`}>
+                    <span key={c} className={`rounded-md border border-foreground/10 bg-foreground/5 ${d.catText} text-muted-foreground`}>
                       {c}
                     </span>
                   ))}
@@ -524,7 +524,7 @@ export function Pipeline() {
               aria-describedby="pipeline-drawer-desc"
               tabIndex={-1}
               ref={(el) => { el?.focus(); }}
-              className="glass-strong relative flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-white/10 p-6 focus:outline-none"
+              className="glass-strong relative flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-foreground/10 p-6 focus:outline-none"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
@@ -540,7 +540,7 @@ export function Pipeline() {
                 </div>
                 <button
                   onClick={() => setActive(null)}
-                  className="rounded-full p-1.5 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70"
+                  className="rounded-full p-1.5 hover:bg-foreground/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70"
                   aria-label="Close details (Esc)"
                   aria-keyshortcuts="Escape"
                 >
@@ -557,7 +557,7 @@ export function Pipeline() {
               <DrawerSection title="Toolchain">
                 <div className="flex flex-wrap gap-2">
                   {active.tools.map(t => (
-                    <div key={t.name} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2 py-1.5">
+                    <div key={t.name} className="flex items-center gap-2 rounded-lg border border-foreground/10 bg-foreground/5 px-2 py-1.5">
                       <LogoTile tool={t} size={26} />
                       <span className="text-xs">{t.name}</span>
                     </div>
@@ -579,7 +579,7 @@ export function Pipeline() {
               <DrawerSection title="Commands">
                 <div className="space-y-1.5">
                   {active.commands.map(c => (
-                    <pre key={c} className="overflow-x-auto rounded-lg border border-white/10 bg-black/40 px-3 py-2 font-mono text-xs text-foreground/90">
+                    <pre key={c} className="overflow-x-auto rounded-lg border border-foreground/10 bg-black/40 px-3 py-2 font-mono text-xs text-foreground/90">
                       <code>$ {c}</code>
                     </pre>
                   ))}
@@ -595,7 +595,7 @@ export function Pipeline() {
 
 function DrawerRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="mt-4 flex items-baseline justify-between gap-4 border-b border-white/5 pb-2">
+    <div className="mt-4 flex items-baseline justify-between gap-4 border-b border-foreground/5 pb-2">
       <span className="text-xs uppercase tracking-widest text-muted-foreground">{label}</span>
       <span className="text-right text-sm">{value}</span>
     </div>

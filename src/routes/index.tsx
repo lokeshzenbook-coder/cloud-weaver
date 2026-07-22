@@ -148,10 +148,10 @@ function Hero() {
                 >
                   <HiOutlineDownload /> Download Resume
                 </MagneticButton>
-                <MagneticButton href="#projects" className="glass text-foreground hover:bg-white/10">
+                <MagneticButton href="#projects" className="glass text-foreground hover:bg-foreground/10">
                   View Projects <HiOutlineArrowRight />
                 </MagneticButton>
-                <MagneticButton href="#contact" className="glass text-foreground hover:bg-white/10">
+                <MagneticButton href="#contact" className="glass text-foreground hover:bg-foreground/10">
                   <HiOutlineMail /> Contact
                 </MagneticButton>
               </div>
@@ -171,7 +171,7 @@ function Hero() {
         >
           <a href="#work-banner" className="group flex flex-col items-center gap-1 text-xs text-muted-foreground">
             Scroll
-            <span className="relative block h-8 w-5 rounded-full border border-white/20">
+            <span className="relative block h-8 w-5 rounded-full border border-foreground/20">
               <motion.span
                 className="absolute left-1/2 top-1 h-1.5 w-1 -translate-x-1/2 rounded-full bg-foreground"
                 animate={{ y: [0, 14, 0], opacity: [1, 0, 1] }}
@@ -204,16 +204,16 @@ function OpenToWork() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <a href={resume.url} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-white/10">
+                <a href={resume.url} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-foreground/10">
                   <HiOutlineDownload /> Resume
                 </a>
-                <a href={`mailto:${PROFILE.email}`} className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-white/10">
+                <a href={`mailto:${PROFILE.email}`} className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-foreground/10">
                   <HiOutlineMail /> Email
                 </a>
-                <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-white/10">
+                <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-foreground/10">
                   <FaLinkedin /> LinkedIn
                 </a>
-                <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-white/10">
+                <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm hover:bg-foreground/10">
                   <FaGithub /> GitHub
                 </a>
               </div>
@@ -337,14 +337,14 @@ function Skills() {
               >
                 <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-[var(--color-aurora-1)]/20 to-[var(--color-aurora-2)]/20 blur-2xl transition-opacity group-hover:opacity-100 opacity-60" />
                 <div className="relative flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/5">
                     <g.icon size={20} className="text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold">{g.title}</h3>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-1.5">
                   {g.items.map(it => (
-                    <span key={it} className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground">
+                    <span key={it} className="rounded-full border border-foreground/10 bg-foreground/5 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground">
                       {it}
                     </span>
                   ))}
@@ -439,7 +439,7 @@ function Projects() {
 
                   <div className="mt-4 grid grid-cols-2 gap-2">
                     {p.impact.map(m => (
-                      <div key={m} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs">
+                      <div key={m} className="rounded-lg border border-foreground/10 bg-foreground/[0.03] px-3 py-2 text-xs">
                         <span className="text-gradient font-semibold">{m}</span>
                       </div>
                     ))}
@@ -447,7 +447,7 @@ function Projects() {
 
                   <div className="mt-4 flex flex-wrap gap-1">
                     {p.tech.map(t => (
-                      <span key={t} className="rounded-md bg-white/5 px-2 py-0.5 text-[10px] text-muted-foreground">{t}</span>
+                      <span key={t} className="rounded-md bg-foreground/5 px-2 py-0.5 text-[10px] text-muted-foreground">{t}</span>
                     ))}
                   </div>
                 </div>
@@ -521,7 +521,7 @@ function ResumeSection() {
                   <a href={resume.url} download className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background hover:bg-foreground/90">
                     <HiOutlineDownload /> Download
                   </a>
-                  <a href={resume.url} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm hover:bg-white/10">
+                  <a href={resume.url} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm hover:bg-foreground/10">
                     <HiOutlineExternalLink /> Preview
                   </a>
                 </div>
@@ -604,7 +604,7 @@ function Contact() {
                   required
                   rows={5}
                   maxLength={2000}
-                  className="mt-1 w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-primary/60"
+                  className="mt-1 w-full resize-none rounded-lg border border-foreground/10 bg-foreground/5 px-3 py-2 text-sm outline-none focus:border-primary/60"
                 />
               </label>
               <button
@@ -631,7 +631,7 @@ function Field({ name, label, type = "text", required }: { name: string; label: 
         type={type}
         required={required}
         maxLength={200}
-        className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-primary/60"
+        className="mt-1 w-full rounded-lg border border-foreground/10 bg-foreground/5 px-3 py-2 text-sm outline-none focus:border-primary/60"
       />
     </label>
   );
@@ -640,7 +640,7 @@ function Field({ name, label, type = "text", required }: { name: string; label: 
 /* ---------------- Footer ---------------- */
 function Footer() {
   return (
-    <footer className="section-shell-tight relative overflow-hidden border-t border-white/5">
+    <footer className="section-shell-tight relative overflow-hidden border-t border-foreground/5">
       <svg className="pointer-events-none absolute inset-x-0 -top-8 w-full opacity-40" height="80" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden>
         <path d="M0,40 C300,80 900,0 1200,40 L1200,80 L0,80 Z" fill="url(#wave)" />
         <defs>
@@ -658,7 +658,7 @@ function Footer() {
           <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-muted-foreground hover:text-foreground"><FaGithub size={18} /></a>
           <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-muted-foreground hover:text-foreground"><FaLinkedin size={18} /></a>
           <a href={`mailto:${PROFILE.email}`} aria-label="Email" className="text-muted-foreground hover:text-foreground"><HiOutlineMail size={20} /></a>
-          <a href="#top" className="glass rounded-full px-3 py-1 text-xs hover:bg-white/10">Back to top ↑</a>
+          <a href="#top" className="glass rounded-full px-3 py-1 text-xs hover:bg-foreground/10">Back to top ↑</a>
         </div>
       </div>
     </footer>

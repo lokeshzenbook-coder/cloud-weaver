@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { HiOutlineX, HiOutlinePlay, HiOutlinePause, HiOutlineRefresh, HiCheck, HiX } from "react-icons/hi";
+import { SiHelm } from "react-icons/si";
 import {
   PIPELINE_STAGES, PIPELINE_FILTERS, PIPELINE_STATS,
   type PipelineStage, type StageCategory, type Tool,

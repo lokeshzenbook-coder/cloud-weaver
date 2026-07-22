@@ -218,7 +218,7 @@ export function Pipeline() {
       id="pipeline"
       aria-labelledby="pipeline-heading"
       aria-describedby="pipeline-desc"
-      className="relative px-4 py-24 sm:px-6"
+      className="section-shell"
     >
       {/* aurora backdrop */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">

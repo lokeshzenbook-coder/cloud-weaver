@@ -207,6 +207,11 @@ export function Pipeline() {
   };
 
 
+  const progress = useMemo(() => {
+    const done = Object.values(statuses).filter(s => s === "success" || s === "failed").length;
+    return Math.round((done / PIPELINE_STAGES.length) * 100);
+  }, [statuses]);
+
 
   return (
     <section id="pipeline" className="relative px-4 py-24 sm:px-6">

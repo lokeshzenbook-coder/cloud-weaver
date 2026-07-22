@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { HiOutlineX, HiOutlinePlay, HiOutlinePause, HiOutlineRefresh, HiCheck, HiX } from "react-icons/hi";
-import { SiHelm } from "react-icons/si";
+
 import {
   PIPELINE_STAGES, PIPELINE_FILTERS, PIPELINE_STATS,
   type PipelineStage, type StageCategory, type Tool,
@@ -55,7 +55,6 @@ export function Pipeline() {
   const [filter, setFilter] = useState<(typeof PIPELINE_FILTERS)[number]>("All");
   const [active, setActive] = useState<PipelineStage | null>(null);
   const [density, setDensity] = useState<Density>("compact");
-  const [helmHighlight, setHelmHighlight] = useState(false);
   const [statuses, setStatuses] = useState<Record<string, Status>>(
     () => Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status]))
   );
@@ -91,10 +90,6 @@ export function Pipeline() {
 
   const matchesFilter = (s: PipelineStage) =>
     filter === "All" || s.categories.includes(filter as StageCategory);
-
-  const stageHasHelm = (s: PipelineStage) =>
-    s.tools.some(t => t.name.toLowerCase().includes("helm"));
-
 
   const clearTimer = () => {
     if (timerRef.current !== null) {
@@ -220,19 +215,6 @@ export function Pipeline() {
                 </button>
               ))}
             </div>
-            {/* Helm highlight toggle */}
-            <button
-              onClick={() => setHelmHighlight(v => !v)}
-              aria-pressed={helmHighlight}
-              className={`glass inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all ${
-                helmHighlight
-                  ? "border-[#0F1689]/60 bg-[#0F1689]/15 text-foreground shadow-[0_0_16px_-4px_rgba(15,22,137,0.55)]"
-                  : "border-white/10 text-muted-foreground hover:border-white/20 hover:text-foreground"
-              }`}
-            >
-              <SiHelm className="h-3.5 w-3.5" style={{ color: helmHighlight ? "#0F1689" : "currentColor" }} />
-              <span className="hidden sm:inline">Helm</span>
-            </button>
             <div className="glass hidden items-center gap-2 rounded-full px-3 py-1.5 text-xs sm:flex">
               <span className="text-muted-foreground">Progress</span>
               <div className="h-1.5 w-32 overflow-hidden rounded-full bg-white/10">

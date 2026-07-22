@@ -34,6 +34,26 @@ export function Nav() {
     setOpen(false);
   };
 
+  const downloadResume = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(resume.url, { credentials: "omit" });
+      if (!res.ok) throw new Error(String(res.status));
+      const blob = await res.blob();
+      const pdfBlob = blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" });
+      const objectUrl = URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      a.download = "Lokesh_GR_Resume.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    } catch {
+      window.open(resume.url, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <>
       <motion.div
@@ -140,13 +160,13 @@ export function Nav() {
                   >
                     <HiExternalLink size={14} /> Open
                   </a>
-                  <a
-                    href={resume.url}
-                    download="Lokesh_GR_Resume.pdf"
+                  <button
+                    type="button"
+                    onClick={downloadResume}
                     className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3 py-1.5 text-xs font-medium text-background hover:scale-[1.03] transition-transform"
                   >
                     <HiDownload size={14} /> Download
-                  </a>
+                  </button>
                   <button
                     type="button"
                     onClick={() => setPreviewOpen(false)}
@@ -165,13 +185,13 @@ export function Nav() {
               >
                 <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center text-sm text-muted-foreground">
                   <p>Your browser can't display the PDF inline.</p>
-                  <a
-                    href={resume.url}
-                    download="Lokesh_GR_Resume.pdf"
+                  <button
+                    type="button"
+                    onClick={downloadResume}
                     className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-medium text-background"
                   >
                     <HiDownload size={14} /> Download Resume
-                  </a>
+                  </button>
                 </div>
               </object>
             </div>

@@ -181,15 +181,17 @@ export function Pipeline() {
               </div>
               <span className="tabular-nums text-muted-foreground">{progress}%</span>
             </div>
-            <button
+            <motion.button
               onClick={running ? pause : start}
-              className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-1.5 text-xs font-medium text-background hover:bg-foreground/90"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-foreground px-5 text-sm font-medium text-background shadow-[0_0_0_0_rgba(255,255,255,0)] transition-shadow hover:shadow-[0_0_24px_-6px_rgba(255,255,255,0.35)] sm:w-[160px]"
             >
-              {running ? <><HiOutlinePause /> Pause</> : <><HiOutlinePlay /> Start Pipeline</>}
-            </button>
+              {running ? <><HiOutlinePause className="h-4 w-4" /> Pause</> : <><HiOutlinePlay className="h-4 w-4" /> Start Pipeline</>}
+            </motion.button>
             <button
               onClick={reset}
-              className="glass inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs hover:bg-white/10"
+              className="glass inline-flex h-11 items-center gap-1.5 rounded-xl px-3 text-xs hover:bg-white/10"
             >
               <HiOutlineRefresh /> Reset
             </button>

@@ -226,3 +226,32 @@ html {
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 }
+
+/* ---------- Unified layout system ----------
+ * Every top-level section uses `section-shell` for vertical rhythm + horizontal padding.
+ * Every inner wrapper uses `section-container` for a single, shared max width.
+ * `section-shell-tight` is a smaller-rhythm variant for banners / callouts.
+ */
+@utility section-shell {
+  position: relative;
+  padding-inline: 1rem;
+  padding-block: 6rem;
+  @media (min-width: 640px) {
+    padding-inline: 1.5rem;
+  }
+}
+
+@utility section-shell-tight {
+  position: relative;
+  padding-inline: 1rem;
+  padding-block: 2.5rem;
+  @media (min-width: 640px) {
+    padding-inline: 1.5rem;
+  }
+}
+
+@utility section-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem; /* 1152px — single shared container width */
+}

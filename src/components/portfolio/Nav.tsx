@@ -34,7 +34,17 @@ export function Nav() {
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-[var(--color-aurora-1)] to-[var(--color-aurora-2)] text-[11px] font-bold text-background">GL</span>
               <span className="hidden sm:inline">{PROFILE.name}</span>
             </a>
-            <div className="hidden md:block" aria-hidden="true" />
+            <nav className="hidden items-center gap-1 md:flex">
+              {NAV_LINKS.map(l => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  className="rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </nav>
             <div className="flex items-center gap-2">
               <a
                 href={resume.url}

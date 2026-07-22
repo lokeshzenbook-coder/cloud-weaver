@@ -14,7 +14,7 @@ import {
 
 import { K8sOpsCenter } from "@/components/portfolio/K8sOpsCenter";
 import { Nav } from "@/components/portfolio/Nav";
-import { BottomNav } from "@/components/portfolio/BottomNav";
+
 import { Pipeline } from "@/components/portfolio/Pipeline";
 import { Counter, Reveal, MagneticButton } from "@/components/portfolio/ui";
 import resume from "@/assets/resume.pdf.asset.json";
@@ -687,7 +687,6 @@ function Home() {
   return (
     <main>
       <Nav />
-      <BottomNav />
       <Hero />
       <OpenToWork />
       <About />

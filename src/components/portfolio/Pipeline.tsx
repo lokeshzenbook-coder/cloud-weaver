@@ -300,19 +300,19 @@ export function Pipeline() {
                   </div>
                 </div>
 
-                <p className="line-clamp-2 text-[11.5px] leading-snug text-muted-foreground">{stage.short}</p>
+                <p className={`${d.desc} mt-2.5 leading-snug text-muted-foreground`}>{stage.short}</p>
 
                 {/* official logos */}
-                <div className="flex flex-wrap items-center gap-1.5">
+                <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
                   {stage.tools.map(t => (
-                    <LogoTile key={`${stage.id}-${t.name}`} tool={t} size={28} />
+                    <LogoTile key={`${stage.id}-${t.name}`} tool={t} size={d.logoSize} />
                   ))}
                 </div>
 
                 {/* categories */}
-                <div className="mt-auto flex flex-wrap gap-1 pt-0.5">
+                <div className="mt-auto flex flex-wrap gap-1 pt-2.5">
                   {stage.categories.map(c => (
-                    <span key={c} className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9.5px] text-muted-foreground">
+                    <span key={c} className={`rounded-md border border-white/10 bg-white/5 ${d.catText} text-muted-foreground`}>
                       {c}
                     </span>
                   ))}

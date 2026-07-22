@@ -89,6 +89,7 @@ export function Nav() {
                   href={resume.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  download="Lokesh_GR_Resume.pdf"
                   className="mt-1 rounded-lg bg-foreground px-4 py-2.5 text-center text-sm font-medium text-background"
                 >
                   Download Resume

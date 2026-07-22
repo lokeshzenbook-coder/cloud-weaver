@@ -3,19 +3,50 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { HiOutlineX, HiOutlinePlay, HiOutlinePause, HiOutlineRefresh, HiCheck, HiX } from "react-icons/hi";
 import {
   PIPELINE_STAGES, PIPELINE_FILTERS, PIPELINE_STATS,
-  type PipelineStage, type StageCategory,
+  type PipelineStage, type StageCategory, type Tool,
 } from "@/lib/pipeline-data";
 
 type Status = "waiting" | "running" | "success" | "failed" | "retrying" | "skipped";
 
-const statusStyle: Record<Status, { ring: string; dot: string; label: string }> = {
-  waiting:  { ring: "border-white/10",  dot: "bg-white/30",       label: "Idle" },
-  running:  { ring: "border-cyan-400/60", dot: "bg-cyan-300 animate-pulse", label: "Running" },
-  success:  { ring: "border-emerald-400/60", dot: "bg-emerald-400", label: "Passed" },
-  failed:   { ring: "border-rose-400/70", dot: "bg-rose-400",      label: "Failed" },
-  retrying: { ring: "border-amber-400/70", dot: "bg-amber-300 animate-pulse", label: "Retrying" },
-  skipped:  { ring: "border-white/10 opacity-40", dot: "bg-white/20", label: "Skipped" },
+const statusStyle: Record<Status, { ring: string; dot: string; label: string; glow: string }> = {
+  waiting:  { ring: "border-white/10",         dot: "bg-white/30",                    label: "Idle",     glow: "" },
+  running:  { ring: "border-cyan-400/60",      dot: "bg-cyan-300 animate-pulse",      label: "Running",  glow: "shadow-[0_0_40px_-8px_rgba(34,211,238,0.55)]" },
+  success:  { ring: "border-emerald-400/60",   dot: "bg-emerald-400",                 label: "Passed",   glow: "shadow-[0_0_40px_-10px_rgba(52,211,153,0.55)]" },
+  failed:   { ring: "border-rose-400/70",      dot: "bg-rose-400",                    label: "Failed",   glow: "shadow-[0_0_40px_-10px_rgba(244,63,94,0.55)]" },
+  retrying: { ring: "border-amber-400/70",     dot: "bg-amber-300 animate-pulse",     label: "Retrying", glow: "shadow-[0_0_40px_-10px_rgba(251,191,36,0.55)]" },
+  skipped:  { ring: "border-white/10 opacity-40", dot: "bg-white/20",                 label: "Skipped",  glow: "" },
 };
+
+/** Official brand logo tile — SVG when available, monogram fallback with brand color. */
+function LogoTile({ tool, size = 40 }: { tool: Tool; size?: number }) {
+  const Icon = tool.icon;
+  return (
+    <motion.div
+      whileHover={{ y: -3, scale: 1.08 }}
+      transition={{ type: "spring", stiffness: 400, damping: 18 }}
+      title={tool.name}
+      aria-label={tool.name}
+      className="group/logo relative grid place-items-center rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-colors hover:border-white/25"
+      style={{ width: size, height: size }}
+    >
+      {/* brand-color glow on hover */}
+      <span
+        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover/logo:opacity-100"
+        style={{ boxShadow: `0 0 22px 2px ${tool.color}55, inset 0 0 0 1px ${tool.color}66` }}
+      />
+      {Icon ? (
+        <Icon aria-hidden style={{ color: tool.color, width: size * 0.55, height: size * 0.55 }} />
+      ) : (
+        <span
+          className="font-mono text-[10px] font-bold tracking-tight"
+          style={{ color: tool.color }}
+        >
+          {tool.mono ?? tool.name.slice(0, 2).toUpperCase()}
+        </span>
+      )}
+    </motion.div>
+  );
+}
 
 export function Pipeline() {
   const [filter, setFilter] = useState<(typeof PIPELINE_FILTERS)[number]>("All");
@@ -45,11 +76,9 @@ export function Pipeline() {
     timerRef.current = window.setTimeout(() => {
       const attempts = (retryRef.current[stage.id] ?? 0) + (isRetry ? 0 : 1);
       retryRef.current[stage.id] = attempts;
-      // ~simulated failure on security stages; retry once, then likely pass
-      const baseFailRate = stage.categories.includes("Security") ? 0.35 : 0;
+      const baseFailRate = stage.categories.includes("Security") ? 0.32 : 0;
       const willFail = Math.random() < (isRetry ? 0.15 : baseFailRate);
       if (willFail && !isRetry) {
-        // fail, then retry
         setStatuses(prev => ({ ...prev, [stage.id]: "failed" }));
         setRetried(prev => ({ ...prev, [stage.id]: true }));
         timerRef.current = window.setTimeout(() => runStage(i, true), 700);
@@ -63,10 +92,7 @@ export function Pipeline() {
 
   const tick = () => {
     const i = idxRef.current;
-    if (i >= PIPELINE_STAGES.length) {
-      setRunning(false);
-      return;
-    }
+    if (i >= PIPELINE_STAGES.length) { setRunning(false); return; }
     runStage(i, false);
   };
 
@@ -99,14 +125,20 @@ export function Pipeline() {
 
   return (
     <section id="pipeline" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+      {/* aurora backdrop */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-1/2 top-10 h-[420px] w-[900px] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
+             style={{ background: "conic-gradient(from 90deg, var(--color-aurora-1), var(--color-aurora-2), var(--color-aurora-3), var(--color-aurora-1))" }} />
+      </div>
+
+      <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-start gap-2">
           <span className="font-mono text-xs uppercase tracking-widest text-primary">/ DevSecOps Pipeline</span>
           <h2 className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             An enterprise control plane — from commit to production.
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            22 stages. Signed artifacts. Policy-gated deploys. Real-time observability. Click any stage to inspect it.
+            22 stages · 90+ production tools with official logos. Signed artifacts, policy-gated deploys, real-time observability. Hover any logo, click any stage.
           </p>
         </div>
 
@@ -164,31 +196,54 @@ export function Pipeline() {
           </div>
         </div>
 
-        {/* Pipeline grid */}
-        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+        {/* Pipeline grid — logo-first cards */}
+        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {PIPELINE_STAGES.map((stage, i) => {
             const status = statuses[stage.id];
             const dim = !matchesFilter(stage);
             const s = statusStyle[status];
-            const Icon = stage.icon;
+            const StageIcon = stage.icon;
             return (
               <motion.button
                 key={stage.id}
                 layout
                 onClick={() => setActive(stage)}
+                whileTap={{ scale: 0.98 }}
                 animate={{ opacity: dim ? 0.25 : 1, scale: dim ? 0.98 : 1 }}
-                whileHover={{ y: -3 }}
+                whileHover={{ y: -4 }}
                 transition={{ duration: 0.25 }}
-                className={`glass group relative flex flex-col gap-3 rounded-2xl border p-4 text-left transition-shadow hover:shadow-[0_10px_40px_-10px_color-mix(in_oklab,var(--color-brand)_45%,transparent)] ${s.ring}`}
+                className={`glass group relative flex flex-col gap-4 overflow-hidden rounded-2xl border p-5 text-left transition-shadow ${s.ring} ${s.glow}`}
               >
+                {/* animated gradient border on running */}
+                {status === "running" && (
+                  <motion.span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded-2xl"
+                    style={{
+                      background: "conic-gradient(from var(--a,0deg), transparent 0deg, #22d3ee 60deg, transparent 120deg)",
+                      WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                      WebkitMaskComposite: "xor" as any,
+                      padding: 1,
+                    }}
+                    animate={{ ["--a" as any]: ["0deg", "360deg"] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  />
+                )}
+
+                {/* header */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2.5">
                     <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-white/10 to-white/[0.02]">
-                      <Icon className="h-4 w-4 text-primary" />
+                      <StageIcon className="h-4 w-4 text-primary" />
                     </div>
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                          Stage {String(i + 1).padStart(2, "0")}
+                        </span>
+                      </div>
+                      <div className="text-sm font-semibold leading-tight">{stage.name}</div>
+                    </div>
                   </div>
                   <div className="flex items-center gap-1.5">
                     {retried[stage.id] && (
@@ -200,31 +255,33 @@ export function Pipeline() {
                     <span className="text-[10px] text-muted-foreground">{s.label}</span>
                   </div>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold">{stage.name}</div>
-                  <div className="mt-0.5 text-xs text-muted-foreground">{stage.short}</div>
-                </div>
-                <div className="flex flex-wrap gap-1">
-                  {stage.tools.slice(0, 3).map(t => (
-                    <span key={t} className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-muted-foreground">
-                      {t}
-                    </span>
+
+                <p className="text-xs text-muted-foreground">{stage.short}</p>
+
+                {/* official logos */}
+                <div className="flex flex-wrap items-center gap-2">
+                  {stage.tools.map(t => (
+                    <LogoTile key={`${stage.id}-${t.name}`} tool={t} />
                   ))}
-                  {stage.tools.length > 3 && (
-                    <span className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-muted-foreground">
-                      +{stage.tools.length - 3}
-                    </span>
-                  )}
                 </div>
 
+                {/* categories */}
+                <div className="mt-auto flex flex-wrap gap-1 pt-1">
+                  {stage.categories.map(c => (
+                    <span key={c} className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                      {c}
+                    </span>
+                  ))}
+                </div>
+
+                {/* status overlays */}
                 {status === "running" && (
                   <motion.div
-                    layoutId={`pulse-${stage.id}`}
-                    className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-cyan-400/50"
+                    className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-cyan-400/40"
                     animate={{ boxShadow: [
-                      "0 0 0 0 color-mix(in oklab, var(--color-aurora-1) 40%, transparent)",
-                      "0 0 30px 4px color-mix(in oklab, var(--color-aurora-1) 30%, transparent)",
-                      "0 0 0 0 color-mix(in oklab, var(--color-aurora-1) 40%, transparent)",
+                      "0 0 0 0 rgba(34,211,238,0.4)",
+                      "0 0 34px 4px rgba(34,211,238,0.28)",
+                      "0 0 0 0 rgba(34,211,238,0.4)",
                     ] }}
                     transition={{ duration: 1.4, repeat: Infinity }}
                   />
@@ -254,7 +311,7 @@ export function Pipeline() {
                       transition={{ duration: 1.2, times: [0, 0.4, 1] }}
                     />
                     <motion.div
-                      className="pointer-events-none absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full bg-emerald-500/90 text-background shadow-[0_0_18px_rgba(52,211,153,0.6)]"
+                      className="pointer-events-none absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-full bg-emerald-500/90 text-background shadow-[0_0_18px_rgba(52,211,153,0.6)]"
                       initial={{ scale: 0, rotate: -30, opacity: 0 }}
                       animate={{ scale: 1, rotate: 0, opacity: 1 }}
                       transition={{ type: "spring", stiffness: 500, damping: 18 }}
@@ -279,7 +336,7 @@ export function Pipeline() {
                       transition={{ duration: 0.55, ease: "easeInOut" }}
                     />
                     <motion.div
-                      className="pointer-events-none absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full bg-rose-500/90 text-background shadow-[0_0_18px_rgba(244,63,94,0.65)]"
+                      className="pointer-events-none absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-full bg-rose-500/90 text-background shadow-[0_0_18px_rgba(244,63,94,0.65)]"
                       initial={{ scale: 0, rotate: 30, opacity: 0 }}
                       animate={{ scale: 1, rotate: 0, opacity: 1 }}
                       transition={{ type: "spring", stiffness: 500, damping: 16 }}
@@ -333,12 +390,13 @@ export function Pipeline() {
               <DrawerRow label="Input" value={active.input} />
               <DrawerRow label="Output" value={active.output} />
 
-              <DrawerSection title="Tools">
-                <div className="flex flex-wrap gap-1.5">
+              <DrawerSection title="Toolchain">
+                <div className="flex flex-wrap gap-2">
                   {active.tools.map(t => (
-                    <span key={t} className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs">
-                      {t}
-                    </span>
+                    <div key={t.name} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2 py-1.5">
+                      <LogoTile tool={t} size={26} />
+                      <span className="text-xs">{t.name}</span>
+                    </div>
                   ))}
                 </div>
               </DrawerSection>

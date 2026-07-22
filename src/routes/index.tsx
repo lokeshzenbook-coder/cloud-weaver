@@ -19,7 +19,7 @@ import { K8sOpsCenter } from "@/components/portfolio/K8sOpsCenter";
 
 import { Counter, Reveal, MagneticButton } from "@/components/portfolio/ui";
 import resume from "@/assets/resume.pdf.asset.json";
-import profilePhoto from "@/assets/G_R_Photo.png.asset.json";
+
 
 
 export const Route = createFileRoute("/")({

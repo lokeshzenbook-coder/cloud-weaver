@@ -1,9 +1,8 @@
 import {
-  SiAmazonwebservices, SiKubernetes, SiDocker, SiTerraform, SiLinux, SiGithub,
+  SiKubernetes, SiDocker, SiTerraform, SiLinux, SiGithub,
   SiGit, SiArgo, SiHelm, SiPrometheus, SiGrafana, SiJenkins, SiPython,
-  SiAnsible, SiNginx, SiIstio, SiSonarqube, SiGitlab, SiGithubactions,
-  SiPostgresql, SiMongodb, SiRedis, SiElasticsearch, SiDatadog, SiHashicorp,
-  SiSnyk, SiOpenzeppelin,
+  SiAnsible, SiNginx, SiIstio, SiGitlab, SiGithubactions,
+  SiPostgresql,
 } from "react-icons/si";
 import { FaAws, FaShieldAlt, FaCloud } from "react-icons/fa";
 import type { IconType } from "react-icons";

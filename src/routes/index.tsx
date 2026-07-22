@@ -31,10 +31,10 @@ export const Route = createFileRoute("/")({
         content:
           "AWS · Kubernetes · Terraform · GitOps · DevSecOps. Cloud-native platform engineer with 5+ years shipping secure, scalable infrastructure.",
       },
-      { property: "og:title", content: "G. R. Lokesh — Senior DevOps & Platform Engineer" },
+      { property: "og:title", content: "G. R. Lokesh — Senior DevOps, DevSecOps & Platform Engineer" },
       {
         property: "og:description",
-        content: "Designing secure, scalable, automated cloud platforms — AWS, Kubernetes, Terraform, GitOps, DevSecOps.",
+        content: "AWS · Kubernetes · Terraform · GitOps · DevSecOps. Cloud-native platform engineer with 5+ years shipping secure, scalable infrastructure.",
       },
     ],
   }),

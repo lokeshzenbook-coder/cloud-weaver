@@ -81,18 +81,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Portfolio of G. R. Lokesh — AWS DevOps, DevSecOps & Platform Engineer. Kubernetes, Terraform, GitOps, CI/CD and cloud-native platform engineering.",
+          "AWS · Kubernetes · Terraform · GitOps · DevSecOps. Cloud-native platform engineer with 5+ years shipping secure, scalable infrastructure.",
       },
       { name: "author", content: "G. R. Lokesh" },
-      { property: "og:title", content: "G. R. Lokesh — Senior DevOps & Platform Engineer" },
+      { property: "og:title", content: "G. R. Lokesh — Senior DevOps, DevSecOps & Platform Engineer" },
       {
         property: "og:description",
         content:
-          "Designing secure, scalable, automated cloud platforms with AWS, Kubernetes, Terraform, GitOps and DevSecOps.",
+          "AWS · Kubernetes · Terraform · GitOps · DevSecOps. Cloud-native platform engineer with 5+ years shipping secure, scalable infrastructure.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0b0f1a" },
+      { name: "twitter:title", content: "G. R. Lokesh — Senior DevOps, DevSecOps & Platform Engineer" },
+      { name: "twitter:description", content: "AWS · Kubernetes · Terraform · GitOps · DevSecOps. Cloud-native platform engineer with 5+ years shipping secure, scalable infrastructure." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a5e4864-d60f-47b7-b903-9a0454253497/id-preview-83ac5e7e--c4804927-ff08-4a26-b05a-3c0dca8ac612.lovable.app-1784725240975.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a5e4864-d60f-47b7-b903-9a0454253497/id-preview-83ac5e7e--c4804927-ff08-4a26-b05a-3c0dca8ac612.lovable.app-1784725240975.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

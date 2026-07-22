@@ -1,19 +1,20 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { HiOutlineX, HiOutlinePlay, HiOutlinePause, HiOutlineRefresh } from "react-icons/hi";
+import { HiOutlineX, HiOutlinePlay, HiOutlinePause, HiOutlineRefresh, HiCheck, HiX } from "react-icons/hi";
 import {
   PIPELINE_STAGES, PIPELINE_FILTERS, PIPELINE_STATS,
   type PipelineStage, type StageCategory,
 } from "@/lib/pipeline-data";
 
-type Status = "waiting" | "running" | "success" | "failed" | "skipped";
+type Status = "waiting" | "running" | "success" | "failed" | "retrying" | "skipped";
 
 const statusStyle: Record<Status, { ring: string; dot: string; label: string }> = {
-  waiting: { ring: "border-white/10",  dot: "bg-white/30",       label: "Idle" },
-  running: { ring: "border-cyan-400/60", dot: "bg-cyan-300 animate-pulse", label: "Running" },
-  success: { ring: "border-emerald-400/60", dot: "bg-emerald-400", label: "Passed" },
-  failed:  { ring: "border-rose-400/60", dot: "bg-rose-400", label: "Failed" },
-  skipped: { ring: "border-white/10 opacity-40", dot: "bg-white/20", label: "Skipped" },
+  waiting:  { ring: "border-white/10",  dot: "bg-white/30",       label: "Idle" },
+  running:  { ring: "border-cyan-400/60", dot: "bg-cyan-300 animate-pulse", label: "Running" },
+  success:  { ring: "border-emerald-400/60", dot: "bg-emerald-400", label: "Passed" },
+  failed:   { ring: "border-rose-400/70", dot: "bg-rose-400",      label: "Failed" },
+  retrying: { ring: "border-amber-400/70", dot: "bg-amber-300 animate-pulse", label: "Retrying" },
+  skipped:  { ring: "border-white/10 opacity-40", dot: "bg-white/20", label: "Skipped" },
 };
 
 export function Pipeline() {

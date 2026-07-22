@@ -245,7 +245,7 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex h-8 w-8 items-center justify-center rounded-md" style={{ background: `${n.color}18`, color: n.color }}>
-                    <n.Icon size={18} />
+                    <n.Icon size={18} aria-hidden />
                   </div>
                   <StatusDot status={n.status} />
                 </div>

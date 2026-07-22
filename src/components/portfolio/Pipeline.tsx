@@ -23,9 +23,11 @@ export function Pipeline() {
   const [statuses, setStatuses] = useState<Record<string, Status>>(
     () => Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status]))
   );
+  const [retried, setRetried] = useState<Record<string, boolean>>({});
   const [running, setRunning] = useState(false);
   const timerRef = useRef<number | null>(null);
   const idxRef = useRef(0);
+  const retryRef = useRef<Record<string, number>>({});
 
   const matchesFilter = (s: PipelineStage) =>
     filter === "All" || s.categories.includes(filter as StageCategory);
@@ -37,21 +39,35 @@ export function Pipeline() {
     }
   };
 
+  const runStage = (i: number, isRetry = false) => {
+    const stage = PIPELINE_STAGES[i];
+    setStatuses(prev => ({ ...prev, [stage.id]: isRetry ? "retrying" : "running" }));
+    timerRef.current = window.setTimeout(() => {
+      const attempts = (retryRef.current[stage.id] ?? 0) + (isRetry ? 0 : 1);
+      retryRef.current[stage.id] = attempts;
+      // ~simulated failure on security stages; retry once, then likely pass
+      const baseFailRate = stage.categories.includes("Security") ? 0.35 : 0;
+      const willFail = Math.random() < (isRetry ? 0.15 : baseFailRate);
+      if (willFail && !isRetry) {
+        // fail, then retry
+        setStatuses(prev => ({ ...prev, [stage.id]: "failed" }));
+        setRetried(prev => ({ ...prev, [stage.id]: true }));
+        timerRef.current = window.setTimeout(() => runStage(i, true), 700);
+        return;
+      }
+      setStatuses(prev => ({ ...prev, [stage.id]: willFail ? "failed" : "success" }));
+      idxRef.current = i + 1;
+      timerRef.current = window.setTimeout(tick, 260);
+    }, isRetry ? 620 : 520);
+  };
+
   const tick = () => {
     const i = idxRef.current;
     if (i >= PIPELINE_STAGES.length) {
       setRunning(false);
       return;
     }
-    const stage = PIPELINE_STAGES[i];
-    setStatuses(prev => ({ ...prev, [stage.id]: "running" }));
-    timerRef.current = window.setTimeout(() => {
-      // ~8% simulated failure rate on security stages, otherwise success
-      const willFail = stage.categories.includes("Security") && Math.random() < 0.06;
-      setStatuses(prev => ({ ...prev, [stage.id]: willFail ? "failed" : "success" }));
-      idxRef.current = i + 1;
-      timerRef.current = window.setTimeout(tick, 260);
-    }, 520);
+    runStage(i, false);
   };
 
   const start = () => {
@@ -59,6 +75,8 @@ export function Pipeline() {
     setRunning(true);
     if (idxRef.current >= PIPELINE_STAGES.length) {
       idxRef.current = 0;
+      retryRef.current = {};
+      setRetried({});
       setStatuses(Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status])));
     }
     tick();
@@ -67,6 +85,8 @@ export function Pipeline() {
   const reset = () => {
     pause();
     idxRef.current = 0;
+    retryRef.current = {};
+    setRetried({});
     setStatuses(Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status])));
   };
 

@@ -116,7 +116,7 @@ function Hero() {
     <section id="top" className="aurora-bg relative min-h-screen overflow-hidden pt-28 pb-16 sm:pt-32">
       <div className="grid-bg absolute inset-0" aria-hidden />
       <TechCloud />
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="section-container relative px-4 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
           <div className="text-center lg:text-left">
             <Reveal>
@@ -188,8 +188,8 @@ function Hero() {
 /* ---------------- Open to work banner ---------------- */
 function OpenToWork() {
   return (
-    <section id="work-banner" className="relative px-4 py-10 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="work-banner" className="section-shell-tight">
+      <div className="section-container">
         <Reveal>
           <div className="glass animated-border relative overflow-hidden rounded-2xl p-6 sm:p-8">
             <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
@@ -228,8 +228,8 @@ function OpenToWork() {
 /* ---------------- About / Stats ---------------- */
 function About() {
   return (
-    <section id="about" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="about" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="About" title="Platform engineer, obsessed with reliability." />
         </Reveal>
@@ -289,8 +289,8 @@ function About() {
 /* ---------------- Experience timeline ---------------- */
 function Experience() {
   return (
-    <section id="experience" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="experience" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Experience" title="Six years shipping cloud-native platforms." />
         </Reveal>
@@ -331,8 +331,8 @@ function Experience() {
 /* ---------------- Skills ---------------- */
 function Skills() {
   return (
-    <section id="skills" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="skills" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Skills" title="An opinionated, production-grade toolbelt." />
         </Reveal>
@@ -383,8 +383,8 @@ function Projects() {
   }, [filter, query]);
 
   return (
-    <section id="projects" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="projects" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Featured Projects" title="Cloud platforms in production." />
         </Reveal>
@@ -475,8 +475,8 @@ function Projects() {
 /* ---------------- Certifications ---------------- */
 function Certifications() {
   return (
-    <section id="certifications" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="certifications" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Certifications" title="Credentials & continuous learning." />
         </Reveal>
@@ -514,7 +514,7 @@ function Certifications() {
 /* ---------------- Resume section ---------------- */
 function ResumeSection() {
   return (
-    <section id="resume" className="relative px-4 py-24 sm:px-6">
+    <section id="resume" className="section-shell">
       <div className="mx-auto max-w-4xl">
         <Reveal>
           <div className="glass animated-border relative overflow-hidden rounded-3xl p-8 sm:p-10">
@@ -562,8 +562,8 @@ function Contact() {
   ];
 
   return (
-    <section id="contact" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+    <section id="contact" className="section-shell">
+      <div className="section-container">
         <Reveal>
           <SectionHeading eyebrow="Contact" title="Let's build reliable platforms together." />
         </Reveal>
@@ -648,7 +648,7 @@ function Field({ name, label, type = "text", required }: { name: string; label: 
 /* ---------------- Footer ---------------- */
 function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/5 px-4 py-10 sm:px-6">
+    <footer className="section-shell-tight relative overflow-hidden border-t border-white/5">
       <svg className="pointer-events-none absolute inset-x-0 -top-8 w-full opacity-40" height="80" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden>
         <path d="M0,40 C300,80 900,0 1200,40 L1200,80 L0,80 Z" fill="url(#wave)" />
         <defs>
@@ -658,7 +658,7 @@ function Footer() {
           </linearGradient>
         </defs>
       </svg>
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
+      <div className="section-container relative flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="text-sm text-muted-foreground">
           © {new Date().getFullYear()} {PROFILE.name}. Crafted with care.
         </div>

@@ -923,8 +923,8 @@ export function K8sOpsCenter() {
   const [incident, setIncident] = useState<string | null>(null);
 
   return (
-    <section id="ops-center" className="relative px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-7xl">
+    <section id="ops-center" className="section-shell">
+      <div className="section-container">
         <div className="mb-8 text-center">
           <div className="text-xs font-mono uppercase tracking-widest text-primary">Operations Center</div>
           <h2 className="mt-2 text-3xl font-bold sm:text-4xl md:text-5xl">

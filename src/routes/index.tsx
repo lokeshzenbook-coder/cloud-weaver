@@ -12,7 +12,6 @@ import {
   PROJECT_FILTERS, CERTIFICATIONS,
 } from "@/lib/portfolio-data";
 
-import { K8sOpsCenter } from "@/components/portfolio/K8sOpsCenter";
 import { Nav } from "@/components/portfolio/Nav";
 
 import { Pipeline } from "@/components/portfolio/Pipeline";
@@ -692,7 +691,6 @@ function Home() {
       <About />
       <Experience />
       <Skills />
-      <K8sOpsCenter />
       <Pipeline />
       <Projects />
       <Certifications />

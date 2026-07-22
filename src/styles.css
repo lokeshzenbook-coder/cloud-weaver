@@ -98,21 +98,23 @@ html {
 @utility aurora-bg {
   position: relative;
   isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 100vh;
+    z-index: -1;
+    background:
+      radial-gradient(60% 50% at 20% 20%, color-mix(in oklab, var(--color-aurora-1) 40%, transparent), transparent 70%),
+      radial-gradient(50% 40% at 80% 10%, color-mix(in oklab, var(--color-aurora-2) 40%, transparent), transparent 70%),
+      radial-gradient(50% 40% at 50% 60%, color-mix(in oklab, var(--color-aurora-3) 30%, transparent), transparent 70%);
+    filter: blur(60px);
+    animation: aurora 18s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
 }
-@utility aurora-bg::before {
-  content: "";
-  position: absolute;
-  inset: -20% -10% auto -10%;
-  height: 100vh;
-  z-index: -1;
-  background:
-    radial-gradient(60% 50% at 20% 20%, color-mix(in oklab, var(--color-aurora-1) 40%, transparent), transparent 70%),
-    radial-gradient(50% 40% at 80% 10%, color-mix(in oklab, var(--color-aurora-2) 40%, transparent), transparent 70%),
-    radial-gradient(50% 40% at 50% 60%, color-mix(in oklab, var(--color-aurora-3) 30%, transparent), transparent 70%);
-  filter: blur(60px);
-  animation: aurora 18s ease-in-out infinite alternate;
-  pointer-events: none;
-}
+
 
 @keyframes aurora {
   0% { transform: translate3d(0, 0, 0) scale(1); }

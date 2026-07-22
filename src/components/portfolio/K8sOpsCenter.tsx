@@ -198,12 +198,9 @@ export function K8sOpsCenter() {
           )}
         </AnimatePresence>
 
-
-
-
-
         {/* Worker nodes panel */}
-        <div className="mt-8 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+        <div className="mt-6 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+
           <div className="glass rounded-2xl border border-white/10 p-5">
             <div className="mb-3 flex items-center justify-between">
               <div>

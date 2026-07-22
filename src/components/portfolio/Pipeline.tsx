@@ -133,6 +133,7 @@ export function Pipeline() {
   const start = () => {
     if (running) return;
     setRunning(true);
+    setAnnounce("Pipeline started");
     if (idxRef.current >= PIPELINE_STAGES.length) {
       idxRef.current = 0;
       retryRef.current = {};
@@ -141,21 +142,71 @@ export function Pipeline() {
     }
     tick();
   };
-  const pause = () => { setRunning(false); clearTimer(); };
+  const pause = () => { setRunning(false); clearTimer(); setAnnounce("Pipeline paused"); };
   const reset = () => {
     pause();
     idxRef.current = 0;
     retryRef.current = {};
     setRetried({});
     setStatuses(Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status])));
+    setAnnounce("Pipeline reset");
   };
 
   useEffect(() => () => clearTimer(), []);
 
-  const progress = useMemo(() => {
-    const done = Object.values(statuses).filter(s => s === "success" || s === "failed").length;
-    return Math.round((done / PIPELINE_STAGES.length) * 100);
-  }, [statuses]);
+  // Keyboard shortcuts (page-scoped). Ignored while typing in inputs.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+      if (active && e.key === "Escape") { setActive(null); return; }
+      // Only handle shortcuts when the pipeline section is in view / focused subtree
+      const inSection = gridRef.current?.closest("section")?.contains(document.activeElement ?? gridRef.current);
+      if (!inSection) return;
+      const key = e.key.toLowerCase();
+      if (key === "p" || e.key === " ") {
+        e.preventDefault();
+        running ? pause() : start();
+      } else if (key === "r") {
+        e.preventDefault(); reset();
+      } else if (key === "d") {
+        e.preventDefault();
+        setDensity(v => (v === "compact" ? "comfortable" : "compact"));
+        setAnnounce(`Density ${density === "compact" ? "comfortable" : "compact"}`);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [running, active, density]);
+
+  const focusCard = (i: number) => {
+    const n = PIPELINE_STAGES.length;
+    const next = ((i % n) + n) % n;
+    setFocusIdx(next);
+    cardRefs.current[next]?.focus();
+  };
+
+  const cols = () => {
+    // Approximate columns per density/breakpoint; used for up/down navigation.
+    if (typeof window === "undefined") return density === "comfortable" ? 3 : 4;
+    const w = window.innerWidth;
+    if (density === "comfortable") return w >= 1280 ? 3 : w >= 640 ? 2 : 1;
+    return w >= 1536 ? 4 : w >= 1024 ? 3 : w >= 640 ? 2 : 1;
+  };
+
+  const onCardKey = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const n = PIPELINE_STAGES.length;
+    switch (e.key) {
+      case "ArrowRight": e.preventDefault(); focusCard(i + 1); break;
+      case "ArrowLeft":  e.preventDefault(); focusCard(i - 1); break;
+      case "ArrowDown":  e.preventDefault(); focusCard(Math.min(n - 1, i + cols())); break;
+      case "ArrowUp":    e.preventDefault(); focusCard(Math.max(0, i - cols())); break;
+      case "Home":       e.preventDefault(); focusCard(0); break;
+      case "End":        e.preventDefault(); focusCard(n - 1); break;
+    }
+  };
+
+
 
   return (
     <section id="pipeline" className="relative px-4 py-24 sm:px-6">

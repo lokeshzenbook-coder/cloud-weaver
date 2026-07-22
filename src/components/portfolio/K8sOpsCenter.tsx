@@ -3,24 +3,27 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   HiOutlineX, HiOutlinePlay, HiOutlinePause, HiOutlineRefresh, HiSearch,
   HiOutlineExternalLink, HiOutlineExclamation, HiOutlineCheckCircle,
+  HiOutlineGlobeAlt, HiOutlineLockClosed, HiOutlineCube, HiOutlineDatabase,
+  HiOutlineCloud, HiOutlineCog, HiOutlineChevronRight, HiOutlineLogout,
 } from "react-icons/hi";
 import {
-  K8S_NODES, K8S_EDGES, K8S_CATEGORIES, COLUMN_LABELS, INITIAL_WORKERS, INCIDENTS,
+  K8S_NODES, K8S_CATEGORIES, COLUMN_LABELS, INITIAL_WORKERS, INCIDENTS,
   type K8sNode, type K8sCategory, type NodeStatus, type WorkerNode, type Incident,
 } from "@/lib/k8s-workflow-data";
 
-/* --------------- Layout constants --------------- */
-const COL_W = 220;
-const ROW_H = 96;
-const CANVAS_PAD_X = 24;
-const CANVAS_PAD_Y = 40;
+/* --------------- Architecture layers (7 groups mapped to K8S_NODES.column) --------------- */
+const LAYERS: { title: string; blurb: string; icon: typeof HiOutlineGlobeAlt; accent: string; emoji: string }[] = [
+  { title: "Edge",           blurb: "Handles external traffic entering the platform.",         icon: HiOutlineGlobeAlt,   accent: "#22d3ee", emoji: "🌐" },
+  { title: "Ingress",        blurb: "Routes incoming requests to Kubernetes services.",        icon: HiOutlineLogout,     accent: "#60a5fa", emoji: "🚪" },
+  { title: "Security",       blurb: "Protects workloads, policies, and identities.",           icon: HiOutlineLockClosed, accent: "#f472b6", emoji: "🔒" },
+  { title: "Workloads",      blurb: "Application services running inside Kubernetes.",         icon: HiOutlineCube,       accent: "#a78bfa", emoji: "📦" },
+  { title: "Data & State",   blurb: "Persistent storage and databases.",                       icon: HiOutlineDatabase,   accent: "#34d399", emoji: "💾" },
+  { title: "Cloud Services", blurb: "Managed AWS services supporting workloads.",              icon: HiOutlineCloud,      accent: "#fbbf24", emoji: "☁️" },
+  { title: "Platform",       blurb: "Core K8s platform, GitOps, monitoring & automation.",     icon: HiOutlineCog,        accent: "#f59e0b", emoji: "⚙️" },
+];
 
-function nodePos(n: K8sNode) {
-  return {
-    x: CANVAS_PAD_X + n.column * COL_W,
-    y: CANVAS_PAD_Y + n.row * ROW_H,
-  };
-}
+/* --------------- Layout constants --------------- */
+
 
 const statusRing: Record<NodeStatus, string> = {
   healthy:  "border-emerald-400/40",
@@ -47,8 +50,6 @@ export function K8sOpsCenter() {
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const [spot, setSpot] = useState<{ x: number; y: number } | null>(null);
 
-  const width = CANVAS_PAD_X * 2 + COLUMN_LABELS.length * COL_W;
-  const height = CANVAS_PAD_Y * 2 + 16 * ROW_H;
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -226,119 +227,18 @@ export function K8sOpsCenter() {
           )}
         </AnimatePresence>
 
-        {/* Topology canvas */}
-        <div
-          ref={canvasRef}
-          onMouseMove={onMove}
-          onMouseLeave={() => setSpot(null)}
-          className="glass mt-6 relative overflow-x-auto overflow-y-hidden rounded-2xl border border-white/10 p-4"
-        >
-          {/* mouse spotlight */}
-          {spot && (
-            <div
-              className="pointer-events-none absolute inset-0 z-0 transition-opacity"
-              style={{
-                background: `radial-gradient(400px circle at ${spot.x}px ${spot.y}px, color-mix(in oklab, var(--color-aurora-1) 12%, transparent), transparent 60%)`,
-              }}
-            />
-          )}
+        {/* Architecture explorer — horizontal scrollable layers */}
+        <ArchitectureExplorer
+          nodes={nodes}
+          visibleIds={visibleIds}
+          running={running}
+          onOpen={setActive}
+          canvasRef={canvasRef}
+          onMove={onMove}
+          onLeave={() => setSpot(null)}
+          spot={spot}
+        />
 
-          <div className="relative" style={{ width, height }}>
-            {/* Column headers */}
-            {COLUMN_LABELS.map((c, i) => (
-              <div
-                key={c}
-                className="absolute top-0 -translate-y-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
-                style={{ left: CANVAS_PAD_X + i * COL_W }}
-              >
-                {String(i + 1).padStart(2, "0")} · {c}
-              </div>
-            ))}
-
-            {/* Edges + animated packets */}
-            <svg
-              width={width} height={height}
-              className="pointer-events-none absolute inset-0"
-              aria-hidden
-            >
-              <defs>
-                <linearGradient id="edge-grad" x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="0" stopColor="var(--color-aurora-1)" stopOpacity="0.05" />
-                  <stop offset="0.5" stopColor="var(--color-aurora-1)" stopOpacity="0.45" />
-                  <stop offset="1" stopColor="var(--color-aurora-2)" stopOpacity="0.05" />
-                </linearGradient>
-              </defs>
-              {K8S_EDGES.map(([from, to], i) => {
-                const a = K8S_NODES.find(n => n.id === from);
-                const b = K8S_NODES.find(n => n.id === to);
-                if (!a || !b) return null;
-                const pa = nodePos(a); const pb = nodePos(b);
-                const x1 = pa.x + 200, y1 = pa.y + 36;
-                const x2 = pb.x, y2 = pb.y + 36;
-                const cx = (x1 + x2) / 2;
-                const path = `M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`;
-                const dim = !(visibleIds.has(from) && visibleIds.has(to));
-                return (
-                  <g key={`${from}-${to}`} opacity={dim ? 0.15 : 1}>
-                    <path d={path} fill="none" stroke="url(#edge-grad)" strokeWidth={1.5} />
-                    {running && !dim && (
-                      <circle r={2.5} fill="var(--color-aurora-1)" filter="drop-shadow(0 0 6px var(--color-aurora-1))">
-                        <animateMotion dur={`${2 + (i % 4) * 0.7}s`} repeatCount="indefinite" path={path} />
-                      </circle>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
-
-            {/* Nodes */}
-            {K8S_NODES.map(n => {
-              const p = nodePos(n);
-              const dim = !visibleIds.has(n.id);
-              const Icon = n.icon;
-              return (
-                <motion.button
-                  key={n.id}
-                  type="button"
-                  onClick={() => setActive(n)}
-                  layout
-                  animate={{ opacity: dim ? 0.2 : 1 }}
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
-                  className={`glass absolute z-10 flex flex-col gap-1.5 rounded-xl border p-2.5 text-left transition-shadow hover:shadow-[0_10px_40px_-10px_color-mix(in_oklab,var(--color-brand)_50%,transparent)] ${statusRing[n.status]}`}
-                  style={{ left: p.x, top: p.y, width: 200 }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="grid h-7 w-7 place-items-center rounded-md bg-gradient-to-br from-white/10 to-white/[0.02]">
-                        <Icon className="h-3.5 w-3.5" style={{ color: n.color }} />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="truncate text-[12px] font-semibold leading-tight">{n.name}</div>
-                        <div className="truncate text-[10px] text-muted-foreground">{n.short}</div>
-                      </div>
-                    </div>
-                    <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${statusDot[n.status]}`} />
-                  </div>
-
-                  {(n.cpu > 0 || n.mem > 0) && (
-                    <div className="grid grid-cols-2 gap-1.5 pt-0.5">
-                      <MiniBar label="CPU" v={n.cpu} color="var(--color-aurora-1)" />
-                      <MiniBar label="MEM" v={n.mem} color="var(--color-aurora-2)" />
-                    </div>
-                  )}
-
-                  <div className="flex items-center justify-between text-[9px] text-muted-foreground">
-                    <span className="font-mono">{n.namespace ?? n.protocol ?? "—"}</span>
-                    <span className="font-mono">
-                      {n.replicas ? `×${n.replicas}` : n.latencyMs ? `${n.latencyMs}ms` : ""}
-                    </span>
-                  </div>
-                </motion.button>
-              );
-            })}
-          </div>
-        </div>
 
         {/* Worker nodes panel */}
         <div className="mt-8 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
@@ -635,3 +535,228 @@ function MetricCard({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+
+/* --------------- Architecture Explorer (horizontal-scroll layered) --------------- */
+function ArchitectureExplorer({
+  nodes, visibleIds, running, onOpen, canvasRef, onMove, onLeave, spot,
+}: {
+  nodes: K8sNode[];
+  visibleIds: Set<string>;
+  running: boolean;
+  onOpen: (n: K8sNode) => void;
+  canvasRef: React.RefObject<HTMLDivElement | null>;
+  onMove: (e: React.MouseEvent) => void;
+  onLeave: () => void;
+  spot: { x: number; y: number } | null;
+}) {
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
+
+  // Group nodes by their column (0..6) → 7 architecture layers.
+  const grouped = useMemo(() => {
+    const g: K8sNode[][] = LAYERS.map(() => []);
+    nodes.forEach(n => {
+      const idx = Math.min(Math.max(n.column, 0), LAYERS.length - 1);
+      g[idx].push(n);
+    });
+    return g;
+  }, [nodes]);
+
+  // Wheel → horizontal scroll (vertical wheel + shift+wheel both work).
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return;
+      // let vertical page scroll pass through when explorer can't scroll further
+      const atStart = el.scrollLeft <= 0 && e.deltaY < 0;
+      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1 && e.deltaY > 0;
+      if (atStart || atEnd) return;
+      e.preventDefault();
+      el.scrollBy({ left: e.deltaY, behavior: "auto" });
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
+  const scrollBy = (dir: 1 | -1) => {
+    scrollerRef.current?.scrollBy({ left: dir * 360, behavior: "smooth" });
+  };
+
+  return (
+    <div
+      ref={canvasRef}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      className="glass relative mt-6 overflow-hidden rounded-2xl border border-white/10"
+    >
+      {spot && (
+        <div
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            background: `radial-gradient(500px circle at ${spot.x}px ${spot.y}px, color-mix(in oklab, var(--color-aurora-1) 10%, transparent), transparent 60%)`,
+          }}
+        />
+      )}
+
+      {/* Nav arrows */}
+      <button
+        type="button"
+        aria-label="Scroll left"
+        onClick={() => scrollBy(-1)}
+        className="glass-strong absolute left-3 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/10 text-foreground/80 hover:text-foreground"
+      >
+        <HiOutlineChevronRight className="rotate-180" />
+      </button>
+      <button
+        type="button"
+        aria-label="Scroll right"
+        onClick={() => scrollBy(1)}
+        className="glass-strong absolute right-3 top-1/2 z-20 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/10 text-foreground/80 hover:text-foreground"
+      >
+        <HiOutlineChevronRight />
+      </button>
+
+      {/* Scroller */}
+      <div
+        ref={scrollerRef}
+        className="no-scrollbar relative z-10 flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden scroll-smooth p-5"
+        style={{ scrollbarWidth: "none" }}
+        role="region"
+        aria-label="Kubernetes architecture layers, horizontally scrollable"
+      >
+        {LAYERS.map((layer, i) => {
+          const Icon = layer.icon;
+          const layerNodes = grouped[i];
+          return (
+            <div key={layer.title} className="flex snap-start items-stretch">
+              <motion.section
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.35, delay: i * 0.04 }}
+                className="relative flex w-[300px] shrink-0 flex-col gap-3 rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-4 sm:w-[320px]"
+                aria-labelledby={`layer-${i}`}
+              >
+                {/* Layer header */}
+                <header className="flex items-start gap-3 border-b border-white/5 pb-3">
+                  <div
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/10"
+                    style={{ background: `color-mix(in oklab, ${layer.accent} 18%, transparent)` }}
+                  >
+                    <Icon className="h-5 w-5" style={{ color: layer.accent }} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                      Layer {String(i + 1).padStart(2, "0")}
+                    </div>
+                    <h3 id={`layer-${i}`} className="truncate text-sm font-semibold">
+                      <span aria-hidden className="mr-1.5">{layer.emoji}</span>
+                      {layer.title}
+                    </h3>
+                    <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted-foreground">
+                      {layer.blurb}
+                    </p>
+                  </div>
+                  <span
+                    className="ml-auto shrink-0 rounded-full border border-white/10 px-2 py-0.5 text-[10px] font-mono text-muted-foreground"
+                    aria-label={`${layerNodes.length} components`}
+                  >
+                    {layerNodes.length}
+                  </span>
+                </header>
+
+                {/* Cards */}
+                <div className="flex flex-col gap-2">
+                  {layerNodes.length === 0 && (
+                    <div className="rounded-lg border border-dashed border-white/10 p-3 text-center text-[11px] text-muted-foreground">
+                      No components match current filter.
+                    </div>
+                  )}
+                  {layerNodes.map(n => (
+                    <NodeCardCompact
+                      key={n.id}
+                      node={n}
+                      dim={!visibleIds.has(n.id)}
+                      onOpen={() => onOpen(n)}
+                    />
+                  ))}
+                </div>
+              </motion.section>
+
+              {/* Connector arrow between layers */}
+              {i < LAYERS.length - 1 && (
+                <div className="relative mx-1 flex w-8 shrink-0 items-center justify-center sm:w-10">
+                  <svg width="40" height="40" viewBox="0 0 40 40" className="opacity-70" aria-hidden>
+                    <defs>
+                      <linearGradient id={`conn-${i}`} x1="0" x2="1">
+                        <stop offset="0" stopColor="var(--color-aurora-1)" stopOpacity="0.1" />
+                        <stop offset="0.5" stopColor="var(--color-aurora-1)" stopOpacity="0.8" />
+                        <stop offset="1" stopColor="var(--color-aurora-2)" stopOpacity="0.1" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M 2 20 L 34 20" stroke={`url(#conn-${i})`} strokeWidth="1.5" fill="none" />
+                    <path d="M 30 14 L 36 20 L 30 26" stroke="var(--color-aurora-1)" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
+                    {running && (
+                      <circle r="2" fill="var(--color-aurora-1)" filter="drop-shadow(0 0 6px var(--color-aurora-1))">
+                        <animateMotion dur={`${1.6 + (i % 3) * 0.4}s`} repeatCount="indefinite" path="M 2 20 L 34 20" />
+                      </circle>
+                    )}
+                  </svg>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Scroll hint */}
+      <div className="pointer-events-none absolute bottom-2 left-1/2 z-10 -translate-x-1/2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
+        ← scroll layers →
+      </div>
+    </div>
+  );
+}
+
+function NodeCardCompact({ node, dim, onOpen }: { node: K8sNode; dim: boolean; onOpen: () => void }) {
+  const Icon = node.icon;
+  return (
+    <motion.button
+      type="button"
+      onClick={onOpen}
+      layout
+      animate={{ opacity: dim ? 0.25 : 1 }}
+      whileHover={{ y: -2, scale: 1.01 }}
+      transition={{ duration: 0.18 }}
+      className={`glass group relative flex flex-col gap-1.5 rounded-xl border p-2.5 text-left transition-shadow hover:shadow-[0_10px_40px_-10px_color-mix(in_oklab,var(--color-brand)_50%,transparent)] ${statusRing[node.status]}`}
+      aria-label={`${node.name} — ${node.short}`}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex min-w-0 items-center gap-2">
+          <div className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-gradient-to-br from-white/10 to-white/[0.02]">
+            <Icon className="h-3.5 w-3.5" style={{ color: node.color }} />
+          </div>
+          <div className="min-w-0">
+            <div className="truncate text-[12px] font-semibold leading-tight">{node.name}</div>
+            <div className="truncate text-[10px] text-muted-foreground">{node.short}</div>
+          </div>
+        </div>
+        <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${statusDot[node.status]}`} />
+      </div>
+
+      {(node.cpu > 0 || node.mem > 0) && (
+        <div className="grid grid-cols-2 gap-1.5 pt-0.5">
+          <MiniBar label="CPU" v={node.cpu} color="var(--color-aurora-1)" />
+          <MiniBar label="MEM" v={node.mem} color="var(--color-aurora-2)" />
+        </div>
+      )}
+
+      <div className="flex items-center justify-between text-[9px] text-muted-foreground">
+        <span className="font-mono">{node.namespace ?? node.protocol ?? "—"}</span>
+        <span className="font-mono">
+          {node.replicas ? `×${node.replicas}` : node.latencyMs ? `${node.latencyMs}ms` : ""}
+        </span>
+      </div>
+    </motion.button>
+  );
+}
+

@@ -48,9 +48,12 @@ function LogoTile({ tool, size = 30 }: { tool: Tool; size?: number }) {
   );
 }
 
+type Density = "compact" | "comfortable";
+
 export function Pipeline() {
   const [filter, setFilter] = useState<(typeof PIPELINE_FILTERS)[number]>("All");
   const [active, setActive] = useState<PipelineStage | null>(null);
+  const [density, setDensity] = useState<Density>("compact");
   const [statuses, setStatuses] = useState<Record<string, Status>>(
     () => Object.fromEntries(PIPELINE_STAGES.map(s => [s.id, "waiting" as Status]))
   );
@@ -59,6 +62,30 @@ export function Pipeline() {
   const timerRef = useRef<number | null>(null);
   const idxRef = useRef(0);
   const retryRef = useRef<Record<string, number>>({});
+
+  const d = density === "comfortable"
+    ? {
+        grid: "mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3",
+        card: "gap-3.5 p-5",
+        stageIconBox: "h-9 w-9",
+        stageIconInner: "h-4.5 w-4.5",
+        stageLabel: "text-[10px]",
+        stageTitle: "text-[15px]",
+        desc: "text-[13px] line-clamp-3",
+        logoSize: 34,
+        catText: "text-[10.5px] px-2 py-0.5",
+      }
+    : {
+        grid: "mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4",
+        card: "gap-2.5 p-3.5",
+        stageIconBox: "h-7 w-7",
+        stageIconInner: "h-3.5 w-3.5",
+        stageLabel: "text-[9px]",
+        stageTitle: "text-[13px]",
+        desc: "text-[11.5px] line-clamp-2",
+        logoSize: 28,
+        catText: "text-[9.5px] px-1.5 py-0.5",
+      };
 
   const matchesFilter = (s: PipelineStage) =>
     filter === "All" || s.categories.includes(filter as StageCategory);
@@ -170,6 +197,23 @@ export function Pipeline() {
             ))}
           </div>
           <div className="flex items-center gap-2">
+            {/* Density toggle */}
+            <div className="glass inline-flex items-center rounded-full p-0.5 text-[11px]" role="group" aria-label="Layout density">
+              {(["compact", "comfortable"] as Density[]).map(opt => (
+                <button
+                  key={opt}
+                  onClick={() => setDensity(opt)}
+                  aria-pressed={density === opt}
+                  className={`rounded-full px-3 py-1 font-medium capitalize transition-colors ${
+                    density === opt
+                      ? "bg-white/10 text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
             <div className="glass hidden items-center gap-2 rounded-full px-3 py-1.5 text-xs sm:flex">
               <span className="text-muted-foreground">Progress</span>
               <div className="h-1.5 w-32 overflow-hidden rounded-full bg-white/10">
@@ -199,7 +243,7 @@ export function Pipeline() {
         </div>
 
         {/* Pipeline grid — logo-first cards */}
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        <div className={d.grid}>
           {PIPELINE_STAGES.map((stage, i) => {
             const status = statuses[stage.id];
             const dim = !matchesFilter(stage);
@@ -214,7 +258,7 @@ export function Pipeline() {
                 animate={{ opacity: dim ? 0.25 : 1, scale: dim ? 0.98 : 1 }}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.25 }}
-                className={`glass group relative flex flex-col gap-2.5 overflow-hidden rounded-xl border p-3.5 text-left transition-shadow ${s.ring} ${s.glow}`}
+                className={`glass group relative flex flex-col overflow-hidden rounded-xl border text-left transition-shadow ${d.card} ${s.ring} ${s.glow}`}
               >
                 {/* animated gradient border on running */}
                 {status === "running" && (
@@ -235,14 +279,14 @@ export function Pipeline() {
                 {/* header */}
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex min-w-0 items-center gap-2">
-                    <div className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-gradient-to-br from-white/10 to-white/[0.02]">
-                      <StageIcon className="h-3.5 w-3.5 text-primary" />
+                    <div className={`grid ${d.stageIconBox} shrink-0 place-items-center rounded-md bg-gradient-to-br from-white/10 to-white/[0.02]`}>
+                      <StageIcon className={`${d.stageIconInner} text-primary`} />
                     </div>
                     <div className="min-w-0">
-                      <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+                      <span className={`font-mono ${d.stageLabel} uppercase tracking-widest text-muted-foreground`}>
                         Stage {String(i + 1).padStart(2, "0")}
                       </span>
-                      <div className="truncate text-[13px] font-semibold leading-tight">{stage.name}</div>
+                      <div className={`truncate ${d.stageTitle} font-semibold leading-tight`}>{stage.name}</div>
                     </div>
                   </div>
                   <div className="flex shrink-0 items-center gap-1">
@@ -256,19 +300,19 @@ export function Pipeline() {
                   </div>
                 </div>
 
-                <p className="line-clamp-2 text-[11.5px] leading-snug text-muted-foreground">{stage.short}</p>
+                <p className={`${d.desc} mt-2.5 leading-snug text-muted-foreground`}>{stage.short}</p>
 
                 {/* official logos */}
-                <div className="flex flex-wrap items-center gap-1.5">
+                <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
                   {stage.tools.map(t => (
-                    <LogoTile key={`${stage.id}-${t.name}`} tool={t} size={28} />
+                    <LogoTile key={`${stage.id}-${t.name}`} tool={t} size={d.logoSize} />
                   ))}
                 </div>
 
                 {/* categories */}
-                <div className="mt-auto flex flex-wrap gap-1 pt-0.5">
+                <div className="mt-auto flex flex-wrap gap-1 pt-2.5">
                   {stage.categories.map(c => (
-                    <span key={c} className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9.5px] text-muted-foreground">
+                    <span key={c} className={`rounded-md border border-white/10 bg-white/5 ${d.catText} text-muted-foreground`}>
                       {c}
                     </span>
                   ))}

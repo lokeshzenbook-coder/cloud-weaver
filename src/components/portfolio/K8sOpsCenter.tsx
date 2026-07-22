@@ -14,7 +14,7 @@ import {
 /* --------------- Architecture layers (7 groups mapped to K8S_NODES.column) --------------- */
 const LAYERS: { title: string; blurb: string; icon: typeof HiOutlineGlobeAlt; accent: string; emoji: string }[] = [
   { title: "Edge",           blurb: "Handles external traffic entering the platform.",         icon: HiOutlineGlobeAlt,   accent: "#22d3ee", emoji: "🌐" },
-  { title: "Ingress",        blurb: "Routes incoming requests to Kubernetes services.",        icon: HiOutlineLoginOut,   accent: "#60a5fa", emoji: "🚪" },
+  { title: "Ingress",        blurb: "Routes incoming requests to Kubernetes services.",        icon: HiOutlineLogout,     accent: "#60a5fa", emoji: "🚪" },
   { title: "Security",       blurb: "Protects workloads, policies, and identities.",           icon: HiOutlineLockClosed, accent: "#f472b6", emoji: "🔒" },
   { title: "Workloads",      blurb: "Application services running inside Kubernetes.",         icon: HiOutlineCube,       accent: "#a78bfa", emoji: "📦" },
   { title: "Data & State",   blurb: "Persistent storage and databases.",                       icon: HiOutlineDatabase,   accent: "#34d399", emoji: "💾" },

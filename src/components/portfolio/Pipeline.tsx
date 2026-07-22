@@ -214,13 +214,13 @@ export function Pipeline() {
                 animate={{ opacity: dim ? 0.25 : 1, scale: dim ? 0.98 : 1 }}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.25 }}
-                className={`glass group relative flex flex-col gap-4 overflow-hidden rounded-2xl border p-5 text-left transition-shadow ${s.ring} ${s.glow}`}
+                className={`glass group relative flex flex-col gap-2.5 overflow-hidden rounded-xl border p-3.5 text-left transition-shadow ${s.ring} ${s.glow}`}
               >
                 {/* animated gradient border on running */}
                 {status === "running" && (
                   <motion.span
                     aria-hidden
-                    className="pointer-events-none absolute inset-0 rounded-2xl"
+                    className="pointer-events-none absolute inset-0 rounded-xl"
                     style={{
                       background: "conic-gradient(from var(--a,0deg), transparent 0deg, #22d3ee 60deg, transparent 120deg)",
                       WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
@@ -233,21 +233,19 @@ export function Pipeline() {
                 )}
 
                 {/* header */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-white/10 to-white/[0.02]">
-                      <StageIcon className="h-4 w-4 text-primary" />
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <div className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-gradient-to-br from-white/10 to-white/[0.02]">
+                      <StageIcon className="h-3.5 w-3.5 text-primary" />
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                          Stage {String(i + 1).padStart(2, "0")}
-                        </span>
-                      </div>
-                      <div className="text-sm font-semibold leading-tight">{stage.name}</div>
+                    <div className="min-w-0">
+                      <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+                        Stage {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <div className="truncate text-[13px] font-semibold leading-tight">{stage.name}</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex shrink-0 items-center gap-1">
                     {retried[stage.id] && (
                       <span className="rounded-full border border-amber-400/40 bg-amber-400/10 px-1.5 py-[1px] text-[9px] font-medium uppercase tracking-wider text-amber-300">
                         Retry
@@ -258,19 +256,19 @@ export function Pipeline() {
                   </div>
                 </div>
 
-                <p className="text-xs text-muted-foreground">{stage.short}</p>
+                <p className="line-clamp-2 text-[11.5px] leading-snug text-muted-foreground">{stage.short}</p>
 
                 {/* official logos */}
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {stage.tools.map(t => (
-                    <LogoTile key={`${stage.id}-${t.name}`} tool={t} />
+                    <LogoTile key={`${stage.id}-${t.name}`} tool={t} size={28} />
                   ))}
                 </div>
 
                 {/* categories */}
-                <div className="mt-auto flex flex-wrap gap-1 pt-1">
+                <div className="mt-auto flex flex-wrap gap-1 pt-0.5">
                   {stage.categories.map(c => (
-                    <span key={c} className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                    <span key={c} className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9.5px] text-muted-foreground">
                       {c}
                     </span>
                   ))}

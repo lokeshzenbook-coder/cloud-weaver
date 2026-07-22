@@ -28,7 +28,7 @@ export function Nav() {
           scrolled ? "py-2" : "py-4"
         }`}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6">
+        <div className="section-container flex items-center justify-between px-4 sm:px-6">
           <div className={`flex w-full items-center justify-between rounded-full px-4 py-2 transition-all ${scrolled ? "glass-strong" : ""}`}>
             <a href="#top" className="flex items-center gap-2 font-semibold tracking-tight">
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-[var(--color-aurora-1)] to-[var(--color-aurora-2)] text-[11px] font-bold text-background">GL</span>

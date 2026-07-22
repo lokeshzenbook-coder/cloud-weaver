@@ -60,9 +60,15 @@ export function Pipeline() {
   );
   const [retried, setRetried] = useState<Record<string, boolean>>({});
   const [running, setRunning] = useState(false);
+  const [focusIdx, setFocusIdx] = useState(0);
+  const [announce, setAnnounce] = useState("");
   const timerRef = useRef<number | null>(null);
   const idxRef = useRef(0);
   const retryRef = useRef<Record<string, number>>({});
+  const cardRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const startBtnRef = useRef<HTMLButtonElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+
 
   const d = density === "comfortable"
     ? {

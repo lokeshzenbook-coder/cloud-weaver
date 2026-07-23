@@ -126,12 +126,6 @@ function Hero() {
       <div className="section-container relative px-4 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
           <div className="text-center lg:text-left">
-            <Reveal>
-              <span className="glass inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs text-muted-foreground">
-                <span className="pulse-dot h-2 w-2 rounded-full bg-emerald-400" />
-                Open to new opportunities — Remote · Hybrid · Full-time
-              </span>
-            </Reveal>
             <Reveal delay={0.08}>
               <h1 className="mt-5 text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                 Hello, I'm <span className="text-gradient">{PROFILE.firstName}</span>.

@@ -20,7 +20,7 @@ export const RESUME_TITLE = "AWS DevOps · DevSecOps · Platform Engineer";
 /** localStorage key for the client-side download counter. */
 export const RESUME_DOWNLOAD_COUNT_KEY = "resume:download-count:v1";
 /** Baseline shown to visitors so a fresh browser doesn't read "0 downloads". */
-export const RESUME_DOWNLOAD_BASELINE = 1245;
+export const RESUME_DOWNLOAD_BASELINE = 80;
 
 export function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;

@@ -9,15 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ResumeDotpdfRouteImport } from './routes/resume[.]pdf'
 import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as IndexRouteImport } from './routes/index'
 
-const ResumeDotpdfRoute = ResumeDotpdfRouteImport.update({
-  id: '/resume.pdf',
-  path: '/resume.pdf',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
   path: '/resume',
@@ -32,42 +26,31 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/resume': typeof ResumeRoute
-  '/resume.pdf': typeof ResumeDotpdfRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/resume': typeof ResumeRoute
-  '/resume.pdf': typeof ResumeDotpdfRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/resume': typeof ResumeRoute
-  '/resume.pdf': typeof ResumeDotpdfRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/resume' | '/resume.pdf'
+  fullPaths: '/' | '/resume'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/resume' | '/resume.pdf'
-  id: '__root__' | '/' | '/resume' | '/resume.pdf'
+  to: '/' | '/resume'
+  id: '__root__' | '/' | '/resume'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ResumeRoute: typeof ResumeRoute
-  ResumeDotpdfRoute: typeof ResumeDotpdfRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/resume.pdf': {
-      id: '/resume.pdf'
-      path: '/resume.pdf'
-      fullPath: '/resume.pdf'
-      preLoaderRoute: typeof ResumeDotpdfRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/resume': {
       id: '/resume'
       path: '/resume'
@@ -88,7 +71,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ResumeRoute: ResumeRoute,
-  ResumeDotpdfRoute: ResumeDotpdfRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

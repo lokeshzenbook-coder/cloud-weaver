@@ -1,13 +1,14 @@
 import resumeAsset from "@/assets/resume.pdf.asset.json";
 
-export const RESUME_SOURCE_URL = resumeAsset.url;
-// Serve the PDF directly from the Lovable CDN in every environment. The
-// previous `/resume.pdf` server-route proxy failed in production because the
-// deployed serverless function cannot reliably self-loopback to `/__l5e/*`.
-export const RESUME_FILE_URL = resumeAsset.url;
+// Serve the PDF as a plain static file from `public/`. The Lovable CDN path
+// (`/__l5e/assets-v1/...`) only exists on Lovable's own hosting, so deployments
+// to Netlify / Vercel / Cloudflare Pages / etc. 404 on it. The file in
+// `public/` ships with the build output and is served directly by any host.
+export const RESUME_ORIGINAL_FILENAME = resumeAsset.original_filename;
+export const RESUME_SOURCE_URL = `/${RESUME_ORIGINAL_FILENAME}`;
+export const RESUME_FILE_URL = `/${RESUME_ORIGINAL_FILENAME}`;
 export const RESUME_VIEWER_URL = "/resume";
 export const RESUME_FILENAME = "G_R_Lokesh_DevOps_Resume.pdf";
-export const RESUME_ORIGINAL_FILENAME = resumeAsset.original_filename;
 
 /** Human-readable resume metadata shown on the public Resume card. */
 export const RESUME_VERSION = "2.3";

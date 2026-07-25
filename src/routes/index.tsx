@@ -18,7 +18,19 @@ import { Pipeline } from "@/components/portfolio/Pipeline";
 import { K8sOpsCenter } from "@/components/portfolio/K8sOpsCenter";
 
 import { Counter, Reveal, MagneticButton } from "@/components/portfolio/ui";
-import { RESUME_FILE_URL, RESUME_VIEWER_URL } from "@/lib/resume";
+import {
+  RESUME_DOWNLOAD_BASELINE,
+  RESUME_DOWNLOAD_COUNT_KEY,
+  RESUME_FILE_SIZE_BYTES,
+  RESUME_FILE_URL,
+  RESUME_FILENAME,
+  RESUME_TITLE,
+  RESUME_UPDATED_ISO,
+  RESUME_UPDATED_LABEL,
+  RESUME_VERSION,
+  RESUME_VIEWER_URL,
+  formatFileSize,
+} from "@/lib/resume";
 
 
 
@@ -505,37 +517,158 @@ function Certifications() {
 }
 
 /* ---------------- Resume section ---------------- */
+function useResumeDownloadCount() {
+  const [count, setCount] = useState<number>(RESUME_DOWNLOAD_BASELINE);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(RESUME_DOWNLOAD_COUNT_KEY);
+      const parsed = raw ? Number.parseInt(raw, 10) : NaN;
+      if (Number.isFinite(parsed) && parsed >= RESUME_DOWNLOAD_BASELINE) {
+        setCount(parsed);
+      }
+    } catch {
+      /* localStorage unavailable — keep baseline */
+    }
+  }, []);
+
+  const increment = () => {
+    setCount((prev) => {
+      const next = prev + 1;
+      try {
+        window.localStorage.setItem(RESUME_DOWNLOAD_COUNT_KEY, String(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  };
+
+  return { count, increment };
+}
+
 function ResumeSection() {
+  const { count, increment } = useResumeDownloadCount();
+  const [downloading, setDownloading] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);
+
+  const handleDownload = () => {
+    if (downloading) return;
+    setDownloading(true);
+    setDownloaded(false);
+    try {
+      const a = document.createElement("a");
+      a.href = RESUME_FILE_URL;
+      a.download = RESUME_FILENAME;
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      increment();
+      setDownloaded(true);
+    } finally {
+      window.setTimeout(() => setDownloading(false), 900);
+      window.setTimeout(() => setDownloaded(false), 2600);
+    }
+  };
+
+  const formattedCount = count.toLocaleString();
+  const sizeLabel = formatFileSize(RESUME_FILE_SIZE_BYTES);
+
   return (
-    <section id="resume" className="section-shell">
-      <div className="mx-auto max-w-4xl">
+    <section id="resume" className="section-shell" aria-labelledby="resume-heading">
+      <div className="section-container">
         <Reveal>
-          <div className="glass animated-border relative overflow-hidden rounded-3xl p-8 sm:p-10">
-            <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-              <div>
-                <span className="text-xs font-mono uppercase tracking-widest text-primary">Resume</span>
-                <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Grab the full story.</h2>
-                <p className="mt-3 text-muted-foreground">
-                  Complete work history, tools, certifications and measurable outcomes — 2 pages, ATS-friendly PDF.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  <a href={RESUME_FILE_URL} download className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background hover:bg-foreground/90">
-                    <HiOutlineDownload /> Download
-                  </a>
-                  <a href={RESUME_VIEWER_URL} target="_blank" rel="noopener noreferrer" className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm hover:bg-foreground/10">
-                    <HiOutlineExternalLink /> Preview
-                  </a>
+          <div className="mb-8 text-center">
+            <span className="text-xs font-mono uppercase tracking-widest text-primary">Resume</span>
+            <h2 id="resume-heading" className="mt-2 text-3xl font-bold sm:text-4xl">Latest resume, always live.</h2>
+            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+              {RESUME_TITLE}. Complete work history, tools, certifications and measurable outcomes — ATS-friendly PDF.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal>
+          <motion.article
+            whileHover={{ y: -4 }}
+            transition={{ type: "spring", stiffness: 250, damping: 20 }}
+            className="glass animated-border relative mx-auto max-w-4xl overflow-hidden rounded-3xl p-6 sm:p-10"
+          >
+            <div className="grid gap-8 md:grid-cols-[auto_1fr] md:items-center">
+              {/* PDF icon tile */}
+              <div className="flex justify-center md:justify-start">
+                <div className="ring-glow relative flex h-40 w-32 flex-col items-center justify-center gap-2 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent p-4 text-center">
+                  <HiOutlineDocumentText size={40} className="text-primary drop-shadow" aria-hidden />
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">PDF</div>
+                  <span className="absolute -top-2 -right-2 rounded-full border border-primary/40 bg-background/90 px-2 py-0.5 text-[10px] font-semibold text-primary shadow-sm">
+                    v{RESUME_VERSION}
+                  </span>
                 </div>
               </div>
-              <div className="flex justify-center md:justify-end">
-                <div className="glass ring-glow flex h-40 w-32 flex-col items-center justify-center gap-2 rounded-xl p-4 text-center">
-                  <HiOutlineDocumentText size={32} className="text-primary" />
-                  <div className="text-xs font-mono text-muted-foreground">RESUME.pdf</div>
-                  <div className="text-[10px] text-muted-foreground">2 pages</div>
+
+              {/* Metadata + actions */}
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-xl font-semibold text-foreground sm:text-2xl">Latest Resume</h3>
+                  <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary">
+                    Version {RESUME_VERSION}
+                  </span>
+                </div>
+                <p className="mt-1 text-sm text-muted-foreground">{RESUME_TITLE}</p>
+
+                <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
+                  <div>
+                    <dt className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Updated</dt>
+                    <dd className="mt-1 text-sm font-medium text-foreground">
+                      <time dateTime={RESUME_UPDATED_ISO}>{RESUME_UPDATED_LABEL}</time>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">File size</dt>
+                    <dd className="mt-1 text-sm font-medium text-foreground">{sizeLabel}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Downloads</dt>
+                    <dd className="mt-1 text-sm font-medium text-foreground" aria-live="polite">
+                      {formattedCount}
+                    </dd>
+                  </div>
+                </dl>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  <a
+                    href={RESUME_VIEWER_URL}
+                    className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium hover:bg-foreground/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    aria-label="Preview resume in embedded PDF viewer"
+                  >
+                    <HiOutlineExternalLink aria-hidden /> Preview Resume
+                  </a>
+                  <button
+                    type="button"
+                    onClick={handleDownload}
+                    disabled={downloading}
+                    aria-label={`Download resume PDF, ${sizeLabel}`}
+                    className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition hover:bg-foreground/90 disabled:cursor-wait disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  >
+                    {downloading ? (
+                      <>
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-background/40 border-t-background" aria-hidden />
+                        Preparing…
+                      </>
+                    ) : downloaded ? (
+                      <>
+                        <HiOutlineCheckCircle aria-hidden /> Downloaded
+                      </>
+                    ) : (
+                      <>
+                        <HiOutlineDownload aria-hidden /> Download Resume
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.article>
         </Reveal>
       </div>
     </section>

@@ -99,7 +99,7 @@ export const EXPERIENCE: Experience[] = [
     company: "Larsen & Toubro Construction (L&T)",
     period: "Sep 2021 — Jul 2024",
     bullets: [
-      "Automated build, test, security scanning and Kubernetes deploys for 20+ microservices via GitLab CI + Argo CD.",
+      "Automated build, test, security scanning and Kubernetes deploys for 30+ microservices via GitLab CI + Argo CD.",
       "Secured Jenkins pipelines with RBAC, OIDC & HashiCorp Vault — reduced unauthorized access risk 80%.",
       "Containerized 20+ services with Docker multi-stage builds — reduced image size 60%.",
       "Implemented Blue-Green and Canary deployments on Kubernetes to reduce rollout risk.",

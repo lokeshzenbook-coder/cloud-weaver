@@ -247,7 +247,7 @@ function About() {
           <SectionHeading eyebrow="About" title="Platform engineer, obsessed with reliability." />
         </Reveal>
 
-        <div className="mt-12 space-y-8">
+        <div className="mt-10 space-y-6">
             <Reveal>
               <p className="text-lg leading-relaxed text-muted-foreground">
                 I'm an <span className="text-highlight" tabIndex={0}>AWS DevOps Engineer</span>, <span className="text-highlight" tabIndex={0}>DevSecOps Engineer</span>, and <span className="text-highlight" tabIndex={0}>Platform Engineer</span> with <span className="text-highlight" tabIndex={0}>6+ years</span> of experience designing secure, scalable, and automated cloud-native infrastructure. My work spans <span className="text-highlight" tabIndex={0}>AWS Cloud</span>, <span className="text-highlight" tabIndex={0}>Kubernetes</span>, <span className="text-highlight" tabIndex={0}>Platform Engineering</span>, <span className="text-highlight" tabIndex={0}>GitOps</span>, <span className="text-highlight" tabIndex={0}>CI/CD automation</span>, <span className="text-highlight" tabIndex={0}>Infrastructure as Code</span>, and <span className="text-highlight" tabIndex={0}>DevSecOps</span>, helping organizations accelerate software delivery, improve platform reliability, and operate production environments with confidence.
@@ -273,7 +273,7 @@ function About() {
                 I'm always exploring modern <span className="text-highlight" tabIndex={0}>cloud-native technologies</span>, <span className="text-highlight" tabIndex={0}>Kubernetes best practices</span>, <span className="text-highlight" tabIndex={0}>GitOps workflows</span>, and <span className="text-highlight" tabIndex={0}>DevSecOps strategies</span> to build platforms that are automated by default, secure by design, and engineered for scale. Most of my work has been on enterprise production systems, and I'm always happy to discuss the architecture, engineering decisions, and challenges behind the platforms I've built.
               </p>
             </Reveal>
-            <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {STATS.map((s, i) => (
                 <Reveal key={s.label} delay={0.05 * i}>
                   <div className="glass rounded-xl p-4">

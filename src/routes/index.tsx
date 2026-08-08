@@ -276,7 +276,7 @@ function About() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {STATS.map((s, i) => (
               <Reveal key={s.label} delay={0.05 * i}>
-                <div className="glass rounded-xl p-4">
+                <div className="glass p-4">
                   <div className="text-2xl font-bold text-gradient sm:text-3xl">
                     <Counter target={s.value} suffix={s.suffix} />
                   </div>

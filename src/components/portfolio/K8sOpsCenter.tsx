@@ -186,12 +186,22 @@ function useTicker(ms = 1500) {
   }, [ms]);
   return tick;
 }
-function jitter(base: number, pct = 0.08) {
-  return Math.round(base * (1 + (Math.random() * 2 - 1) * pct));
+function hashRandom(seed: string) {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = ((hash << 5) - hash + seed.charCodeAt(i)) | 0;
+  }
+  return (Math.abs(hash) % 1000) / 1000;
 }
-function jitterF(base: number, pct = 0.05, digits = 1) {
-  return +(base * (1 + (Math.random() * 2 - 1) * pct)).toFixed(digits);
+function jitter(base: number, pct = 0.08, seed?: string) {
+  const random = seed !== undefined ? hashRandom(seed) : Math.random();
+  return Math.round(base * (1 + (random * 2 - 1) * pct));
 }
+function jitterF(base: number, pct = 0.05, digits = 1, seed?: string) {
+  const random = seed !== undefined ? hashRandom(seed) : Math.random();
+  return +(base * (1 + (random * 2 - 1) * pct)).toFixed(digits);
+}
+
 
 /* ────────────────────────────────────────────────────────────────
    Shared UI

@@ -262,9 +262,10 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
                 <div className="mt-2 truncate text-[13px] font-semibold text-foreground">{n.label}</div>
                 <div className="mt-0.5 truncate text-[10px] text-muted-foreground">{n.role}</div>
                 <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-muted-foreground">
-                  <span>{jitter(n.latency || 1, 0.15)}ms</span>
-                  <span>{jitter(n.rps || 1, 0.1)} rps</span>
+                  <span>{jitter(n.latency || 1, 0.15, `lat-${n.id}`)}ms</span>
+                  <span>{jitter(n.rps || 1, 0.1, `rps-${n.id}`)} rps</span>
                 </div>
+
               </motion.button>
               {i < FLOW.length - 1 && (
                 <div className="relative mx-1 h-[2px] w-6 overflow-hidden bg-foreground/10">

@@ -186,22 +186,12 @@ function useTicker(ms = 1500) {
   }, [ms]);
   return tick;
 }
-function hashRandom(seed: string) {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = ((hash << 5) - hash + seed.charCodeAt(i)) | 0;
-  }
-  return (Math.abs(hash) % 1000) / 1000;
+function jitter(base: number, pct = 0.08) {
+  return Math.round(base * (1 + (Math.random() * 2 - 1) * pct));
 }
-function jitter(base: number, pct = 0.08, seed?: string) {
-  const random = seed !== undefined ? hashRandom(seed) : Math.random();
-  return Math.round(base * (1 + (random * 2 - 1) * pct));
+function jitterF(base: number, pct = 0.05, digits = 1) {
+  return +(base * (1 + (Math.random() * 2 - 1) * pct)).toFixed(digits);
 }
-function jitterF(base: number, pct = 0.05, digits = 1, seed?: string) {
-  const random = seed !== undefined ? hashRandom(seed) : Math.random();
-  return +(base * (1 + (random * 2 - 1) * pct)).toFixed(digits);
-}
-
 
 /* ────────────────────────────────────────────────────────────────
    Shared UI
@@ -262,10 +252,9 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
                 <div className="mt-2 truncate text-[13px] font-semibold text-foreground">{n.label}</div>
                 <div className="mt-0.5 truncate text-[10px] text-muted-foreground">{n.role}</div>
                 <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-muted-foreground">
-                  <span>{jitter(n.latency || 1, 0.15, `lat-${n.id}`)}ms</span>
-                  <span>{jitter(n.rps || 1, 0.1, `rps-${n.id}`)} rps</span>
+                  <span>{jitter(n.latency || 1, 0.15)}ms</span>
+                  <span>{jitter(n.rps || 1, 0.1)} rps</span>
                 </div>
-
               </motion.button>
               {i < FLOW.length - 1 && (
                 <div className="relative mx-1 h-[2px] w-6 overflow-hidden bg-foreground/10">
@@ -289,20 +278,19 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
    2. Cluster Stats Strip
    ──────────────────────────────────────────────────────────────── */
 function ClusterStats({ incident }: { incident: string | null }) {
-  const tick = useTicker(1500);
+  useTicker(1500);
   const stats = [
     { label: "Cluster Health", value: incident ? "99.42%" : "99.99%", color: incident ? "text-amber-400" : "text-emerald-400" },
-    { label: "Running Pods", value: `${jitter(186, 0.02, `pods-${tick}`)}`, color: "text-foreground" },
+    { label: "Running Pods", value: `${jitter(186, 0.02)}`, color: "text-foreground" },
     { label: "Nodes", value: "24", color: "text-foreground" },
-    { label: "CPU", value: `${jitter(48, 0.06, `cpu-${tick}`)}%`, color: "text-foreground" },
-    { label: "Memory", value: `${jitter(61, 0.05, `mem-${tick}`)}%`, color: "text-foreground" },
-    { label: "Requests/sec", value: `${jitter(2347, 0.08, `rps-${tick}`).toLocaleString()}`, color: "text-foreground" },
-    { label: "p95 Latency", value: `${jitter(24, 0.15, `lat-${tick}`)}ms`, color: "text-foreground" },
+    { label: "CPU", value: `${jitter(48, 0.06)}%`, color: "text-foreground" },
+    { label: "Memory", value: `${jitter(61, 0.05)}%`, color: "text-foreground" },
+    { label: "Requests/sec", value: `${jitter(2347, 0.08).toLocaleString()}`, color: "text-foreground" },
+    { label: "p95 Latency", value: `${jitter(24, 0.15)}ms`, color: "text-foreground" },
     { label: "Argo CD", value: "Healthy", color: "text-emerald-400" },
     { label: "Falco Alerts", value: `${incident ? 6 : 2}`, color: incident ? "text-rose-400" : "text-amber-400" },
     { label: "Est. Spend", value: "$842 /mo", color: "text-foreground" },
   ];
-
   return (
     <div className="glass grid grid-cols-2 gap-3 rounded-2xl border border-foreground/10 p-3 sm:grid-cols-5 lg:grid-cols-10">
       {stats.map(s => (
@@ -556,14 +544,13 @@ function Sparkline({ values, color }: { values: number[]; color: string }) {
 }
 function Observability() {
   const [series, setSeries] = useState<Record<string, number[]>>({
-    cpu: Array.from({ length: 24 }, (_, i) => jitter(48, 0.15, `init-cpu-${i}`)),
-    mem: Array.from({ length: 24 }, (_, i) => jitter(61, 0.1, `init-mem-${i}`)),
-    rps: Array.from({ length: 24 }, (_, i) => jitter(2300, 0.15, `init-rps-${i}`)),
-    lat: Array.from({ length: 24 }, (_, i) => jitter(24, 0.25, `init-lat-${i}`)),
-    err: Array.from({ length: 24 }, (_, i) => jitterF(0.12, 0.4, 2, `init-err-${i}`)),
-    slo: Array.from({ length: 24 }, (_, i) => jitterF(99.94, 0.0005, 3, `init-slo-${i}`)),
+    cpu: Array.from({ length: 24 }, () => jitter(48, 0.15)),
+    mem: Array.from({ length: 24 }, () => jitter(61, 0.1)),
+    rps: Array.from({ length: 24 }, () => jitter(2300, 0.15)),
+    lat: Array.from({ length: 24 }, () => jitter(24, 0.25)),
+    err: Array.from({ length: 24 }, () => jitterF(0.12, 0.4, 2)),
+    slo: Array.from({ length: 24 }, () => jitterF(99.94, 0.0005, 3)),
   });
-
   useEffect(() => {
     const id = setInterval(() => {
       setSeries(prev => ({

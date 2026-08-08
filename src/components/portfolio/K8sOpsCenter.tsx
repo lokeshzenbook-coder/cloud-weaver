@@ -555,13 +555,14 @@ function Sparkline({ values, color }: { values: number[]; color: string }) {
 }
 function Observability() {
   const [series, setSeries] = useState<Record<string, number[]>>({
-    cpu: Array.from({ length: 24 }, () => jitter(48, 0.15)),
-    mem: Array.from({ length: 24 }, () => jitter(61, 0.1)),
-    rps: Array.from({ length: 24 }, () => jitter(2300, 0.15)),
-    lat: Array.from({ length: 24 }, () => jitter(24, 0.25)),
-    err: Array.from({ length: 24 }, () => jitterF(0.12, 0.4, 2)),
-    slo: Array.from({ length: 24 }, () => jitterF(99.94, 0.0005, 3)),
+    cpu: Array.from({ length: 24 }, (_, i) => jitter(48, 0.15, `init-cpu-${i}`)),
+    mem: Array.from({ length: 24 }, (_, i) => jitter(61, 0.1, `init-mem-${i}`)),
+    rps: Array.from({ length: 24 }, (_, i) => jitter(2300, 0.15, `init-rps-${i}`)),
+    lat: Array.from({ length: 24 }, (_, i) => jitter(24, 0.25, `init-lat-${i}`)),
+    err: Array.from({ length: 24 }, (_, i) => jitterF(0.12, 0.4, 2, `init-err-${i}`)),
+    slo: Array.from({ length: 24 }, (_, i) => jitterF(99.94, 0.0005, 3, `init-slo-${i}`)),
   });
+
   useEffect(() => {
     const id = setInterval(() => {
       setSeries(prev => ({

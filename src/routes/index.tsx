@@ -276,12 +276,16 @@ function About() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {STATS.map((s, i) => (
               <Reveal key={s.label} delay={0.05 * i}>
-                <div className="glass p-4">
-                  <div className="text-2xl font-bold text-gradient sm:text-3xl">
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 250, damping: 18 }}
+                  className="glass rounded-2xl p-5 text-center"
+                >
+                  <div className="text-3xl font-bold text-metric sm:text-4xl">
                     <Counter target={s.value} suffix={s.suffix} />
                   </div>
-                  <div className="mt-1 text-xs text-muted-foreground">{s.label}</div>
-                </div>
+                  <div className="mt-1.5 text-xs font-medium text-muted-foreground">{s.label}</div>
+                </motion.div>
               </Reveal>
             ))}
           </div>

@@ -248,43 +248,43 @@ function About() {
         </Reveal>
 
         <div className="mt-10 space-y-6">
-            <Reveal>
-              <p className="text-lg leading-relaxed text-muted-foreground">
-                I'm an <span className="text-highlight" tabIndex={0}>AWS DevOps Engineer</span>, <span className="text-highlight" tabIndex={0}>DevSecOps Engineer</span>, and <span className="text-highlight" tabIndex={0}>Platform Engineer</span> with <span className="text-highlight" tabIndex={0}>6+ years</span> of experience designing secure, scalable, and automated cloud-native infrastructure. My work spans <span className="text-highlight" tabIndex={0}>AWS Cloud</span>, <span className="text-highlight" tabIndex={0}>Kubernetes</span>, <span className="text-highlight" tabIndex={0}>Platform Engineering</span>, <span className="text-highlight" tabIndex={0}>GitOps</span>, <span className="text-highlight" tabIndex={0}>CI/CD automation</span>, <span className="text-highlight" tabIndex={0}>Infrastructure as Code</span>, and <span className="text-highlight" tabIndex={0}>DevSecOps</span>, helping organizations accelerate software delivery, improve platform reliability, and operate production environments with confidence.
-              </p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="text-lg leading-relaxed text-muted-foreground">
-                I've designed and managed production workloads on <span className="text-highlight" tabIndex={0}>AWS</span>, built end-to-end <span className="text-highlight" tabIndex={0}>CI/CD</span> and <span className="text-highlight" tabIndex={0}>GitOps</span> pipelines, automated infrastructure provisioning with <span className="text-highlight" tabIndex={0}>Terraform</span> and <span className="text-highlight" tabIndex={0}>Ansible</span>, and deployed cloud-native applications on <span className="text-highlight" tabIndex={0}>Amazon EKS</span>. My focus is on creating resilient, highly available platforms that simplify operations and enable development teams to deliver software faster and more securely.
-              </p>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <p className="text-lg leading-relaxed text-muted-foreground">
-                Security is embedded into every platform I build. I integrate <span className="text-highlight" tabIndex={0}>DevSecOps</span> practices throughout the software delivery lifecycle by incorporating automated security scanning, policy enforcement, and compliance into CI/CD pipelines. I also implement <span className="text-highlight" tabIndex={0}>Kubernetes security</span> best practices, including <span className="text-highlight" tabIndex={0}>RBAC</span>, <span className="text-highlight" tabIndex={0}>IRSA</span>, <span className="text-highlight" tabIndex={0}>OIDC</span>, <span className="text-highlight" tabIndex={0}>Network Policies</span>, <span className="text-highlight" tabIndex={0}>Secrets Management</span>, and runtime security to build secure-by-design platforms.
-              </p>
-            </Reveal>
-            <Reveal delay={0.3}>
-              <p className="text-lg leading-relaxed text-muted-foreground">
-                Beyond automation and deployment, I'm passionate about <span className="text-highlight" tabIndex={0}>Platform Engineering</span> and <span className="text-highlight" tabIndex={0}>Observability</span>. I build reliable, production-ready systems using <span className="text-highlight" tabIndex={0}>Prometheus</span>, <span className="text-highlight" tabIndex={0}>Grafana</span>, <span className="text-highlight" tabIndex={0}>Amazon CloudWatch</span>, <span className="text-highlight" tabIndex={0}>Datadog</span>, and <span className="text-highlight" tabIndex={0}>OpenTelemetry</span>, enabling proactive monitoring, faster incident response, and improved platform performance.
-              </p>
-            </Reveal>
-            <Reveal delay={0.4}>
-              <p className="text-lg leading-relaxed text-muted-foreground">
-                I'm always exploring modern <span className="text-highlight" tabIndex={0}>cloud-native technologies</span>, <span className="text-highlight" tabIndex={0}>Kubernetes best practices</span>, <span className="text-highlight" tabIndex={0}>GitOps workflows</span>, and <span className="text-highlight" tabIndex={0}>DevSecOps strategies</span> to build platforms that are automated by default, secure by design, and engineered for scale. Most of my work has been on enterprise production systems, and I'm always happy to discuss the architecture, engineering decisions, and challenges behind the platforms I've built.
-              </p>
-            </Reveal>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {STATS.map((s, i) => (
-                <Reveal key={s.label} delay={0.05 * i}>
-                  <div className="glass rounded-xl p-4">
-                    <div className="text-2xl font-bold text-gradient sm:text-3xl">
-                      <Counter target={s.value} suffix={s.suffix} />
-                    </div>
-                    <div className="mt-1 text-xs text-muted-foreground">{s.label}</div>
+          <Reveal>
+            <p className="text-lg leading-relaxed text-muted-foreground">
+              I'm an <span>AWS DevOps Engineer</span>, <span>DevSecOps Engineer</span>, and <span>Platform Engineer</span> with <span>6+ years</span> of experience designing secure, scalable, and automated cloud-native infrastructure. My work spans <span>AWS Cloud</span>, <span>Kubernetes</span>, <span>Platform Engineering</span>, <span>GitOps</span>, <span>CI/CD automation</span>, <span>Infrastructure as Code</span>, and <span>DevSecOps</span>, helping organizations accelerate software delivery, improve platform reliability, and operate production environments with confidence.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="text-lg leading-relaxed text-muted-foreground">
+              I've designed and managed production workloads on <span>AWS</span>, built end-to-end <span>CI/CD</span> and <span>GitOps</span> pipelines, automated infrastructure provisioning with <span>Terraform</span> and <span>Ansible</span>, and deployed cloud-native applications on <span>Amazon EKS</span>. My focus is on creating resilient, highly available platforms that simplify operations and enable development teams to deliver software faster and more securely.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-lg leading-relaxed text-muted-foreground">
+              Security is embedded into every platform I build. I integrate <span>DevSecOps</span> practices throughout the software delivery lifecycle by incorporating automated security scanning, policy enforcement, and compliance into CI/CD pipelines. I also implement <span>Kubernetes security</span> best practices, including <span>RBAC</span>, <span>IRSA</span>, <span>OIDC</span>, <span>Network Policies</span>, <span>Secrets Management</span>, and runtime security to build secure-by-design platforms.
+            </p>
+          </Reveal>
+          <Reveal delay={0.3}>
+            <p className="text-lg leading-relaxed text-muted-foreground">
+              Beyond automation and deployment, I'm passionate about <span>Platform Engineering</span> and <span>Observability</span>. I build reliable, production-ready systems using <span>Prometheus</span>, <span>Grafana</span>, <span>Amazon CloudWatch</span>, <span>Datadog</span>, and <span>OpenTelemetry</span>, enabling proactive monitoring, faster incident response, and improved platform performance.
+            </p>
+          </Reveal>
+          <Reveal delay={0.4}>
+            <p className="text-lg leading-relaxed text-muted-foreground">
+              I'm always exploring modern <span>cloud-native technologies</span>, <span>Kubernetes best practices</span>, <span>GitOps workflows</span>, and <span>DevSecOps strategies</span> to build platforms that are automated by default, secure by design, and engineered for scale. Most of my work has been on enterprise production systems, and I'm always happy to discuss the architecture, engineering decisions, and challenges behind the platforms I've built.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {STATS.map((s, i) => (
+              <Reveal key={s.label} delay={0.05 * i}>
+                <div className="glass rounded-xl p-4">
+                  <div className="text-2xl font-bold text-gradient sm:text-3xl">
+                    <Counter target={s.value} suffix={s.suffix} />
                   </div>
-                </Reveal>
-              ))}
-            </div>
+                  <div className="mt-1 text-xs text-muted-foreground">{s.label}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

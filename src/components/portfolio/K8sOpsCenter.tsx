@@ -288,19 +288,20 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
    2. Cluster Stats Strip
    ──────────────────────────────────────────────────────────────── */
 function ClusterStats({ incident }: { incident: string | null }) {
-  useTicker(1500);
+  const tick = useTicker(1500);
   const stats = [
     { label: "Cluster Health", value: incident ? "99.42%" : "99.99%", color: incident ? "text-amber-400" : "text-emerald-400" },
-    { label: "Running Pods", value: `${jitter(186, 0.02)}`, color: "text-foreground" },
+    { label: "Running Pods", value: `${jitter(186, 0.02, `pods-${tick}`)}`, color: "text-foreground" },
     { label: "Nodes", value: "24", color: "text-foreground" },
-    { label: "CPU", value: `${jitter(48, 0.06)}%`, color: "text-foreground" },
-    { label: "Memory", value: `${jitter(61, 0.05)}%`, color: "text-foreground" },
-    { label: "Requests/sec", value: `${jitter(2347, 0.08).toLocaleString()}`, color: "text-foreground" },
-    { label: "p95 Latency", value: `${jitter(24, 0.15)}ms`, color: "text-foreground" },
+    { label: "CPU", value: `${jitter(48, 0.06, `cpu-${tick}`)}%`, color: "text-foreground" },
+    { label: "Memory", value: `${jitter(61, 0.05, `mem-${tick}`)}%`, color: "text-foreground" },
+    { label: "Requests/sec", value: `${jitter(2347, 0.08, `rps-${tick}`).toLocaleString()}`, color: "text-foreground" },
+    { label: "p95 Latency", value: `${jitter(24, 0.15, `lat-${tick}`)}ms`, color: "text-foreground" },
     { label: "Argo CD", value: "Healthy", color: "text-emerald-400" },
     { label: "Falco Alerts", value: `${incident ? 6 : 2}`, color: incident ? "text-rose-400" : "text-amber-400" },
     { label: "Est. Spend", value: "$842 /mo", color: "text-foreground" },
   ];
+
   return (
     <div className="glass grid grid-cols-2 gap-3 rounded-2xl border border-foreground/10 p-3 sm:grid-cols-5 lg:grid-cols-10">
       {stats.map(s => (

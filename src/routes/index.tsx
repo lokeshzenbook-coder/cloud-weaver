@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import {
   HiOutlineDownload, HiOutlineMail, HiOutlineArrowRight, HiSearch,
   HiOutlineExternalLink, HiOutlineDocumentText, HiOutlineLocationMarker,

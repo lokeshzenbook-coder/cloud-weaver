@@ -450,8 +450,8 @@ function Projects() {
                   <p className="mt-2 text-sm text-muted-foreground">{p.summary}</p>
 
                   <div className="mt-4 space-y-2 text-xs">
-                    <div><span className="font-mono text-primary">problem</span> <span className="text-muted-foreground">{p.problem}</span></div>
-                    <div><span className="font-mono text-primary">solution</span> <span className="text-muted-foreground">{p.solution}</span></div>
+                    <div><span className="font-mono text-primary uppercase tracking-tighter">Problem</span> <span className="text-muted-foreground">{p.problem}</span></div>
+                    <div><span className="font-mono text-primary uppercase tracking-tighter">Solution</span> <span className="text-muted-foreground">{p.solution}</span></div>
                   </div>
 
                   <div className="mt-4 grid grid-cols-2 gap-2">

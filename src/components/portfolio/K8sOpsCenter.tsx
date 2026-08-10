@@ -187,10 +187,12 @@ function useTicker(ms = 1500) {
   return tick;
 }
 function jitter(base: number, pct = 0.08) {
-  return Math.round(base * (1 + (Math.random() * 2 - 1) * pct));
+  // Use a stable jitter for SSR
+  return base;
 }
 function jitterF(base: number, pct = 0.05, digits = 1) {
-  return +(base * (1 + (Math.random() * 2 - 1) * pct)).toFixed(digits);
+  // Use a stable jitter for SSR
+  return +base.toFixed(digits);
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -252,8 +254,8 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
                 <div className="mt-2 truncate text-[13px] font-semibold text-foreground">{n.label}</div>
                 <div className="mt-0.5 truncate text-[10px] text-muted-foreground">{n.role}</div>
                 <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-muted-foreground">
-                  <span>{jitter(n.latency || 1, 0.15)}ms</span>
-                  <span>{jitter(n.rps || 1, 0.1)} rps</span>
+                  <span>{jitter(n.latency || 1)}ms</span>
+                  <span>{jitter(n.rps || 1)} rps</span>
                 </div>
               </motion.button>
               {i < FLOW.length - 1 && (
@@ -279,22 +281,20 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
    ──────────────────────────────────────────────────────────────── */
 function ClusterStats({ incident }: { incident: string | null }) {
   const tick = useTicker(1500);
-  const seededJitter = (base: number, pct: number, seed: number) => {
-    const rand = Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
-    return Math.round(base * (1 + (rand * 2 - 1) * pct));
+  const seededJitter = (base: number) => {
+    return base;
   };
-  const seededJitterF = (base: number, pct: number, digits: number, seed: number) => {
-    const rand = Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
-    return +(base * (1 + (rand * 2 - 1) * pct)).toFixed(digits);
+  const seededJitterF = (base: number, digits: number) => {
+    return +base.toFixed(digits);
   };
   const stats = [
     { label: "Cluster Health", value: incident ? "99.42%" : "99.99%", color: incident ? "text-amber-400" : "text-emerald-400" },
-    { label: "Running Pods", value: `${seededJitter(187, 0.02, tick)}`, color: "text-foreground" },
+    { label: "Running Pods", value: `${seededJitter(187)}`, color: "text-foreground" },
     { label: "Nodes", value: "24", color: "text-foreground" },
-    { label: "CPU", value: `${seededJitter(48, 0.06, tick)}%`, color: "text-foreground" },
-    { label: "Memory", value: `${seededJitter(61, 0.05, tick)}%`, color: "text-foreground" },
-    { label: "Requests/sec", value: `${seededJitter(2347, 0.08, tick).toLocaleString()}`, color: "text-foreground" },
-    { label: "p95 Latency", value: `${seededJitter(24, 0.15, tick)}ms`, color: "text-foreground" },
+    { label: "CPU", value: `${seededJitter(48)}%`, color: "text-foreground" },
+    { label: "Memory", value: `${seededJitter(61)}%`, color: "text-foreground" },
+    { label: "Requests/sec", value: `${seededJitter(2347).toLocaleString()}`, color: "text-foreground" },
+    { label: "p95 Latency", value: `${seededJitter(24)}ms`, color: "text-foreground" },
     { label: "Argo CD", value: "Healthy", color: "text-emerald-400" },
     { label: "Falco Alerts", value: `${incident ? 6 : 2}`, color: incident ? "text-rose-400" : "text-amber-400" },
     { label: "Est. Spend", value: "$842 /mo", color: "text-foreground" },

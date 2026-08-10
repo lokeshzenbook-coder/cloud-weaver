@@ -95,14 +95,14 @@ export const EXPERIENCE: Experience[] = [
   },
   {
     role: "DevOps Engineer",
-    company: "Larsen & Toubro Construction (L&T)",
+    company: "Larsen & Toubro (L&T), India",
     period: "Sep 2021 — Jul 2024",
     bullets: [
-      "Automated build, test, security scanning and Kubernetes deploys for 30+ microservices via GitLab CI + Argo CD.",
-      "Secured Jenkins pipelines with RBAC, OIDC & HashiCorp Vault — reduced unauthorized access risk 80%.",
-      "Containerized 20+ services with Docker multi-stage builds — reduced image size 60%.",
-      "Implemented Blue-Green and Canary deployments on Kubernetes to reduce rollout risk.",
-      "Automated server config with Ansible Playbooks & Roles — 80% less manual effort.",
+      "Built and maintained CI/CD pipeline for 40+ microservices using GitHub Actions and Argo CD, improving release velocity.",
+      "Integrated SonarQube, Trivy, SAST, dependency, and container scanning into pipelines, strengthening application security.",
+      "Containerized application services using Docker multi-stage builds, reducing image sizes by 60% and improving build efficiency.",
+      "Provisioned AWS infrastructure across EC2, S3, VPC, and IAM using Terraform, accelerating infrastructure delivery by 80%.",
+      "Deployed and operated microservices on Kubernetes, standardizing application delivery with reusable Helm charts across environments.",
     ],
   },
   {
@@ -110,10 +110,10 @@ export const EXPERIENCE: Experience[] = [
     company: "Progile Infotech, India",
     period: "Apr 2020 — Aug 2021",
     bullets: [
-      "Maintained Jenkins CI/CD pipelines across QA/UAT/Prod for reliable daily releases.",
-      "Provided L1/L2 support for AWS (EC2, S3, VPC, IAM) with high availability SLAs.",
-      "Automated backup & DR with AWS Lambda + EBS Snapshots — 70% less data loss risk.",
-      "Cut AWS cloud costs by 30% via right-sizing, Cost Explorer, and auto-shutdown automation.",
+      "Provided L1/L2 support for AWS and Azure production infrastructure, troubleshooting Compute, Networking, Storage, Connectivity, and performance issues. ",
+      "Managed AWS IAM, Azure RBAC, MFA, and access controls, enforcing least-privilege security practices.",
+      "Managed backup and recovery operations using EBS Snapshots, S3, Azure Backup, and Recovery Services Vault.",
+      "Automated cloud operations using AWS Lambda, Azure Automation, Bash, Python, And AWS/Azure CLI, reducing manual operational effort.",
     ],
   },
 ];

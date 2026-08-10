@@ -133,13 +133,13 @@ export const PROJECTS: Project[] = [
   {
     title: "Cloud-Native Trading & Portfolio Platform",
     summary: "Highly available, secure, and scalable CI/CD + EKS platform for a microservices trading application.",
-    problem: "Trading platform needed 99.9% uptime, zero-downtime deploys and hardened DevSecOps for 15+ microservices.",
+    problem: "Trading platform needed 99.9% uptime, zero-downtime releases, and hardened DevSecOps controls across 15+ microservices and multiple enviroments.",
     solution: "Architected GitHub Actions + Argo CD pipelines, Terraform-provisioned EKS/VPC/RDS/ALB, Istio service mesh, and Prometheus/Grafana observability with SonarQube, Trivy, Snyk & Checkov gates.",
     impact: [
-      "60% faster releases",
+      "45% faster releases",
       "60% fewer critical vulns",
       "99.9% uptime under 5× peak load",
-      "45% MTTR reduction",
+      "50% MTTR reduction",
     ],
     tech: ["AWS", "EKS", "GitHub Actions", "Argo CD", "Terraform", "Istio", "Prometheus", "Grafana", "SonarQube", "Trivy"],
     categories: ["AWS", "Kubernetes", "Terraform", "GitOps", "DevSecOps", "Platform Engineering", "CI/CD"],

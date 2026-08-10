@@ -114,6 +114,7 @@ export const EXPERIENCE: Experience[] = [
       "Managed AWS IAM, Azure RBAC, MFA, and access controls, enforcing least-privilege security practices.",
       "Managed backup and recovery operations using EBS Snapshots, S3, Azure Backup, and Recovery Services Vault.",
       "Automated cloud operations using AWS Lambda, Azure Automation, Bash, Python, And AWS/Azure CLI, reducing manual operational effort.",
+      "Reduced AWS and Azure cloud costs by 30% through right-sizing, usage analysis, and automated resource shutdown.",
     ],
   },
 ];

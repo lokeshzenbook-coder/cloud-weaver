@@ -213,7 +213,7 @@ function OpenToWork() {
                 </div>
                 <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Available immediately · Remote · Hybrid · Full-time · Contract</h2>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Senior DevOps · DevSecOps · Platform Engineering roles. Based in {PROFILE.location}.
+                  Senior DevOps · DevSecOps · Platform Engineering Hyderabad, India&nbsp;&nbsp;· Open to Remote Global Opportunities
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -343,7 +343,7 @@ function Skills() {
     <section id="skills" className="section-shell">
       <div className="section-container">
         <Reveal>
-          <SectionHeading eyebrow="Skills" title="An opinionated, production-grade toolbelt." />
+          <SectionHeading eyebrow="Skills" title="An opinionated, production-grade engineering toolkit." />
         </Reveal>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SKILLS.map((g, i) => (

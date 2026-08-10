@@ -281,7 +281,7 @@ function ClusterStats({ incident }: { incident: string | null }) {
   useTicker(1500);
   const stats = [
     { label: "Cluster Health", value: incident ? "99.42%" : "99.99%", color: incident ? "text-amber-400" : "text-emerald-400" },
-    { label: "Running Pods", value: `${jitter(186, 0.02)}`, color: "text-foreground" },
+    { label: "Running Pods", value: `${jitter(187, 0.02)}`, color: "text-foreground" },
     { label: "Nodes", value: "24", color: "text-foreground" },
     { label: "CPU", value: `${jitter(48, 0.06)}%`, color: "text-foreground" },
     { label: "Memory", value: `${jitter(61, 0.05)}%`, color: "text-foreground" },

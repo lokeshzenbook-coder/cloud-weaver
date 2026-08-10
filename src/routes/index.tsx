@@ -807,7 +807,7 @@ function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) 
   return (
     <div className="flex flex-col items-start gap-2">
       <span className="font-mono text-xs uppercase tracking-widest text-primary">/ {eyebrow}</span>
-      <h2 className="max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+      <h2 className="max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl text-gradient">
         {title}
       </h2>
     </div>

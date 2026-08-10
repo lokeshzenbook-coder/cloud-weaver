@@ -86,12 +86,11 @@ export const EXPERIENCE: Experience[] = [
     company: "ASICS Technologies, India",
     period: "Jul 2024 — Present",
     bullets: [
-      "Built CI/CD pipelines with GitHub Actions & Argo CD for 15+ microservices, cutting release time by 60%.",
-      "Implemented GitOps delivery across Dev, QA, UAT and Production EKS clusters, reducing incidents by 30%.",
-      "Embedded SonarQube, Trivy, Snyk and Checkov into pipelines for pre-deployment security gates.",
-      "Optimized workloads with HPA, Cluster Autoscaler & Karpenter — cutting AWS costs by 30%.",
-      "Deployed Istio service mesh + AWS ALB for SSL/TLS routing, improving API reliability by 30%.",
-      "Full-stack Kubernetes observability with Datadog & Alertmanager — reduced MTTR by 50%.",
+      "Designed a GitOps platform using GitLab CI/CD, Argo CD, and Amazon EKS for 30+ microservices, reducing release time by 45%.",
+      "Implemented DevSecOps security gates across SAST, SCA, IaC, container, and DAST scanning, embedding security throughout the software delivery lifecycle.",
+      "Optimized EKS workloads with HPA, KEDA, Cluster Autoscaler, and Karpenter, reducing AWS compute costs by 30%.",
+      "Hardened Kubernetes with RBAC, IRSA, Vault, Kyverno, and Istio, enforcing least-privilege access and secure service-to-service communication.",
+      "Engineered observability and centralized logging with ELK, Datadog, and Alertmanager, reducing MTTR by 50%.",
     ],
   },
   {

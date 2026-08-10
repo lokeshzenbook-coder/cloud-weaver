@@ -395,7 +395,7 @@ function Projects() {
     <section id="projects" className="section-shell">
       <div className="section-container">
         <Reveal>
-          <SectionHeading eyebrow="Featured Projects" title="Cloud platforms in production." />
+          <SectionHeading eyebrow="Featured Projects" title={"Production-grade cloud platforms, engineered to scale.\u00A0\n"} />
         </Reveal>
 
         <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

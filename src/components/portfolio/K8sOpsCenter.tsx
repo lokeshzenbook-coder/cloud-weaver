@@ -278,15 +278,23 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
    2. Cluster Stats Strip
    ──────────────────────────────────────────────────────────────── */
 function ClusterStats({ incident }: { incident: string | null }) {
-  useTicker(1500);
+  const tick = useTicker(1500);
+  const seededJitter = (base: number, pct: number, seed: number) => {
+    const rand = Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
+    return Math.round(base * (1 + (rand * 2 - 1) * pct));
+  };
+  const seededJitterF = (base: number, pct: number, digits: number, seed: number) => {
+    const rand = Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
+    return +(base * (1 + (rand * 2 - 1) * pct)).toFixed(digits);
+  };
   const stats = [
     { label: "Cluster Health", value: incident ? "99.42%" : "99.99%", color: incident ? "text-amber-400" : "text-emerald-400" },
-    { label: "Running Pods", value: `${jitter(187, 0.02)}`, color: "text-foreground" },
+    { label: "Running Pods", value: `${seededJitter(187, 0.02, tick)}`, color: "text-foreground" },
     { label: "Nodes", value: "24", color: "text-foreground" },
-    { label: "CPU", value: `${jitter(48, 0.06)}%`, color: "text-foreground" },
-    { label: "Memory", value: `${jitter(61, 0.05)}%`, color: "text-foreground" },
-    { label: "Requests/sec", value: `${jitter(2347, 0.08).toLocaleString()}`, color: "text-foreground" },
-    { label: "p95 Latency", value: `${jitter(24, 0.15)}ms`, color: "text-foreground" },
+    { label: "CPU", value: `${seededJitter(48, 0.06, tick)}%`, color: "text-foreground" },
+    { label: "Memory", value: `${seededJitter(61, 0.05, tick)}%`, color: "text-foreground" },
+    { label: "Requests/sec", value: `${seededJitter(2347, 0.08, tick).toLocaleString()}`, color: "text-foreground" },
+    { label: "p95 Latency", value: `${seededJitter(24, 0.15, tick)}ms`, color: "text-foreground" },
     { label: "Argo CD", value: "Healthy", color: "text-emerald-400" },
     { label: "Falco Alerts", value: `${incident ? 6 : 2}`, color: incident ? "text-rose-400" : "text-amber-400" },
     { label: "Est. Spend", value: "$842 /mo", color: "text-foreground" },

@@ -234,10 +234,10 @@ export function Pipeline() {
         <div className="flex flex-col items-start gap-2">
           <span className="font-mono text-xs uppercase tracking-widest text-primary">/ DevSecOps Pipeline</span>
           <h2 id="pipeline-heading" className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            An enterprise control plane — from commit to production.
+            From commit to production - secured, automated, and observable.
           </h2>
           <p id="pipeline-desc" className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            22 stages · 90+ production tools with official logos. Signed artifacts, policy-gated deploys, real-time observability. Hover any logo, click any stage.
+            22 stages · 90+ integrated tools ·&nbsp;Signed artifacts ·&nbsp;policy-gated deployments ·&nbsp;real-time observability&nbsp;
           </p>
         </div>
 

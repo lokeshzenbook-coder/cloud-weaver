@@ -364,7 +364,7 @@ export const PIPELINE_FILTERS: (StageCategory | "All")[] = [
 
 export const PIPELINE_STATS = [
   { label: "Pipeline Success", value: "98.7%", accent: "var(--color-aurora-3)" },
-  { label: "Avg Execution", value: "8m 42s", accent: "var(--color-aurora-1)" },
+  { label: "Avg Execution", value: "20m 42s", accent: "var(--color-aurora-1)" },
   { label: "Critical Vulns", value: "0", accent: "var(--color-aurora-3)" },
   { label: "High / Med / Low", value: "0 · 2 · 14", accent: "var(--color-aurora-2)" },
   { label: "Code Coverage", value: "86%", accent: "var(--color-aurora-1)" },

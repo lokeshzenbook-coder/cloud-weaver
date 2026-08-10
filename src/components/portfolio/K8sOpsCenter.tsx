@@ -187,10 +187,12 @@ function useTicker(ms = 1500) {
   return tick;
 }
 function jitter(base: number, pct = 0.08) {
-  return Math.round(base * (1 + (Math.random() * 2 - 1) * pct));
+  // Use a stable jitter for SSR
+  return base;
 }
 function jitterF(base: number, pct = 0.05, digits = 1) {
-  return +(base * (1 + (Math.random() * 2 - 1) * pct)).toFixed(digits);
+  // Use a stable jitter for SSR
+  return +base.toFixed(digits);
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -279,13 +281,11 @@ function TrafficFlow({ onPick }: { onPick: (n: FlowNode) => void }) {
    ──────────────────────────────────────────────────────────────── */
 function ClusterStats({ incident }: { incident: string | null }) {
   const tick = useTicker(1500);
-  const seededJitter = (base: number, pct: number, seed: number) => {
-    const rand = Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
-    return Math.round(base * (1 + (rand * 2 - 1) * pct));
+  const seededJitter = (base: number) => {
+    return base;
   };
-  const seededJitterF = (base: number, pct: number, digits: number, seed: number) => {
-    const rand = Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
-    return +(base * (1 + (rand * 2 - 1) * pct)).toFixed(digits);
+  const seededJitterF = (base: number, digits: number) => {
+    return +base.toFixed(digits);
   };
   const stats = [
     { label: "Cluster Health", value: incident ? "99.42%" : "99.99%", color: incident ? "text-amber-400" : "text-emerald-400" },

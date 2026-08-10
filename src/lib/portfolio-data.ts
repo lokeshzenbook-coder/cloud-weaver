@@ -56,12 +56,12 @@ export const HERO_TECH: TechIcon[] = [
 ];
 
 export const STATS = [
-  { label: "Years Experience", value: 6, suffix: "+" },
-  { label: "Microservices Shipped", value: 65, suffix: "+" },
-  { label: "CI/CD Pipelines", value: 50, suffix: "+" },
-  { label: "Deployments", value: 3500, suffix: "+" },
-  { label: "Cost Reduction", value: 30, suffix: "%" },
-  { label: "Uptime", value: 99.9, suffix: "%" },
+  { label: "Years of Experience", value: 6, suffix: "+" },
+  { label: "Microservices Delivered", value: 70, suffix: "+" },
+  { label: "CI/CD Pipelines", value: 40, suffix: "+" },
+  { label: "Faster Releases", value: 45, suffix: "%" },
+  { label: "Cloud Cost Reduction", value: 30, suffix: "%" },
+  { label: "Production Availability", value: 99.9, suffix: "%" },
 ];
 
 export interface SkillGroup { title: string; icon: IconType; items: string[] }

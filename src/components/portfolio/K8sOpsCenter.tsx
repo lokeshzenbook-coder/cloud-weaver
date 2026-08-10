@@ -289,12 +289,12 @@ function ClusterStats({ incident }: { incident: string | null }) {
   };
   const stats = [
     { label: "Cluster Health", value: incident ? "99.42%" : "99.99%", color: incident ? "text-amber-400" : "text-emerald-400" },
-    { label: "Running Pods", value: `${seededJitter(187, 0.02, tick)}`, color: "text-foreground" },
+    { label: "Running Pods", value: `${seededJitter(187)}`, color: "text-foreground" },
     { label: "Nodes", value: "24", color: "text-foreground" },
-    { label: "CPU", value: `${seededJitter(48, 0.06, tick)}%`, color: "text-foreground" },
-    { label: "Memory", value: `${seededJitter(61, 0.05, tick)}%`, color: "text-foreground" },
-    { label: "Requests/sec", value: `${seededJitter(2347, 0.08, tick).toLocaleString()}`, color: "text-foreground" },
-    { label: "p95 Latency", value: `${seededJitter(24, 0.15, tick)}ms`, color: "text-foreground" },
+    { label: "CPU", value: `${seededJitter(48)}%`, color: "text-foreground" },
+    { label: "Memory", value: `${seededJitter(61)}%`, color: "text-foreground" },
+    { label: "Requests/sec", value: `${seededJitter(2347).toLocaleString()}`, color: "text-foreground" },
+    { label: "p95 Latency", value: `${seededJitter(24)}ms`, color: "text-foreground" },
     { label: "Argo CD", value: "Healthy", color: "text-emerald-400" },
     { label: "Falco Alerts", value: `${incident ? 6 : 2}`, color: incident ? "text-rose-400" : "text-amber-400" },
     { label: "Est. Spend", value: "$842 /mo", color: "text-foreground" },

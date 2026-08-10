@@ -82,7 +82,7 @@ export interface Experience { role: string; company: string; period: string; bul
 
 export const EXPERIENCE: Experience[] = [
   {
-    role: "AWS DevOps Engineer",
+    role: "DevSecOps Engineer",
     company: "ASICS Technologies, India",
     period: "Jul 2024 — Present",
     bullets: [

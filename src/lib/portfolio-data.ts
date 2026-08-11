@@ -132,30 +132,30 @@ export interface Project {
 export const PROJECTS: Project[] = [
   {
     title: "Cloud-Native Trading & Portfolio Platform",
-    summary: "Highly available, secure, and scalable CI/CD + EKS platform for a microservices trading application.",
-    problem: "Trading platform needed 99.9% uptime, zero-downtime releases, and hardened DevSecOps controls across 15+ microservices and multiple enviroments.",
-    solution: "Architected GitHub Actions + Argo CD pipelines, Terraform-provisioned EKS/VPC/RDS/ALB, Istio service mesh, and Prometheus/Grafana observability with SonarQube, Trivy, Snyk & Checkov gates.",
+    summary: "Production-grade DevSecOps and GitOps platform for a scalable microservices-based trading application.",
+    problem: "Trading platform required high availability, zero-downtime releases, secure delivery, and scalable Kubernetes operations across 30+ microservices and multiple enviroments.",
+    solution: "Built and operated AWS EKS infrastructure using Terraform,\nGitHub Actions, GitLab CI/CD and Argo CD for CI/CD and GitOps delivery. Implemented Docker, Helm, Istio service mesh, and Datadog/Prometheus observability, and integrated Gitleaks, Semgrep, SonarQube, Snyk, Trivy, Checkov, SBOM generation, and Cosign signing into the DevSecOps lifecycle.",
     impact: [
       "45% faster releases",
       "60% fewer critical vulns",
-      "99.9% uptime under 5× peak load",
+      "99.9% production availability",
       "50% MTTR reduction",
     ],
-    tech: ["AWS", "EKS", "GitHub Actions", "Argo CD", "Terraform", "Istio", "Prometheus", "Grafana", "SonarQube", "Trivy"],
+    tech: ["AWS", "Kubernetes", "GitHub Actions", "Argo CD", "Terraform", "Istio", "Datadog", "Vault", "SonarQube", "Snyk"],
     categories: ["AWS", "Kubernetes", "Terraform", "GitOps", "DevSecOps", "Platform Engineering", "CI/CD"],
   },
   {
     title: "IoT Smart Devices — Real-Time Monitoring",
-    summary: "Secure, automated CI/CD + infrastructure platform for an IoT-connected smart device ecosystem.",
-    problem: "10+ IoT microservices required standardized pipelines, hardened supply chain and elastic infra.",
-    solution: "Built Jenkins Shared Libraries + Argo CD with SAST/DAST/container scanning. Terraform modules with S3/DynamoDB remote state. Ansible dynamic inventory. EKS with NGINX Ingress + SSL.",
+    summary: "Secure, automated, and scalable DevOps platform for a IoT-connected smart device ecosystem.",
+    problem: "Supported 40+ IoT microservices across Dev, QA, and Production, required standardized CI/CD, hardened supply chains and scalable AWS infrastructure for reliable, consistent delivery.",
+    solution: "Implemented GitHub Actions + Argo CD workflows with integrated SAST, SCA, IaC, container, and DAST security controls. Developed reusable Terraform modules with S3/DynamoDB remote state. Automated AWS infrastructure provisioning with Ansible dynamic inventory for scalable EKS/ Kubernetes environments.",
     impact: [
-      "40% faster releases",
-      "50% less pipeline duplication",
-      "40% smaller images",
-      "65% faster incident detection",
+      "40+ microservices delivered",
+      "60% smaller images",
+      "80% faster infra provisioning ",
+      "40% faster incident detection",
     ],
-    tech: ["Jenkins", "Argo CD", "Docker", "Ansible", "Terraform", "EKS", "PostgreSQL", "MongoDB", "Redis", "NGINX"],
+    tech: ["AWS", "\n", "Grafana", "Helm", "GitHub Actions", "Trivy", "EKS", "Docker", "Ansible", "Terraform"],
     categories: ["Kubernetes", "CI/CD", "GitOps", "Infrastructure as Code", "Monitoring"],
   },
   {
@@ -174,7 +174,7 @@ export const PROJECTS: Project[] = [
   },
   {
     title: "Digital Products & Subscriptions Platform",
-    summary: "L1/L2 operational excellence for a multi-cloud digital subscriptions platform.",
+    summary: "L1/L2 Cloud Operations & Reliability for a multi-cloud AWS + Azure environment.",
     problem: "Multi-cloud (AWS + Azure) subscriptions platform required uptime, DR and cost governance.",
     solution: "Automated backup/DR with Lambda + EBS Snapshots. Enforced IAM least-privilege + MFA. Cost governance via Cost Explorer, right-sizing and auto-shutdown scripts.",
     impact: [

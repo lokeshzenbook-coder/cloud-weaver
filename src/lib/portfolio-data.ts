@@ -155,7 +155,7 @@ export const PROJECTS: Project[] = [
       "80% faster infra provisioning ",
       "40% faster incident detection",
     ],
-    tech: ["AWS", "\n", "Grafana", "Helm", "GitHub Actions", "Trivy", "EKS", "Docker", "Ansible", "Terraform"],
+    tech: ["AWS", "Grafana", "Helm", "GitHub Actions", "Trivy", "EKS", "Docker", "Ansible", "Terraform"],
     categories: ["Kubernetes", "CI/CD", "GitOps", "Infrastructure as Code", "Monitoring"],
   },
   {

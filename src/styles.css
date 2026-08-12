@@ -229,6 +229,30 @@ html {
   border: 1px solid color-mix(in oklab, white 10%, transparent);
 }
 
+@utility skill-card {
+  position: relative;
+  background: color-mix(in oklab, var(--color-card) 55%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid color-mix(in oklab, white 8%, transparent);
+  box-shadow: 0 1px 0 color-mix(in oklab, white 6%, transparent) inset,
+    0 20px 50px -20px color-mix(in oklab, black 60%, transparent);
+}
+
+@utility skill-card-border {
+  /* gradient border sits behind inner content via negative z-index */
+  z-index: 0;
+  padding: 1px;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+}
+
+@utility skill-card-inner {
+  z-index: 1;
+  background: color-mix(in oklab, var(--color-card) 55%, transparent);
+}
+
 @utility text-gradient {
   background: linear-gradient(120deg,
     var(--color-aurora-1) 0%,

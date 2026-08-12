@@ -70,7 +70,7 @@ export const SKILLS: SkillGroup[] = [
   { title: "Cloud", icon: FaCloud, items: ["AWS", "EKS", "EC2", "S3", "IAM", "VPC", "Lambda", "RDS", "Route53", "ALB", "CloudWatch", "Azure"] },
   { title: "Containers", icon: SiDocker, items: ["Docker", "Kubernetes", "EKS", "Helm", "Docker Compose", "Karpenter", "HPA", "Cluster Autoscaler"] },
   { title: "Infrastructure as Code", icon: SiTerraform, items: ["Terraform", "Terraform Modules", "Ansible Playbooks", "Ansible Roles", "Dynamic Inventory"] },
-  { title: "CI/CD", icon: SiGithubactions, items: ["GitHub Actions", "GitLab CI", "Jenkins", "Argo CD", "Flux CD", "Blue-Green", "Canary"] },
+  { title: "CI/CD", icon: SiGithubactions, items: ["GitHub Actions", "GitLab CI", "Jenkins", "Argo CD", "Blue-Green", "Canary"] },
   { title: "Security · DevSecOps", icon: FaShieldAlt, items: ["SonarQube", "Trivy", "Snyk", "Checkov", "OWASP ZAP", "GitHub Advanced Security", "Vault", "IRSA", "RBAC", "OIDC"] },
   { title: "Observability", icon: SiGrafana, items: ["Prometheus", "Grafana", "Datadog", "CloudWatch", "ELK Stack", "Alertmanager", "Loki"] },
   { title: "Networking · Mesh", icon: SiIstio, items: ["NGINX Ingress", "Istio", "AWS ALB", "Route53", "SSL/TLS", "VPC Peering"] },

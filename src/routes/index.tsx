@@ -350,10 +350,13 @@ function Skills() {
             <Reveal key={g.title} delay={i * 0.04}>
               <motion.div
                 whileHover={{ y: -4 }}
-                className="skill-card group relative h-full overflow-hidden rounded-2xl p-6"
+                tabIndex={0}
+                role="article"
+                aria-label={`${g.title} skills category`}
+                className="skill-card group relative h-full overflow-hidden rounded-2xl p-6 cursor-default"
               >
-                <div className="skill-card-glow absolute -right-8 -top-8 h-40 w-40 rounded-full bg-gradient-to-br from-[var(--color-aurora-1)]/30 via-[var(--color-aurora-2)]/20 to-[var(--color-aurora-3)]/10 blur-3xl opacity-40 transition-opacity group-hover:opacity-100" />
-                <div className="skill-card-border absolute inset-0 rounded-2xl bg-gradient-to-br from-[var(--color-aurora-1)]/60 via-[var(--color-aurora-2)]/40 to-[var(--color-aurora-3)]/60 p-[1px] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="skill-card-glow absolute -right-8 -top-8 h-40 w-40 rounded-full bg-gradient-to-br from-[var(--color-aurora-1)]/30 via-[var(--color-aurora-2)]/20 to-[var(--color-aurora-3)]/10 blur-3xl opacity-40 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100" />
+                <div className="skill-card-border absolute inset-0 rounded-2xl bg-gradient-to-br from-[var(--color-aurora-1)]/60 via-[var(--color-aurora-2)]/40 to-[var(--color-aurora-3)]/60 p-[1px] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100" />
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="relative flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--color-aurora-1)]/20 to-[var(--color-aurora-2)]/20 ring-1 ring-inset ring-white/10">

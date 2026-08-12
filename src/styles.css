@@ -236,6 +236,15 @@ html {
   border: 1px solid color-mix(in oklab, white 8%, transparent);
   box-shadow: 0 1px 0 color-mix(in oklab, white 6%, transparent) inset,
     0 20px 50px -20px color-mix(in oklab, black 60%, transparent);
+
+  /* Show gradient border on hover, keyboard focus, and active press */
+  &:focus-visible,
+  &:active {
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-aurora-1) 40%, transparent),
+      0 1px 0 color-mix(in oklab, white 6%, transparent) inset,
+      0 20px 50px -20px color-mix(in oklab, black 60%, transparent);
+  }
 }
 
 @utility skill-card-border {
@@ -246,17 +255,6 @@ html {
   mask-composite: exclude;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-}
-
-/* Show gradient border on hover, keyboard focus, and active press */
-@utility skill-card {
-  &:focus-visible,
-  &:active {
-    outline: none;
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-aurora-1) 40%, transparent),
-      0 1px 0 color-mix(in oklab, white 6%, transparent) inset,
-      0 20px 50px -20px color-mix(in oklab, black 60%, transparent);
-  }
 }
 
 @utility skill-card-inner {

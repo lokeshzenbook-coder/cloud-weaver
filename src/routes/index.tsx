@@ -350,21 +350,24 @@ function Skills() {
             <Reveal key={g.title} delay={i * 0.04}>
               <motion.div
                 whileHover={{ y: -4 }}
-                className="glass group relative h-full overflow-hidden rounded-2xl p-6"
+                className="skill-card group relative h-full overflow-hidden rounded-2xl p-6"
               >
-                <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-[var(--color-aurora-1)]/20 to-[var(--color-aurora-2)]/20 blur-2xl transition-opacity group-hover:opacity-100 opacity-60" />
-                <div className="relative flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/5">
-                    <g.icon size={20} className="text-primary" aria-hidden />
+                <div className="skill-card-glow absolute -right-8 -top-8 h-40 w-40 rounded-full bg-gradient-to-br from-[var(--color-aurora-1)]/30 via-[var(--color-aurora-2)]/20 to-[var(--color-aurora-3)]/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-40" />
+                <div className="skill-card-border absolute inset-0 rounded-2xl bg-gradient-to-br from-[var(--color-aurora-1)]/60 via-[var(--color-aurora-2)]/40 to-[var(--color-aurora-3)]/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="skill-card-inner relative flex h-full flex-col rounded-2xl">
+                  <div className="relative flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--color-aurora-1)]/20 to-[var(--color-aurora-2)]/20 ring-1 ring-inset ring-white/10">
+                      <g.icon size={20} className="bg-gradient-to-br from-[var(--color-aurora-1)] to-[var(--color-aurora-2)] bg-clip-text text-transparent" aria-hidden />
+                    </div>
+                    <h3 className="text-lg font-semibold">{g.title}</h3>
                   </div>
-                  <h3 className="text-lg font-semibold">{g.title}</h3>
-                </div>
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {g.items.map(it => (
-                    <span key={it} className="rounded-full border border-foreground/10 bg-foreground/5 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground">
-                      {it}
-                    </span>
-                  ))}
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {g.items.map(it => (
+                      <span key={it} className="rounded-full border border-foreground/10 bg-foreground/5 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground">
+                        {it}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             </Reveal>

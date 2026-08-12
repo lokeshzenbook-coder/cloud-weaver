@@ -357,7 +357,7 @@ function Skills() {
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="relative flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--color-aurora-1)]/20 to-[var(--color-aurora-2)]/20 ring-1 ring-inset ring-white/10">
-                      <g.icon size={20} className="bg-gradient-to-br from-[var(--color-aurora-1)] to-[var(--color-aurora-2)] bg-clip-text text-transparent" aria-hidden />
+                      <g.icon size={20} className="text-primary" aria-hidden />
                     </div>
                     <h3 className="text-lg font-semibold">{g.title}</h3>
                   </div>

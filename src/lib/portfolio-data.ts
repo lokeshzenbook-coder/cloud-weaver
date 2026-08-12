@@ -74,7 +74,7 @@ export const SKILLS: SkillGroup[] = [
   { title: "Security · DevSecOps", icon: FaShieldAlt, items: ["SonarQube", "Trivy", "Snyk", "Checkov", "OWASP ZAP", "GitHub Advanced Security", "Vault", "IRSA", "RBAC", "OIDC"] },
   { title: "Observability", icon: SiGrafana, items: ["Prometheus", "Grafana", "Datadog", "CloudWatch", "ELK Stack", "Alertmanager", "Loki"] },
   { title: "Networking · Mesh", icon: SiIstio, items: ["NGINX Ingress", "Istio", "AWS ALB", "Route53", "SSL/TLS", "VPC Peering"] },
-  { title: "Automation · Scripting", icon: SiPython, items: ["Python", "Bash", "Shell", "YAML", "Jinja2"] },
+  { title: "Automation · Scripting", icon: SiPython, items: ["Python", "Bash", "Shell", "YAML"] },
   { title: "Databases", icon: SiPostgresql, items: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Elasticsearch", "DynamoDB"] },
 ];
 

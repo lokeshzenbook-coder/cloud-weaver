@@ -132,7 +132,7 @@ function TechCloud() {
 /* ---------------- Hero ---------------- */
 function Hero() {
   return (
-    <section id="top" className="aurora-bg relative min-h-screen overflow-hidden pt-28 pb-16 sm:pt-32">
+    <section id="top" className="aurora-bg relative flex min-h-[100svh] flex-col justify-center overflow-hidden pt-28 pb-14 sm:pt-32 sm:pb-16">
       <div className="grid-bg absolute inset-0" aria-hidden />
       <TechCloud />
       <div className="section-container relative px-4 sm:px-6">

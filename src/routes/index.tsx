@@ -97,7 +97,7 @@ function TypingRoles() {
 /* ---------------- Floating tech icons cloud ---------------- */
 function TechCloud() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none absolute inset-0 hidden overflow-hidden sm:block" aria-hidden>
       {HERO_TECH.map((t, i) => {
         const total = HERO_TECH.length;
         const angle = (i / total) * Math.PI * 2;

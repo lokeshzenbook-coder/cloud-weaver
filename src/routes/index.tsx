@@ -705,16 +705,17 @@ function Contact() {
         </Reveal>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.1fr]">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {cards.map(c => (
               <a
                 key={c.label}
                 href={c.href}
                 target={c.href.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                className="glass group flex flex-col gap-2 rounded-xl p-4 transition-transform hover:-translate-y-1"
+                title={c.value}
+                className="glass group flex min-w-0 flex-col gap-2 rounded-xl p-4 transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
               >
-                <c.icon size={20} className="text-primary" />
+                <c.icon size={20} className="text-primary shrink-0" aria-hidden />
                 <div className="text-xs uppercase tracking-widest text-muted-foreground">{c.label}</div>
                 <div className="truncate text-sm font-medium">{c.value}</div>
               </a>

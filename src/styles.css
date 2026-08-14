@@ -74,6 +74,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Anchor targets must clear the fixed glass header */
+  scroll-padding-top: 6rem;
 }
 
 @layer base {
@@ -365,9 +367,11 @@ html {
 @utility section-shell {
   position: relative;
   padding-inline: 1rem;
-  padding-block: 6rem;
+  padding-block: 4.5rem;
+  scroll-margin-top: 5.5rem;
   @media (min-width: 640px) {
     padding-inline: 1.5rem;
+    padding-block: 6rem;
   }
 }
 
@@ -375,6 +379,7 @@ html {
   position: relative;
   padding-inline: 1rem;
   padding-block: 2.5rem;
+  scroll-margin-top: 5.5rem;
   @media (min-width: 640px) {
     padding-inline: 1.5rem;
   }

@@ -97,7 +97,7 @@ function TypingRoles() {
 /* ---------------- Floating tech icons cloud ---------------- */
 function TechCloud() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none absolute inset-0 hidden overflow-hidden sm:block" aria-hidden>
       {HERO_TECH.map((t, i) => {
         const total = HERO_TECH.length;
         const angle = (i / total) * Math.PI * 2;
@@ -132,7 +132,7 @@ function TechCloud() {
 /* ---------------- Hero ---------------- */
 function Hero() {
   return (
-    <section id="top" className="aurora-bg relative min-h-screen overflow-hidden pt-28 pb-16 sm:pt-32">
+    <section id="top" className="aurora-bg relative flex min-h-[100svh] flex-col justify-center overflow-hidden pt-28 pb-14 sm:pt-32 sm:pb-16">
       <div className="grid-bg absolute inset-0" aria-hidden />
       <TechCloud />
       <div className="section-container relative px-4 sm:px-6">
@@ -177,7 +177,7 @@ function Hero() {
         </div>
 
         <motion.div
-          className="mt-16 flex justify-center"
+          className="mt-12 flex justify-center sm:mt-16"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
@@ -705,16 +705,17 @@ function Contact() {
         </Reveal>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.1fr]">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {cards.map(c => (
               <a
                 key={c.label}
                 href={c.href}
                 target={c.href.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                className="glass group flex flex-col gap-2 rounded-xl p-4 transition-transform hover:-translate-y-1"
+                title={c.value}
+                className="glass group flex min-w-0 flex-col gap-2 rounded-xl p-4 transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
               >
-                <c.icon size={20} className="text-primary" />
+                <c.icon size={20} className="text-primary shrink-0" aria-hidden />
                 <div className="text-xs uppercase tracking-widest text-muted-foreground">{c.label}</div>
                 <div className="truncate text-sm font-medium">{c.value}</div>
               </a>

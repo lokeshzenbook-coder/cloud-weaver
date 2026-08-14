@@ -177,7 +177,7 @@ function Hero() {
         </div>
 
         <motion.div
-          className="mt-16 flex justify-center"
+          className="mt-12 flex justify-center sm:mt-16"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}

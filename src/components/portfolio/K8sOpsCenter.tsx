@@ -536,42 +536,71 @@ function GitOps() {
 function Sparkline({ values, color }: { values: number[]; color: string }) {
   const max = Math.max(...values);
   const min = Math.min(...values);
-  const range = max - min || 1;
-  const w = 100, h = 30;
+  const range = max - min || Math.abs(max) * 0.02 || 1;
+  const w = 100, h = 30, pad = 3;
   const pts = values.map((v, i) => {
     const x = (i / (values.length - 1)) * w;
-    const y = h - ((v - min) / range) * h;
-    return `${x},${y}`;
+    const y = h - pad - ((v - min) / range) * (h - pad * 2);
+    return `${x.toFixed(2)},${y.toFixed(2)}`;
   }).join(" ");
+  const id = `${color.replace("#", "")}-spark`;
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="h-8 w-full">
-      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" />
-      <polyline points={`${pts} ${w},${h} 0,${h}`} fill={color} opacity="0.15" />
+    <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="mt-1.5 h-8 w-full overflow-visible">
+      <defs>
+        <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.35" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polyline points={`${pts} ${w},${h} 0,${h}`} fill={`url(#${id})`} stroke="none" />
+      <polyline
+        points={pts}
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
+      />
     </svg>
   );
 }
+
+/* Deterministic wave so SSR and first client render match, but still varies across the series */
+function wave(base: number, pct: number, i: number, seed: number, digits = 0) {
+  const n =
+    Math.sin(i * 0.7 + seed) * 0.6 +
+    Math.sin(i * 0.23 + seed * 2.1) * 0.3 +
+    Math.sin(i * 1.9 + seed * 0.7) * 0.1;
+  return +(base * (1 + n * pct)).toFixed(digits);
+}
+const SERIES_SPECS = [
+  { key: "cpu", base: 48, pct: 0.15, seed: 1.1, digits: 0 },
+  { key: "mem", base: 61, pct: 0.1, seed: 2.4, digits: 0 },
+  { key: "rps", base: 2300, pct: 0.15, seed: 3.7, digits: 0 },
+  { key: "lat", base: 24, pct: 0.25, seed: 4.2, digits: 0 },
+  { key: "err", base: 0.12, pct: 0.4, seed: 5.6, digits: 2 },
+  { key: "slo", base: 99.94, pct: 0.0005, seed: 6.3, digits: 3 },
+] as const;
+
+function buildSeries(offset: number) {
+  const out: Record<string, number[]> = {};
+  for (const s of SERIES_SPECS) {
+    out[s.key] = Array.from({ length: 24 }, (_, i) =>
+      wave(s.base, s.pct, i + offset, s.seed, s.digits),
+    );
+  }
+  return out;
+}
+
 function Observability() {
-  const [series, setSeries] = useState<Record<string, number[]>>({
-    cpu: Array.from({ length: 24 }, () => jitter(48, 0.15)),
-    mem: Array.from({ length: 24 }, () => jitter(61, 0.1)),
-    rps: Array.from({ length: 24 }, () => jitter(2300, 0.15)),
-    lat: Array.from({ length: 24 }, () => jitter(24, 0.25)),
-    err: Array.from({ length: 24 }, () => jitterF(0.12, 0.4, 2)),
-    slo: Array.from({ length: 24 }, () => jitterF(99.94, 0.0005, 3)),
-  });
+  const [offset, setOffset] = useState(0);
+  const series = useMemo(() => buildSeries(offset), [offset]);
   useEffect(() => {
-    const id = setInterval(() => {
-      setSeries(prev => ({
-        cpu: [...prev.cpu.slice(1), jitter(48, 0.15)],
-        mem: [...prev.mem.slice(1), jitter(61, 0.1)],
-        rps: [...prev.rps.slice(1), jitter(2300, 0.15)],
-        lat: [...prev.lat.slice(1), jitter(24, 0.25)],
-        err: [...prev.err.slice(1), jitterF(0.12, 0.4, 2)],
-        slo: [...prev.slo.slice(1), jitterF(99.94, 0.0005, 3)],
-      }));
-    }, 1500);
+    const id = setInterval(() => setOffset(o => o + 1), 1500);
     return () => clearInterval(id);
   }, []);
+
   const cards = [
     { key: "cpu", label: "CPU", unit: "%", color: "#22d3ee" },
     { key: "mem", label: "Memory", unit: "%", color: "#a78bfa" },

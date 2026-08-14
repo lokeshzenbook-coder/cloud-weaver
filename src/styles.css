@@ -74,6 +74,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Anchor targets must clear the fixed glass header */
+  scroll-padding-top: 6rem;
 }
 
 @layer base {
